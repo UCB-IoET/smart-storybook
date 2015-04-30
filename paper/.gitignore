@@ -1,0 +1,10 @@
+.DS_Store
+*.out
+*.aux
+*.bbl
+*.log
+*.blg
+halfd.pdf
+*.gz
+*.out
+*.fdb_latexmk

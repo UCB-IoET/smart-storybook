@@ -1,0 +1,42 @@
+% set up tight list spacing
+\usepackage{enumitem} 
+\setlist{nolistsep,nosep}
+
+% for toggles
+\usepackage{etoolbox}
+
+
+% CHANGE FROM TOGGLE TRUE TO TOGGLE FALSE FOR NON-ANONYMOUS RENDERING
+% http://tex.stackexchange.com/questions/5894/latex-conditional-expression
+\newtoggle{anonymous}
+\toggletrue{anonymous}
+ % \togglefalse{anonymous}
+
+% CHANGE FROM TOGGLE TRUE TO TOGGLE FALSE TO HIDE COMMENTS
+\newtoggle{comments}
+%\toggletrue{comments}
+\togglefalse{comments}
+
+% Comment region command (from Wesley Willett)
+\usepackage[usenames]{color}
+\usepackage[usenames,dvipsnames]{xcolor}
+\iftoggle{comments} {
+  %if we want to show comments
+  \newcommand {\tim}[1]{{\color{magenta}\bf{TC: #1}\normalfont}}
+  \newcommand {\cesar}[1]{{\color{NavyBlue}\bf{CT: #1}\normalfont}}
+  \newcommand {\ep}[1]{{\color{violet}\bf{EP: #1}\normalfont}}
+  \newcommand {\bjoern}[1]{{\color{Orange}\bf{BH: #1}\normalfont}}
+  \newcommand {\jasper}[1]{{\color{Blue}\bf{JO: #1}\normalfont}}
+  \newcommand {\reviewer}[1]{{\color{Red}\bf{REVIEWER: #1}\normalfont}}
+  \newcommand {\neil}[1]{{\color{Green}\bf{NK: #1}\normalfont}}
+}{
+  %if we don't want to show comments
+  \newcommand {\tim}[1]{}
+  \newcommand {\reviewer}[1]{}
+  \newcommand {\ep}[1]{}
+  \newcommand {\bjoern}[1]{}
+  \newcommand {\jasper}[1]{}
+  \newcommand {\cesar}[1]{}
+  \newcommand {\neil}[1]{}
+}
+
