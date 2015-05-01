@@ -1,0 +1,36 @@
+<script>
+	var lib, api;
+	var user_id = <%= current_user.id %>;
+	$(function(){
+		api = new API();
+		lib = new Library();
+	});
+
+</script>
+
+<div id="actuator-list" class="col-xs-4 column_list">
+	<table class="table">
+		<tr class="header"><th> Modality </th></tr>
+	</table>
+</div>
+
+<div id="flavor-list" class="col-xs-4 column_list">
+	<table class="table">
+		<tr class="header"><th> Actuator </th></tr>
+	</table>
+</div>
+
+<div id="tag-list" class="col-xs-4 column_list">
+	<table class="table">
+		<tr class="header"><th> Tag </th></tr>
+	</table>
+</div>
+
+
+<div id="behavior-list" class="col-xs-12 column_list no-padding">
+	<table class="table">
+		<tr class="header"><th> Name </th><th> Duration </th></tr>
+
+	</table>
+	<footer> 13 items </footer>
+</div>

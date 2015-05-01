@@ -1,0 +1,17 @@
+<%= form_for(@mapper) do |f| %>
+  <% if @mapper.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@mapper.errors.count, "error") %> prohibited this mapper from being saved:</h2>
+
+      <ul>
+      <% @mapper.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

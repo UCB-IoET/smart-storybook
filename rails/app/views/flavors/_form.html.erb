@@ -1,0 +1,42 @@
+<%= form_for(@flavor) do |f| %>
+  <% if @flavor.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@flavor.errors.count, "error") %> prohibited this flavor from being saved:</h2>
+
+      <ul>
+      <% @flavor.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :name %><br>
+    <%= f.text_field :name %>
+  </div>
+  <div class="field">
+    <%= f.label :actuator_id %><br>
+    <%= select("flavor", "actuator_id", Actuator.all.collect {|p| [ p.name.humanize, p.id ]}) %>
+  </div>
+  <div class="field">
+    <%= f.label :alpha %><br>
+    <%= f.text_field :alpha %>
+  </div>
+    <div class="field">
+    <%= f.label :img %><br>
+    <%= f.file_field :img %>
+  </div>
+    <div class="field">
+    <%= f.label :behaviors %><br>
+    <% if @behaviors %>
+    <% @behaviors.each do |behavior| %>
+      <%= check_box_tag("behavior_ids[]", behavior.id) %>
+      <%= label_tag(behavior.id, behavior.name) %>
+    <% end %>
+  <% end %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

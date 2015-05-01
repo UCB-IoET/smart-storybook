@@ -1,0 +1,83 @@
+<script>
+	var waveStates = {};
+	var waveIsSmooths = {};
+	var behaviorHash = {};
+	<% @behaviors.each do |behavior| %>
+		waveStates['<%= behavior.name %>'] = <%= behavior.states %>;
+		waveIsSmooths['<%= behavior.name %>'] = <%= behavior.is_smooth %>;
+	<% end %>
+	$(document).ready(function () {
+		$.map($('.view'), function(el, idx) {
+			var name = $(el).attr('id');
+			var wave = new Wave(name, waveStates[name], waveIsSmooths[name]);
+			var behavior = new Behavior(wave, false);
+			behavior.setPreview($('.led-box[data-name="' + name + '"]'));
+			behaviorHash[name] = behavior;
+			behavior.load($(el));
+		});
+		// Set up dropdowns to listen to representation changes
+		$('select').change(function() {
+			var newRep = $(this).find(':selected').text().toLowerCase();
+			var selBehavior = $(this).attr('id').slice(0, -1);
+			behaviorHash[selBehavior].preview.switchRep(newRep);
+
+		});
+	});
+</script>
+
+<div class='row'>
+	<%= render "library/tabs" %>
+	<h3>Light Behavior Library</h3>
+
+	<table class="table table-striped">
+		<tr>
+			<th>ID</th>
+			<th></th>
+			<th>Name</th>
+			<th>Tags</th>
+			<th>Waveform</th>
+			<th>Preview</th>
+			<th colspan="3"></th>
+		</tr>
+
+		<% @behaviors.each do |behavior| %>
+		<tr>
+			<td><%= behavior.id %></td>
+			<td><div class="btn btn-primary play-btn" onclick="behaviorHash['<%= behavior.name %>'].sample(function() {})">Play</div></td>
+			<td><%= behavior.name.humanize %></td> 
+			<td><% behavior.tags.collect{|t| t.label }.each do |t| %>
+					<span class="label label-primary"><%= t %></span>
+				<% end %>
+			</td> 
+			<td class='view' id='<%= behavior.name %>'></td>
+
+			<td>
+				<div class="led-box" data-name="<%= behavior.name %>">
+					
+				</div>
+				<div class="field">
+				 	Select a preview actuator<br>
+				    <%= select(behavior.name, "", Actuator.all.collect {|p| [ p.name.humanize, p.id ] }, {include_blank: 'None'}) %>
+				</div>
+			</td>
+			<td>
+				<%= link_to '<span class="glyphicon glyphicon-search"></span>'.html_safe, behavior_path(behavior) %></td>
+			<td>
+				<%= link_to '<span class="glyphicon glyphicon-edit"></span>'.html_safe, edit_behavior_path(behavior) %></td>
+			<td>
+				<%= link_to '<span class="glyphicon glyphicon-remove"></span>'.html_safe, behavior_path(behavior),
+							method: :delete, data: { confirm: 'Delete behavior?'}
+				%>
+			</td>
+		</tr>
+		<% end %>
+	</table>
+
+</div>
+
+<style type="text/css">
+	.template{
+		display: none;
+	}
+</style>
+<%= render 'partials/led' %>

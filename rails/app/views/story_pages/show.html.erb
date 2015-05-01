@@ -1,0 +1,18 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Page Number:</strong>
+  <%= @story_page.page_number %>
+</p>
+<p>
+  <strong>Story:</strong>
+  <%= @story_page.story.title %>
+</p>
+
+<p>
+  <strong>Storytype:</strong>
+  <%= @story_page.storytype %>
+</p>
+
+<%= link_to 'Edit', edit_story_page_path(@story_page) %> |
+<%= link_to 'Back', story_pages_path %>

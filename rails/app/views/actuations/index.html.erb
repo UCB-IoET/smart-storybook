@@ -1,0 +1,29 @@
+<h1>Listing actuations</h1>
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Behavior</th>
+      <th>Flavor</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @actuations.each do |actuation| %>
+      <tr>
+        <td><%= (Behavior.find actuation.behavior_id).name.humanize %></td>
+        <td><%= (Flavor.find actuation.flavor_id).name %></td>
+        <td><%= link_to 'Show', actuation %></td>
+        <td><%= link_to 'Edit', edit_actuation_path(actuation) %></td>
+        <td><%= link_to 'Destroy', actuation, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Actuation', new_actuation_path %>

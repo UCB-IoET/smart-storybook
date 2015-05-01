@@ -1,0 +1,33 @@
+<%= form_for @actuator, :html => {:multipart => true} do |f| %>
+  <% if @actuator.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@actuator.errors.count, "error") %> prohibited this actuator from being saved:</h2>
+
+      <ul>
+      <% @actuator.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :name %><br>
+    <%= f.text_field :name %>
+  </div>
+  <div class="field">
+    <%= f.label :flavors %><br>
+    <% @flavors.each do |flavor| %>
+      <%= check_box_tag("flavor_ids[]", flavor.id) %>
+      <%= label_tag(flavor.id, flavor.name) %>
+    <% end %>
+  </div>
+
+  <div class="field">
+    <%= f.label :picture %><br>
+    <%= f.file_field :picture %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

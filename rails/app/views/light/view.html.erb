@@ -1,0 +1,39 @@
+
+<%= javascript_include_tag "light" %>
+<script type="text/javascript">
+	var that = this;
+	var DIM_SCALAR = 50;
+	var ledList = new Array();
+	var currLed;
+
+	var env = new Environment();
+	var gui = new gui();
+	
+	$(function(){
+		gui.initializeCanvases(gui.obj);
+		gui.setLed(gui.obj);
+	});
+
+	function render() {
+		var time = gui.obj.time;
+		gui.ledCanvas.clearRect(0, 0, 500, 500);
+		gui.ledCanvas.fillStyle = gui.obj.color;
+		gui.ledCanvas.beginPath();
+		gui.ledCanvas.arc(95,50,40,0,2*Math.PI);
+		gui.ledCanvas.fill();
+		gui.measurerCanvas.clearRect(0, 0, 500, 500);
+		gui.measurerCanvas.fillRect(0, 0, (gui.obj.width
+		                          * gui.obj.amplitude * DIM_SCALAR),
+		                          (gui.obj.height * DIM_SCALAR));
+	}
+
+	function renderWaveform() {
+		gui.updateWaveform();
+	}
+
+</script>
+
+<div class="top-button" onclick="env.prevLed()">Prev LED</div>
+<div class="top-button" id="led_number_button">Num</div>
+<div class="top-button" onclick="env.nextLed()">Next LED</div>
+<div id="main_frame"></div>

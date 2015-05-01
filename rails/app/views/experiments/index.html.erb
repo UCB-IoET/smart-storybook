@@ -1,0 +1,35 @@
+<h1>Listing experiments</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Actuator</th>
+      <th>Physical mag</th>
+      <th>Subjective mag</th>
+      <th>Stimulus cond</th>
+      <th>Continuum</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @experiments.each do |experiment| %>
+      <tr>
+        <td><%= experiment.actuator_id %></td>
+        <td><%= experiment.physical_mag %></td>
+        <td><%= experiment.subjective_mag %></td>
+        <td><%= experiment.stimulus_cond %></td>
+        <td><%= experiment.continuum %></td>
+        <td><%= link_to 'Show', experiment %></td>
+        <td><%= link_to 'Edit', edit_experiment_path(experiment) %></td>
+        <td><%= link_to 'Destroy', experiment, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Experiment', new_experiment_path %>

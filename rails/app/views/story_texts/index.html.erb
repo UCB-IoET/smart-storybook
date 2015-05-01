@@ -1,0 +1,40 @@
+<h1>Listing story_texts</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Text</th>
+      <th>Fontsize</th>
+      <th>Center</th>
+      <th>Textbackgroundhex</th>
+      <th>Textbackgroundalpha</th>
+      <th>Border</th>
+      <th>Story</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @story_texts.each do |story_text| %>
+      <tr>
+        <td><%= "#{story_text.story_page.story.title} #{story_text.story_page.page_number} " %></td>
+        <td><%= story_text.text %></td>
+        <td><%= story_text.fontSize %></td>
+        <td><%= story_text.center %></td>
+        <td><%= story_text.textBackgroundHex %></td>
+        <td><%= story_text.textBackgroundAlpha %></td>
+        <td><%= story_text.border %></td>
+         
+        <td><%= link_to 'Show', story_text %></td>
+        <td><%= link_to 'Edit', edit_story_text_path(story_text) %></td>
+        <td><%= link_to 'Destroy', story_text, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Story text', new_story_text_path %>

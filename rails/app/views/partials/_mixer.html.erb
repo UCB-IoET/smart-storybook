@@ -1,0 +1,72 @@
+<%= javascript_include_tag "light" %>
+<%= javascript_include_tag "experimental2" %>
+
+<script>
+	$(document).ready(function() {
+
+		$('input#slider').slider({
+			min : 0,
+			max : 100,
+			selection : 'none',
+		});
+
+	});
+</script>
+
+<div class="btn-group" id="btn-bar">
+  <button id="add" type="button" class="mix-btn btn btn-success">Add</button>
+  <button id="sub" type="button" class="mix-btn btn btn-danger">Subtract</button>
+</div>
+
+<div id="track-bar">
+	<div class="grid_6 track" id="track-0"></div>
+	<div class="grid_6 track" id="track-1"></div>
+</div>
+
+<div id="slider-bar">
+	<div id="slider-text">
+		<strong>L/R Bias: </strong>
+	</div>
+	<input id="slider"></input>
+</div>
+
+<div id="output-bar">
+	<div class="grid_6 track" id="output"></div>
+</div>
+
+<style>
+
+	.track{
+		width: 45%;
+		padding: 2px 0px;
+		background: #EFEFEF;
+		height: 100px;
+		display: inline-block;
+	}
+
+	#slider {
+		height: 50px;
+
+	}
+
+	canvas{
+		/* width: 10%; disable for now */
+		height: 80%;
+		background: white;
+		border-radius: 5px;
+		margin: 10px 0px 10px 5px;
+	}
+
+	.led-value{
+		width: 5%;
+		height: 20px;
+		display: inline-block;
+		background: white;
+		
+		padding: 0.5% 0.5%;
+		z-index: 100;
+		position: relative;
+		text-align: center;
+		border-radius: 100px;
+	}
+</style>

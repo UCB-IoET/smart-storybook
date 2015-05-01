@@ -1,0 +1,36 @@
+<div class='row'>
+
+	<ul class="nav nav-tabs" role="tablist">
+		<li><a href="/behaviors">Behaviors</a></li>
+		<li class="active"><a href="/sequences">Sequences</a></li>
+		<li><a href="#">Schemes</a></li>
+	</ul>
+
+	<h3>Sequence Library</h3>
+
+	<table class="table table-striped">
+		<tr>
+			<th>Name</th>
+			<th>Length</th>
+			<th colspan="3"></th>
+		</tr>
+
+		<% @sequences.each do |sequence| %>
+		<tr>
+			<td><%= sequence.name.humanize %></td>
+			<td><%= sequence.behaviors.size %></td>
+			<td>
+				<%= link_to '<span class="glyphicon glyphicon-search"></span>'.html_safe, sequence_path(sequence) %></td>
+			<td>
+				<%= link_to '<span class="glyphicon glyphicon-edit"></span>'.html_safe, edit_sequence_path(sequence) %></td>
+			<td>
+				<%= link_to '<span class="glyphicon glyphicon-remove"></span>'.html_safe, sequence_path(sequence),
+							method: :delete, data: { confirm: 'Delete sequence?'}
+				%>
+			</td>
+		</tr>
+		<% end %>
+	</table>
+	<%= link_to 'New Sequence', '/sequences/new' , {:role => "button", :class => "btn btn-default"}%>
+
+</div>

@@ -1,0 +1,32 @@
+<h1>Listing story_images</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Story</th>
+      <th>File</th>
+      <th>Size</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @story_images.each do |story_image| %>
+      <tr>
+        <td><%= "#{story_image.story_page.story.title} #{story_image.story_page.page_number} " %></td>
+        <td><%= image_tag story_image.file_url %></td>
+        <td><%= story_image.size %></td>
+        
+        <td><%= link_to 'Show', story_image %></td>
+        <td><%= link_to 'Edit', edit_story_image_path(story_image) %></td>
+        <td><%= link_to 'Destroy', story_image, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Story image', new_story_image_path %>

@@ -1,0 +1,6 @@
+<% c = params[:controller] %>
+<ul class="nav nav-tabs" role="tablist">
+	<li class="<%= c == "actuators" ? "active":""%>"> <%= link_to "Actuators", actuators_path %> </li>
+	<li class="<%= c == "flavors" ? "active":""%>"> <%= link_to "Flavors", flavors_path %> </li>
+	<li class="<%= c == "behaviors" ? "active":""%>"> <%= link_to "Behaviors", behaviors_path %> </li>
+</ul>

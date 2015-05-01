@@ -1,0 +1,77 @@
+<%= csrf_meta_tag %>
+<script>
+$(document).ready(function() {
+
+	$('form').submit(function(event) {
+		event.preventDefault();
+		const NUMBER_ATTRS = <%= @number_attributes %>
+		const STRING_ATTRS = <%= @string_attributes %>
+		const ARRAY_ATTRS = <%= @array_attributes %>
+		var hash = {}
+		$.each($('form').find('input'), function(i, e) {
+			var elemName = $(e).attr('name');
+			if (STRING_ATTRS.indexOf(elemName) != -1) {
+				hash[e.name] = $(e).val();
+			} else if (ARRAY_ATTRS.indexOf(elemName) != -1) {
+				hash[e.name] = $(e).val();
+			} else if (NUMBER_ATTRS.indexOf(elemName) != -1) {
+				hash[e.name] = +$(e).val();
+			}
+		});
+		hash["states"] = [0]; //TODO: allow user to upload csv to be parsed
+		
+		$.ajax({
+			beforeSend: function(xhr) {
+				xhr.setRequestHeader('X-CSRF-TOKEN', 
+					$('meta[name="csrf-token"]').attr('content'));
+			},
+			type: "POST",
+			url: "create",
+			data: { 'behavior' : hash } ,
+			dataType: "json",
+			success: function() { return false; } ,
+			error: function(data, textStatus, xhr) { // TODO: use this to fill in a div with error messages instead of Rails'
+				alert('Error with AJAX call');
+				if (textStatus != "parsererror") {
+					$('#error-div-js').text(data.responseText);
+				}
+				return false;
+			}
+		});
+		
+	});
+});
+</script>
+
+<h1>New Behavior Form</h1>
+
+<% $private_attributes = ['id', 'created_at', 'updated_at', 'is_library'] %>
+
+<% if @behavior && @behavior.errors.any? %>
+	<div id="error">
+		<h2><%= pluralize @behavior.errors.count, "error" %> in account creation:</h2>
+		<ul>
+			<%= @behavior.errors.each do |error| %>
+				<li><%= error %></li>
+			<% end %>
+		</ul>
+	</div>
+<% end %>
+
+<div id="error-div-js"></div>
+
+<form action="create" method="post">
+	<ul>
+	<% @behavior_attributes.each do |attribute| %>
+		<% unless $private_attributes.include? attribute %>
+			<p><%= attribute.humanize %></p>
+			<input name="<%= attribute %>" type="text">
+		<% end %>
+	<% end %>
+	</ul>
+
+	<input name="commit" type="submit" value="Save Behavior">
+	<br>
+</form>
+
+<%= link_to 'Back', behaviors_path %>

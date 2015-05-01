@@ -1,0 +1,20 @@
+<div class="modal fade" id="save-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<h4 class="modal-title" id="myModalLabel">Save <%= @layer %></h4>
+			</div>
+			<div class="modal-body">
+				<p>Name: </p>
+				<input id="name-field" type="text" value="" />
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				<button type="button" id="save-btn" class="btn btn-primary" type="submit">Save <%= @layer %> to Library</button>
+				<button type="button" id="json-btn" class="btn btn-primary" type="submit">Download JSON</button>
+				<button type="button" id="cpp-btn" class="btn btn-primary" type="submit">Download CPP</button>
+			</div>
+		</div>
+	</div>
+</div>

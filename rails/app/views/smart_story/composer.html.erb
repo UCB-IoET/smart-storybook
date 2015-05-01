@@ -1,0 +1,46 @@
+<%= javascript_include_tag "bootstrap", "data-turbolinks-track" => true %>
+<%= javascript_include_tag "composer", "data-turbolinks-track" => true %>
+	
+<div id="main" class="col-xs-8 no-padding">
+	<ol class="breadcrumb">
+	  <li><%= link_to @story.title, story_path(@story) %></li>
+	  <li class="active">
+	  	 <%= select("story_page", "page_number", @story.story_pages.collect {|p| [ p.page_number, p.page_number ] }, {selected: params[:page_number]}) %>
+	  </li>
+	   <li class="active">
+	   	<%= link_to "Go", smart_story_composer_path(@story.id, @page.page_number), :class => "btn btn-primary btn-xs" %>
+	   </li>
+	</ol>
+	<div class="story_page">
+		<% @page.story_images.each do |p|%>
+			<%= image_tag p.file_url, :width => "100%" %>
+		<% end %>
+		<% @page.story_texts.each do |t|%>
+			<% pos = JSON.parse(t.center) %>
+			<p class="test" style="<%= "font-size: #{t.fontSize}pt; background-color: ##{t.textBackgroundHex}; opacity: #{t.textBackgroundAlpha}; border: solid #{t.border}px black; top: #{pos[0] * 100}%; left: #{pos[1] * 100}%;"%>"> <%= t.text %> </p>
+		<% end %>
+	</div>
+</div>
+
+<style type="text/css">
+	.breadcrumb{
+		position: absolute;
+		z-index: 100;
+		top: 0;
+		left: 0;
+		margin: 0;
+	}
+	.story_page{
+		position: relative;
+		top: 0;
+		left: 0;
+		overflow: hidden;
+		width: 100%; 
+		height: calc(100% - 100px - 20px);
+		border: 20px solid black;
+	}
+	.test{
+		position: absolute;
+		padding: 8px 16px;
+	}
+</style>

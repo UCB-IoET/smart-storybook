@@ -1,0 +1,22 @@
+<p id="notice"><%= notice %></p>
+
+<%= image_tag @actuator.picture_url, :width => "200px" %>
+<p>
+  <strong>Name:</strong>
+  <%= @actuator.name %>
+</p>
+<p>
+	<strong>Flavors of this actuator:</strong>
+	<ul>
+	<% @actuator.flavors.each do |flavor| %>
+		<li><%= link_to flavor.name.humanize, flavor %></li>
+	<% end %>
+	</ul>
+</p>
+<p>
+	<strong>Experimental Data:</strong>
+	<%= @actuator.experiment %>
+</p>
+
+<%= link_to 'Edit', edit_actuator_path(@actuator) %> |
+<%= link_to 'Back', actuators_path %>

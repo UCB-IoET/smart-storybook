@@ -1,0 +1,42 @@
+<nav class="navbar navbar-default" role="navigation">
+	  <div class="container-fluid">
+		<!-- Brand and toggle get grouped for better mobile display -->
+		<div class="navbar-header">
+		  <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+			<span class="sr-only">Toggle navigation</span>
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+		  </button>
+		  <a class="navbar-brand" href="/light/index"><%= image_tag "/expressive_actuation.png", :width => "200px" %> </a>
+		</div>
+
+		<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+		  	<ul class="nav navbar-nav">
+				<li class="<%= params[:controller] == "application" ? "active" : "" %>">
+					<%= link_to 'Home', home_path %>
+				</li>
+				<li class="<%= params[:controller] == "library" ? "active" : "" %>">
+					<%= link_to "Library", library_index_path %>
+				</li>
+				<li class="<%= params[:controller] == "study" ? "active" : "" %>">
+					<%= link_to "Study", study_index_path %>
+				</li>
+				<li class="<%= params[:controller] == "composer" ? "active" : "" %>">
+					<%= link_to "Composer", composer_path %>
+				</li>
+			</ul>
+			<p class="navbar-text pull-right">
+			<% if user_signed_in? %>
+			  Logged in as <strong><%= current_user.email %></strong>.
+			  <%= link_to 'Edit profile', edit_user_registration_path, :class => 'navbar-link' %> |
+			  <%= link_to "Logout", destroy_user_session_path, method: :delete, :class => 'navbar-link'  %>
+			<% else %>
+			  <%= link_to "Sign up", new_user_registration_path, :class => 'navbar-link'  %> |
+			  <%= link_to "Login", new_user_session_path, :class => 'navbar-link'  %>
+			<% end %>
+			</p>
+		</div><!-- /.navbar-collapse -->
+
+	  </div><!-- /.container-fluid -->
+	</nav>

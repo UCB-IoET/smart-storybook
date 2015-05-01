@@ -1,0 +1,11 @@
+<div id="cont">
+	<div class="led-box">
+		<%= render 'partials/led' %>
+	</div>
+
+	<ul id="behavior-list" class="list-group">
+		<% @sequence.behaviors.each do |behavior| %>
+			<div class="list-group-item"><%= behavior.name.humanize %></div>
+		<% end %>
+	</ul>
+</div>

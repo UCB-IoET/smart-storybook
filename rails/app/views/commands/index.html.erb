@@ -1,0 +1,31 @@
+<h1>Listing commands</h1>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Task</th>
+      <th>User</th>
+      <th>Code</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @commands.each do |command| %>
+      <tr>
+        <td><%= command.task_id %></td>
+        <td><%= command.user_id %></td>
+        <td><%= command.code %></td>
+        <td><%= link_to 'Show', command %></td>
+        <td><%= link_to 'Edit', edit_command_path(command) %></td>
+        <td><%= link_to 'Destroy', command, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Command', new_command_path %>

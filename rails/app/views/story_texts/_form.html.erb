@@ -1,0 +1,47 @@
+<%= form_for(@story_text) do |f| %>
+  <% if @story_text.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@story_text.errors.count, "error") %> prohibited this story_text from being saved:</h2>
+
+      <ul>
+      <% @story_text.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+  <div class="field">
+    <%= f.label :story_page_id%><br>
+    <% f.number_field :story_page_id %>
+    <%= select("story_text", "story_page_id", StoryPage.all.collect {|p| 
+      [ "#{p.story.title} #{p.page_number}", p.id ] }) %>
+  </div>
+  <div class="field">
+    <%= f.label :text %><br>
+    <%= f.text_field :text %>
+  </div>
+  <div class="field">
+    <%= f.label :fontSize %><br>
+    <%= f.number_field :fontSize %>
+  </div>
+  <div class="field">
+    <%= f.label :center %><br>
+    <%= f.text_field :center %>
+  </div>
+  <div class="field">
+    <%= f.label :textBackgroundHex %><br>
+    <%= f.text_field :textBackgroundHex %>
+  </div>
+  <div class="field">
+    <%= f.label :textBackgroundAlpha %><br>
+    <%= f.text_field :textBackgroundAlpha %>
+  </div>
+  <div class="field">
+    <%= f.label :border %><br>
+    <%= f.number_field :border %>
+  </div>
+  
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

@@ -1,0 +1,34 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Expressive Actuation - <%= params[:action].capitalize %></title>
+	<%= stylesheet_link_tag "application", params[:controller], :media => "all", "data-turbolinks-track" => true %>
+	<%= javascript_include_tag "application", params[:controller] %>
+	<%= javascript_include_tag "application", "data-turbolinks-track" => true %>
+	<%= csrf_meta_tags %>
+	<script>
+	try { Typekit.load(); } catch (e) {}
+	</script>
+	<script type="text/javascript">
+	$(function(){
+		$(".alert").delay(2000).slideUp();
+	});
+</script>
+</head>
+
+<body class='gray'>
+	<% render "layouts/navbar" %>
+
+	<div class="container">
+		<% if notice %>
+		  <p class="alert alert-success"><%= notice %></p>
+		<% end %>
+		<% if alert %>
+		  <p class="alert alert-danger"><%= alert %></p>
+		<% end %>
+
+	</div>
+	<%= yield %>
+</body>
+</html>

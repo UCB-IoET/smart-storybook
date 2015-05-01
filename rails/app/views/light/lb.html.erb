@@ -1,0 +1,50 @@
+<%= javascript_include_tag "light" %>
+<%= javascript_include_tag "experimental2"%>
+
+<div class='track'></div>
+<span class="led-value"> </span>
+<pre> <%= @lb %></pre>
+
+<script> 
+var lps = [];
+var svgs = <%= @lp %>;
+var data = {};
+
+$(function(){
+	// for(var i in svgs)
+	// 	lps.push(new LP(svgs[i], true).load($('.track')));
+
+	var done = function(name, states){
+		data[name] = states;
+	}
+	for(var i in lps) lps[i].sample(done);
+});
+</script>
+<style>
+	.track{
+		width: 100%;
+		padding: 2px 0px;
+		background: rgba(0, 0, 0, 0.3);
+		height: 100px;
+	}
+	canvas{
+		width: 10%; 
+		height: 80%;
+		background: white;
+		border-radius: 5px;
+		margin: 10px 0px 10px 5px;
+	}
+	.led-value{
+		width: 5%;
+		height: 20px;
+		display: block;
+		background: white;
+		
+		padding: 0.5% 0.5%;
+		z-index: 100;
+		position: relative;
+		text-align: center;
+		border-radius: 100px;
+	}
+
+</style>

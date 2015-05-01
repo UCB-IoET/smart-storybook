@@ -1,0 +1,35 @@
+<script>
+
+var api, wave_view;
+
+$(function(){
+	api = new API();
+	waveView = new WaveView();
+});
+
+</script>
+<div class="table col-xs-12 column_list">
+	<table>
+		<tr class="header"><th> Current Wave </th></tr>
+	</table>
+
+	<div class="field col-xs-6"></div>
+	<div class="preview led-box col-xs-6"></div>
+	<div class="col-xs-12">
+	<label for="repeat">Repeat:</label>
+	<input type="number" name="repeat" class="repeat" value="1" min="1" max="5">
+	<label for="stretch">Stretch:</label>
+	<input type="number" name="stretch" class="stretch" value="0" min="0" max="2">
+	<button class="reset">Reset</button>
+		
+	</div>
+		
+</div>
+
+<style type="text/css">
+	.template{
+		display: none;
+	}
+</style>
+<%= render 'partials/led' %>
+<%= render 'partials/motor' %>

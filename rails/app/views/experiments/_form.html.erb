@@ -1,0 +1,37 @@
+<%= form_for(@experiment) do |f| %>
+  <% if @experiment.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@experiment.errors.count, "error") %> prohibited this experiment from being saved:</h2>
+
+      <ul>
+      <% @experiment.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :actuator_id %><br>
+    <%= f.text_field :actuator_id %>
+  </div>
+  <div class="field">
+    <%= f.label :physical_mag %><br>
+    <%= f.text_field :physical_mag %>
+  </div>
+  <div class="field">
+    <%= f.label :subjective_mag %><br>
+    <%= f.text_field :subjective_mag %>
+  </div>
+  <div class="field">
+    <%= f.label :stimulus_cond %><br>
+    <%= f.text_field :stimulus_cond %>
+  </div>
+  <div class="field">
+    <%= f.label :continuum %><br>
+    <%= f.text_field :continuum %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

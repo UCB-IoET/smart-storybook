@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>File:</strong>
+  <%= image_tag @story_image.file_url %>
+</p>
+
+<p>
+  <strong>Size:</strong>
+  <%= @story_image.size %>
+</p>
+
+<p>
+  <strong>Story:</strong>
+  <%= "#{@story_image.story_page.story.title} #{@story_image.story_page.page_number}" %>
+</p>
+
+<%= link_to 'Edit', edit_story_image_path(@story_image) %> |
+<%= link_to 'Back', story_images_path %>

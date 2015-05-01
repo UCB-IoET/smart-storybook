@@ -1,0 +1,5 @@
+<select id="dropdown">
+	<% @behaviors.each do |behavior| %>
+		<option value="<%= behavior.name %>"><%= behavior.name %></option>
+	<% end %>
+</select>

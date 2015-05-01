@@ -1,0 +1,28 @@
+<%= javascript_include_tag "sequences" %>
+
+<script>
+var orderedLists = {
+	notification : <%= @notification_ordered %>,
+	unable : <%= @unable_ordered %>,
+	active : <%= @active_ordered %>,
+	low_energy : <%= @low_energy_ordered %>,
+	turning_on : <%= @turning_on_ordered %>,
+	// is_smooth : <%= @smooths %>
+}
+
+const NUMBER_ATTRS = <%= @number_attributes.to_json.html_safe %>
+</script>
+
+<div id="space" class='grid_7'>
+	<%= render 'partials/wave_partial' %>
+</div>
+<div class='grid_5 omega'id="menu">
+	<div class="panel panel-primary">
+		<div class="panel-heading">
+			<h3 class="panel-title">Menu</h3>
+		</div>
+		<div class="panel-body">
+			<%= render 'partials/sidemenu' %>
+		</div>
+	</div>
+</div>

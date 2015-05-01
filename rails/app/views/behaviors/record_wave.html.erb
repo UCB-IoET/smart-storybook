@@ -1,0 +1,159 @@
+<%= javascript_include_tag 'wave' %>
+<%= javascript_include_tag 'experimental2' %>
+
+
+<h1>New Behavior by Recording</h1>
+
+<div id="load-box" style="width: 302px; height: 152px; border: 1px solid #428bca; display: inline-block;"></div>
+<div id="countdown" style="width: 52px; height: 52px; border: 1px solid #428bca; margin-bottom: 10px;"></div>
+<button id="rec-btn">Record Wave</button>
+<button id="stop-btn">Stop</button>
+
+<script>
+function Recorder(startBtn, stopBtn, waveBox, countdown){
+	this.dom = {start: startBtn, stop: stopBtn, wave: waveBox, countdown: countdown};
+	this.timeLeft = 4000;
+	this.init();
+}
+
+Recorder.prototype = {
+	init: function(){
+		var self = this;
+		this.dom.start.click(function() {
+			self.start();
+		});
+
+		this.dom.stop.click(function() {
+			self.stop();
+		});
+
+		navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia;
+		navigator.getUserMedia( {audio:true}, Recorder.processStream, function(e) { console.log('Rejected!', e);});
+	},
+	start: function(){
+		this.clear();
+		recording = true;
+		this.timeLeft = 4000;
+		this.countdown(0);
+	},
+	stop: function(){
+		recording = false;
+		this.update(sampleBuffer, this.dom.wave, AMP);
+	},
+	hardStop: function(){
+		this.stop();
+		if (globalStream) globalStream.stop();
+		if (globalProcessor) globalProcessor.disconnect();
+	},
+	clear: function(){
+		sampleBuffer = new Float32Array(BUFFER_SIZE);
+		// this.dom.countdown.empty();
+		this.dom.wave.empty();
+	}, 
+	update: function(buffer){
+		this.results = Recorder.downsample(buffer, MS_PER_SEC/INTERVAL);
+		var wave = new Wave("result", this.results, false);
+		var behavior = new LP(wave, false).load(this.dom.wave);
+	}, 
+	countdown: function(amount){
+		this.timeLeft -= amount;
+		this.dom.countdown.html(this.timeLeft/1000.0);
+	}
+}
+
+Recorder.downsample = function(arr, factor, amp) {
+	var newArr = [];
+	for (var i = 0; i < sampleBuffer.length - 1; i += factor) {
+		newArr.push(arr[i] * (amp || 1));
+	}
+	return newArr;
+}
+
+Recorder.hasGetUserMedia = function() {
+  return !!(navigator.getUserMedia || navigator.webkitGetUserMedia ||
+			navigator.mozGetUserMedia || navigator.msGetUserMedia);
+}
+
+
+var record, recording = false;
+$(function() {
+
+	/* Check client dependencies on page load */
+
+	if (Recorder.hasGetUserMedia ())
+		record = new Recorder($('#rec-btn'), $('#stop-btn'), $('#load-box'), $('#countdown'));
+	else
+	  alert('getUserMedia() is not supported in your browser');
+});
+
+
+
+
+var globalStream;
+var globalProcessor;
+var globalBuffer;
+// 256 sample size * 4 samples/sec * 4 seconds
+var BUFFER_SIZE = 4096;
+var sampleBuffer = new Float32Array(BUFFER_SIZE);
+var currSample;
+var SAMPLE_SIZE = 256;
+var offset = 0;
+// Only consider samples every 250ms;
+var INTERVAL = 250;
+var lastCall = 0;
+
+// Amplify result wave if you like
+var AMP = 50;
+var MS_PER_SEC = 1000;
+
+
+
+/* !!! Most recent results from voice recording !!! */
+var latestResults;
+
+
+
+// success callback when requesting audio input stream
+Recorder.processStream = function(stream) {
+	globalStream = stream;
+	window.AudioContext = window.AudioContext || window.webkitAudioContext;
+	var audioContext = new AudioContext();
+
+	// Create an AudioNode from the stream.
+	var microphone = audioContext.createMediaStreamSource(stream);
+	var processor = audioContext.createScriptProcessor(SAMPLE_SIZE, 1, 1);
+	globalProcessor = processor;
+
+	processor.onaudioprocess = function(e) {
+		if(!recording) return;
+		
+		var now = Date.now();
+		// Only fire every INTERVAL
+		if (lastCall + INTERVAL < now) {
+			lastCall = now;
+
+			currSample = e.inputBuffer.getChannelData(0);
+
+			if (offset > BUFFER_SIZE - SAMPLE_SIZE) {
+				lastCall = 0;
+				offset = 0;
+				record.stop();
+			} 
+			else if (currSample[0] != 0) {
+				sampleBuffer.set(currSample, offset);
+				offset += SAMPLE_SIZE;
+				record.countdown(INTERVAL);
+			}
+		}
+	}
+
+	var speakers = audioContext.destination;
+	microphone.connect(processor);
+	processor.connect(speakers);
+	// microphone.connect(speakers);
+}
+
+
+
+
+</script>

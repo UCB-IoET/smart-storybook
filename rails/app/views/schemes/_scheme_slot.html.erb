@@ -1,0 +1,22 @@
+<div class='scheme_slot grid_5 omega'>
+	<div class="panel panel-primary">
+		<div class="panel-heading">
+			<h3 class="panel-title">Led #</h3>
+		</div>
+		<div class="panel-body">
+			<div class="led-box">
+				<%= render 'partials/led' %>
+			</div>
+			<!-- <div class="seq-view"></<div></div>iv> -->
+			<!-- <div class="track"></div> -->
+			<div class="box">
+				<select id="dropdown">
+					<% @sequences.each do |sequence| %>
+						<option value="<%= sequence[0] %>"><%= sequence[0] %></option>
+					<% end %>
+				</select>
+				<button type="button" class="seq-btn btn btn-default">Load</button>
+			</div>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,48 @@
+<%= javascript_include_tag "light" %>
+<%= javascript_include_tag "experimental2"%>
+
+<div class='track'></div>
+<span class="led-value"> </span>
+
+
+
+<script> 
+
+$(function(){
+	var test = [0, 0.3, 0.2, 0.1, 0, -0.1, 0.3, 0, 0.3, 0.2, 0.1, 0, -0.1, 0.3];
+	var wave = new Wave("test", test);
+	var lp = new LP(wave).load($('.track'));
+
+	var wave = new Wave("sine", Wave.trig(Wave.cos, 40, 4 * Math.PI, 10,  Math.PI/2));
+	var lp2 = new LP(wave).load($('.track'));
+
+});
+</script>
+<style>
+	.track{
+		width: 100%;
+		padding: 2px 0px;
+		background: rgba(0, 0, 0, 0.3);
+		height: 100px;
+	}
+	canvas{
+		width: 10%; 
+		height: 80%;
+		background: white;
+		border-radius: 5px;
+		margin: 10px 0px 10px 5px;
+	}
+	.led-value{
+		width: 5%;
+		height: 20px;
+		display: block;
+		background: white;
+		
+		padding: 0.5% 0.5%;
+		z-index: 100;
+		position: relative;
+		text-align: center;
+		border-radius: 100px;
+	}
+
+</style>

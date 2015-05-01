@@ -1,0 +1,66 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>New Behavior</title>
+	</head>
+	<body>
+		<h1>New Behavior Form</h1>
+		<%= form_for :behavior, url: behavior_path(@behavior), :authenticity_token => true, method: :patch do |f| %>
+			<% if @behavior.errors.any? %>
+				<div id="error_explanation">
+					<h2>
+						<%= pluralize(@behavior.errors.count, "error") %> in
+						behavior creation.
+					</h2>
+				</div>
+			<% end %>
+
+			<p>
+				<%= f.label :name %><br>
+				<%= f.text_field :name %>
+			</p>
+
+			<p>
+				<%= f.label :notification %><br>
+				<%= f.text_field :notification %>
+			</p>
+
+			<p>
+				<%= f.label :active %><br>
+				<%= f.text_field :active %>
+			</p>
+
+			<p>
+				<%= f.label :unable %><br>
+				<%= f.text_field :unable %>
+			</p>
+
+			<p>
+				<%= f.label :low_energy %><br>
+				<%= f.text_field :low_energy %>
+			</p>
+
+			<p>
+				<%= f.label :turning_on %><br>
+				<%= f.text_field :turning_on %>
+			</p>
+
+			<p>
+				<%= f.label :is_smooth %><br>
+				<%= f.text_field :is_smooth %>
+			</p>
+
+			<p>
+				<%= f.label :states %><br>
+				<%= f.text_field :states %> 
+			</p>
+
+			<p>
+				<%= f.submit %>
+			</p>
+		<% end %>
+
+		<%= link_to 'Back', behaviors_path %>
+	
+	</body>
+</html>

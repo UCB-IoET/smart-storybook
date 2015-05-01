@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Task:</strong>
+  <%= @command.task.title %>
+</p>
+
+<p>
+  <strong>User:</strong>
+  <%= @command.user.email %>
+</p>
+
+<p>
+  <strong>Code:</strong>
+  <%= @command.code %>
+</p>
+
+<%= link_to 'Edit', edit_command_path(@command) %> |
+<%= link_to 'Back', commands_path %>

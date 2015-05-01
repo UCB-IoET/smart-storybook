@@ -1,0 +1,14 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Behavior:</strong>
+  <%= (Behavior.find @actuation.behavior_id).name.humanize %>
+</p>
+
+<p>
+  <strong>Flavor:</strong>
+  <%= (Flavor.find @actuation.flavor_id).name %>
+</p>
+
+<%= link_to 'Edit', edit_actuation_path(@actuation) %> |
+<%= link_to 'Back', actuations_path %>

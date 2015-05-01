@@ -1,0 +1,31 @@
+<h1>Listing story_pages</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Story</th>
+      <th>StoryType</th>
+      <th>Page Number</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @story_pages.each do |story_page| %>
+      <tr>
+        <td><%= story_page.story.title %></td>
+        <td><%= story_page.storytype %></td>
+         <td><%= story_page.page_number %></td>
+        <td><%= link_to 'Show', story_page %></td>
+        <td><%= link_to 'Edit', edit_story_page_path(story_page) %></td>
+        <td><%= link_to 'Destroy', story_page, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Story page', new_story_page_path %>

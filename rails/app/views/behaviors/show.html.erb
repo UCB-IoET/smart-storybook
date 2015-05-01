@@ -1,0 +1,124 @@
+<%= javascript_include_tag "light" %>
+<%= javascript_include_tag "behavior" %>
+<%= javascript_include_tag "preview" %>
+<%= javascript_include_tag "saver" %>	
+
+<script>
+	var savePartial = "<%= escape_javascript render :partial => 'partials/save_modal' %>"
+	var pageLB;
+	var saver;
+	/* Fetch wave data */
+	$(document).ready(function () {
+		/* Implement Saver and modal */
+		saver = new Saver('behavior', savePartial, { 'behavior' : null });
+		// saver.init();
+		$.ajax({
+			type : "GET",
+			dataType : "json",
+			data : { 'name' : "<%= @behavior.id %>" },
+			url : "/behaviors/get_states",
+			success : function(data, textStatus, jqXHR) {
+				var waveStates = data["states"];
+				var currWave = new Wave($(this), waveStates, data["is_smooth?"]);
+				pageLB = new Behavior(currWave, false);
+				saver.sources.behavior = pageLB;
+				pageLB.load($('#graph'));
+				pageLB.setPreview($('.led-box'));
+			} ,
+			error: function(jqXHR, textStatus, errorThrown) {
+				return errorThrown;
+			}
+		});
+		$('#show-btn').click(function() {
+			$('#details').toggle();
+		});
+		$('select').change(function() {
+			var newRep = $(this).find(':selected').text().toLowerCase();
+			pageLB.preview.switchRep(newRep);
+
+		});
+	});
+</script>
+
+<h1><%= @behavior.name.humanize %></h1>
+<br/>
+
+<div id="graph" style="display:inline-block;"></div>
+<div class="led-box">
+	<%= render 'partials/led' %>
+</div>
+<%= select("", "", Actuator.all.collect {|p| [ p.name.humanize, p.id ] }, {include_blank: 'None'}) %>
+<br/>
+
+<strong>Usable with these flavors:</strong>
+<ul>
+<% @behavior.flavors.each do |flavor| %>
+	<li><%= link_to flavor.name.humanize, flavor %>
+<% end %>
+</ul>
+
+<div id="meta-btns" class="btn-group">
+	<button id="export-button" class="btn btn-info" data-toggle="modal" data-target="#save-modal">
+		Export
+	</button>
+	<button id="show-btn" class="btn btn-info">
+		Show Details
+	</button>
+</div>
+<br/>
+
+<div id="details" style="display:none;">
+	<p>
+		<strong>Name of Behavior:</strong>
+		<%= @behavior.name %>
+	</p>
+
+	<p>
+		<strong>Notification Score:</strong>
+		<%= @behavior.notification %>
+	</p>
+
+	<p>
+		<strong>Active Score:</strong>
+		<%= @behavior.active %>
+	</p>
+
+	<p>
+		<strong>Unable Score:</strong>
+		<%= @behavior.unable %>
+	</p>
+
+	<p>
+		<strong>Low Energy Score:</strong>
+		<%= @behavior.low_energy %>
+	</p>
+
+	<p>
+		<strong>Turning On Score:</strong>
+		<%= @behavior.turning_on %>
+	</p>
+
+	<p>
+		<strong>Smooth Wave?</strong>
+		<%= @behavior.is_smooth %>
+	</p>
+
+	<p>
+		<strong>Part of the Light Behavior Library?</strong>
+		<%= @behavior.is_library %>
+	</p>
+
+	<p>
+		<strong>States (temporary form):</strong>
+		<%= @behavior.states.map{|x| number_with_precision(x, :precision => 2).to_f} %>
+	</p>
+</div>
+
+<%= link_to 'Back', behaviors_path %>
+
+<style type="text/css">
+	.template{
+		display: none;
+	}
+</style>
+<%= render 'partials/led' %>

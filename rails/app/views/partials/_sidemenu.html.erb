@@ -1,0 +1,62 @@
+<%= javascript_include_tag 'saver' %>
+
+<script>
+	var savePartial = "<%= escape_javascript render :partial => 'partials/save_modal' %>"
+	$(document).ready(function() {
+		saver = new Saver('behavior', savePartial, { 'behavior' : mixedLP }); //TODO: adapt for 
+		saver.init();
+	});
+</script>
+
+<div id="sidemenu">
+	<div id="filter-box">
+		<a href="#">Filters <span class="badge"><%= @number_attributes.count %></span></a>
+		<% @number_attributes.each do |attribute| %>
+			<div class="filter" name="<%= attribute %>"><%= attribute.humanize %></div>
+		<% end %>
+	</div>
+	<div id="behavior-box">
+		<a href="#">Behaviors <span class="badge"><%= @behaviors.count %></span></a>
+		<% @behaviors.each do |behavior| %>
+			<div class="behavior" name="<%= behavior.name %>" id="<%= behavior.id %>">
+				<%= behavior.name.humanize %>
+			</div>
+		<% end %>
+	</div>
+
+	<%= render 'partials/instruct_modal' %>
+
+	<div class="box-text">Preview:</div>
+	<div id="preview-box"></div>
+	<div id="preview-led-box">
+		<%= render 'partials/led' %>
+	</div>
+
+	<div class="box-text">Statistics:</div>
+	<div id="stat-box"></div>
+
+	<div id="func-btns" class="btn-group">
+		<button id="enter-button" class="btn btn-default">
+			Enter
+		</button>
+		<button id="delete-button" class="btn btn-default">
+			Delete Marked
+		</button>
+		<button id="play-button" class="btn btn-default">
+			Play
+		</button>
+		<button id="clear-button" class="btn btn-default">
+			Clear
+		</button>
+	</div>
+
+	<div id="meta-btns" class="btn-group">
+		<button id="export-button" class="btn btn-info" data-toggle="modal" data-target="#save-modal">
+			Export
+		</button>
+		<button id="inst-button" class="btn btn-info" data-toggle="modal" data-target="#instruct-modal">
+			Instructions
+		</button>
+	</div>
+
+</div>

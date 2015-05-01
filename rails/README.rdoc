@@ -1,0 +1,6 @@
+== README
+
+run bundle install
+run rails server -p 3000
+
+navigate to localhost:3000/light/view

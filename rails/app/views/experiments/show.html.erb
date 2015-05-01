@@ -1,0 +1,29 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Actuator:</strong>
+  <%= @experiment.actuator_id %>
+</p>
+
+<p>
+  <strong>Physical mag:</strong>
+  <%= @experiment.physical_mag %>
+</p>
+
+<p>
+  <strong>Subjective mag:</strong>
+  <%= @experiment.subjective_mag %>
+</p>
+
+<p>
+  <strong>Stimulus cond:</strong>
+  <%= @experiment.stimulus_cond %>
+</p>
+
+<p>
+  <strong>Continuum:</strong>
+  <%= @experiment.continuum %>
+</p>
+
+<%= link_to 'Edit', edit_experiment_path(@experiment) %> |
+<%= link_to 'Back', experiments_path %>

@@ -1,0 +1,52 @@
+<%= javascript_include_tag "experimental2"%>
+
+<div class='track'></div>
+
+<% 5.times do %>
+	<div class="led-box">
+		<%= render 'partials/led' %>
+	</div>
+<% end %>
+
+<script> 
+
+$(document).ready(function(){
+
+	$('.track').sortable({
+		axis : 'x',
+		tolerance : 'pointer',
+		update : function() { redoIndices(); }
+	});
+	
+});
+
+</script>
+
+<style>
+	.track{
+		width: 100%;
+		padding: 2px 0px;
+		background: #EFEFEF;
+		height: 100px;
+	}
+	canvas{
+		/* width: 10%; disable for now */
+		height: 80%;
+		background: white;
+		border-radius: 5px;
+		margin: 10px 0px 10px 5px;
+	}
+	.led-value{
+		width: 5%;
+		height: 20px;
+		display: inline-block;
+		background: white;
+		
+		padding: 0.5% 0.5%;
+		z-index: 100;
+		position: relative;
+		text-align: center;
+		border-radius: 100px;
+	}
+
+</style>

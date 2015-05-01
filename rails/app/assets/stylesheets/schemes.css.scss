@@ -1,0 +1,40 @@
+// Place all the styles related to the Sequences controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+$led-height: 100px;
+$led-width: 100px;
+$led-back-color: grey;
+$grey-background: #f8f8f8;
+$grey-border: #e7e7e7;
+$blue-border: #428bca;
+
+.scheme_slot {
+	padding-right: 10px;
+}
+
+.led-box {
+	background-color: $led-back-color;
+	height: $led-height;
+	width: $led-width;
+	display: inline-block;
+	border: 1px solid $blue-border;
+	border-radius: 4px;
+}
+
+#info {
+	margin-top: 15px;
+}
+
+.seq-view {
+	background-color: $led-back-color;
+	height: $led-height;
+	width: $led-width;
+	display: inline-block;
+	border: 1px solid $blue-border;
+	border-radius: 4px;
+}
+
+#scheme-btns {
+	margin-bottom: 10px;
+}

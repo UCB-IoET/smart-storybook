@@ -1,0 +1,61 @@
+<%= javascript_include_tag 'wave' %>
+<%= javascript_include_tag 'experimental2' %>
+<%= javascript_include_tag 'sequence' %>
+<%= javascript_include_tag 'slot' %>
+<%= javascript_include_tag 'track' %>
+
+<script>
+	var slotPartial = "<%= escape_javascript render :partial => 'scheme_slot' %>"
+	var slots = {};
+	var tracks = {};
+	var numSlots = 0;
+	var sequences = <%= @sequences.to_json.html_safe %>
+	var newSlot;
+
+	$(document).ready(function() {
+		$('#new-btn').click(function() {
+			numSlots++;
+			var newSlot = new Slot(numSlots, $('#space'));
+			newSlot.init()
+			slots[newSlot.name] = newSlot;
+		});
+	});
+
+</script>
+<div id="scheme-btns" class="btn-group">
+	<button type="button" id="new-btn" class="btn btn-default" data-dismiss="modal">New Slot</button>
+	<button type="button" id="save-btn" class="btn btn-default" data-dismiss="modal">Save Scheme</button>
+	<button type="button" id="export-btn" class="btn btn-default" data-dismiss="modal">Export Scheme</button>
+</div>
+
+<div id="space"></div>
+
+<style>
+	.track{
+		display: inline-block;
+		width: 100%;
+		padding: 2px 0px;
+		background: #EFEFEF;
+		height: 100px;
+	}
+	canvas{
+		/* width: 10%; disable for now */
+		height: 80%;
+		background: white;
+		border-radius: 5px;
+		margin: 10px 0px 10px 5px;
+	}
+	.led-value{
+		width: 5%;
+		height: 20px;
+		display: inline-block;
+		background: white;
+		
+		padding: 0.5% 0.5%;
+		z-index: 100;
+		position: relative;
+		text-align: center;
+		border-radius: 100px;
+	}
+
+</style>

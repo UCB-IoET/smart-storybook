@@ -1,0 +1,80 @@
+<style>
+	body, html{
+		height: auto !important;
+	}
+	h1, h2, h3{
+		text-align: center;
+	}
+	html{
+		overflow-y: scroll;
+	}
+	.btn{
+		margin-bottom: 20px;
+	}
+</style>
+<div class="col-xs-12">
+<h1>CONSENT TO PARTICIPATE IN RESEARCH </h1>
+<h2>Designing Behaviors for Interactive Devices<h2>
+<h3>University of California at Berkeley</h3>
+
+<h4>Title of Study </h4>
+<p>Designing Behaviors for Interactive Devices</p>
+ 
+<h4>Introduction and Purpose </h4>
+<p>My name is Cesar Torres. I am a graduate student working with Professor Eric Paulos in the Department of Electrical Engineering and Computer Science at the University of California, Berkeley.</p>
+<p>We are inviting you to participate in this study because we are interested in gaining your feedback on our software tool for designing interactive behaviors.</p>
+
+<p> The purpose of our study is to evaluate a new design primitive for creating behaviors for interactive devices. Behaviors refer to the way interactive devices convey system state or information. We have developed a design tool that uses waveforms, or digital signals, to allow users to directly manipulate the behaviors of LEDs, motors, vibrators, and other types of actuators. </p>
+
+<p class="alert-danger">Subject must be 18 or older, be computer literate, and have a laptop which can be used to run some custom software to participate.
+</p>
+ 
+<h4>Procedures </h4>
+
+<p>If you agree to be in this study, you will be asked to do the following:</p>
+<p class="alert-success">Participate in an approximately <strong> week long study</strong> with four 60-minute take-home design tasks using our tool.You will need to bring their laptop computer to the lab at Sutardja Dai Hall. We will install our software on your machine; and give you a scanner and an interactive device needed to complete the study. We will go over a quick demonstration of how to use the software and devices.
+<p>
+
+<p>These tasks can be completed at any time during the week long period. After each task, you will be asked to: take and submit a video of your creation, record a description, and add a diary entry about your experience. We will remove all identifiable information from your submitted videos and diary entries.</p>
+
+
+<h4>Risks/Discomforts </h4>
+<p>We do not anticipate that the research questions may make you uncomfortable or upset. You are free to decline to answer any questions you don't wish to at any time.
+Breach of confidentiality: As with all research, there is a chance that confidentiality could be compromised; however, we are taking precautions to minimize this risk. In case of unanticipated problems, you will be asked to stop the study.
+</p>
+ 
+<h4>Confidentiality </h4>
+Your study data will be handled as confidentially as possible. If results of this study are published or presented, individual names and other personally identifiable information will not be used.
+To minimize the risks to confidentiality, we will do the following:
+<ul>
+	<li>The data will be collected with a key-value system. A single physical document (key) will link the research data to your identifiable information.</li>
+	<li>Personal identifiers (email addresses, phone number, and the key) will be destroyed a month after the end of this study.</li>
+	<li>Your research records, including computer-based data, will be stored in a locked cabinet (physical materials), in a secured building and/or in an encrypted, password-protected computer (digital materials).</li>
+	<li>Only I/the researcher(s) will have access to your study records.</li>
+	<li>Identifiable information from the submitted videos will be removed and diary logs will be removed or masked.</li>
+</ul>
+<p>
+The research data will be maintained for possible use in future research by myself or others. I will retain this data for up to five years after the study is over. The same measures described above will be taken to protect confidentiality of this study data.
+</p>
+<h4>Compensation</h4>
+<p>You will receive payment for participating in the research study. <strong>Payment will be a $65 Amazon gift card.</strong></p>
+<p>If you choose to withdraw from the research study, you will be compensated at $15/hour-long design task. Payment will be an electronic Amazon gift card.</p>
+<p>A link to a digital Amazon gift card will be emailed to the participant once study materials (scanner, interactive device) have been returned.</p>
+<p>Only your email address will be collected for payment purposes.</p>
+
+
+<h4>Rights</h4>
+<p>Participation in research is completely voluntary.  You are free to decline to take part in the project.  You can decline to answer any questions and are free to stop taking part in the project at any time.  Whether or not you choose to participate, to answer any particular question, or continue participating in the project, there will be no penalty to you or loss of benefits to which you are otherwise entitled.</p>
+ 
+<h4>Questions</h4>
+<p>If you have any questions about this research, please feel free to contact me.  I can be at reached at <%= link_to "cearto@berkeley.edu", "mailto:cearto@berkeley.edu" %> or 915-208-4709 or you can contact the principal investigator Eric Paulos at <%= link_to "epaulos@berkeley.edu", "mailto:epaulos@berkeley.edu" %></p>
+ 
+<p>If you have any questions about your rights or treatment as a research participant in this study, please contact the University of California at Berkeley’s Committee for Protection of Human Subjects at 510-642-7461, or e-mail <%= link_to "subjects@berkeley.edu", "mailto:subjects@berkeley.edu" %>.</p>
+ 
+<p>If you agree to take part in the screening survey, please print a copy of this page to keep for future reference, then click on the “Accept” button below.</p>
+
+<%= link_to "ACCEPT", study_info_path, :class=> "btn btn-success btn-lg" %>
+<%= link_to "DECLINE", home_path, :class=> "btn btn-danger btn-lg" %>
+<br>
+
+</div>

@@ -1,0 +1,30 @@
+<%= render "library/tabs" %>
+
+<h3>Actuator Library</h3>
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @actuators.each do |actuator| %>
+      <tr>
+        <td><%= image_tag actuator.picture_url, :width => "20px" %></td>
+        <td><%= actuator.name %></td>
+        <td><%= link_to 'Show', actuator %></td>
+        <td><%= link_to 'Edit', edit_actuator_path(actuator) %></td>
+        <td><%= link_to 'Destroy', actuator, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Actuator', new_actuator_path %>

@@ -1,0 +1,82 @@
+<%= javascript_include_tag "sequences" %>
+<%= javascript_include_tag "track" %>
+<%= javascript_include_tag "saver" %>
+
+<%= stylesheet_link_tag "behaviors", media: "all" %>
+
+<script type="text/javascript">
+var currWave;
+var currLP;
+var track;
+var saver;
+var behaviors = <%= @behaviors %>
+var savePartial = "<%= escape_javascript render :partial => 'partials/save_modal' %>"
+var trackContainer = ".track-container";
+
+$(document).ready(function() {
+	var newTrack = new Track("single", trackContainer);
+	track = newTrack;
+	newTrack.init();
+	behaviors.forEach(function(e, i) {
+		currWave = new Wave(e.name, e.states, e.is_smooth);
+		currLP = new LP(currWave, false);
+		console.log(currLP);
+		newTrack.addBehavior(currLP);
+	});
+	saver = new Saver('sequence', savePartial, { 'sequence' : track });
+	saver.init();
+});
+
+
+</script>
+
+<div id="space" class="grid_7">
+	<h1><%= @sequence.name.humanize %></h1><br/>
+	<h4>Length: <%= @sequence.behaviors.size %></h4>
+	<div class="track-container"></div>
+</div>
+
+<div class='grid_5 omega' id="info">
+	<div class="panel panel-primary">
+		<div class="panel-heading">
+			<h3 class="panel-title">Info</h3>
+		</div>
+		<div class="panel-body">
+			<%= render 'partials/sequence_menu' %>
+			<div id="meta-btns" class="btn-group">
+				<button id="export-button" class="btn btn-info" data-toggle="modal" data-target="#save-modal">
+					Export
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<style>
+	.track{
+		width: 100%;
+		padding: 2px 0px;
+		background: #EFEFEF;
+		height: 100px;
+	}
+	canvas{
+		/* width: 10%; disable for now */
+		height: 80%;
+		background: white;
+		border-radius: 5px;
+		margin: 10px 0px 10px 5px;
+	}
+	.led-value{
+		width: 5%;
+		height: 20px;
+		display: inline-block;
+		background: white;
+		
+		padding: 0.5% 0.5%;
+		z-index: 100;
+		position: relative;
+		text-align: center;
+		border-radius: 100px;
+	}
+
+</style>

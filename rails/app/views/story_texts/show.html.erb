@@ -1,0 +1,39 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Text:</strong>
+  <%= @story_text.text %>
+</p>
+
+<p>
+  <strong>Fontsize:</strong>
+  <%= @story_text.fontSize %>
+</p>
+
+<p>
+  <strong>Center:</strong>
+  <%= @story_text.center %>
+</p>
+
+<p>
+  <strong>Textbackgroundhex:</strong>
+  <%= @story_text.textBackgroundHex %>
+</p>
+
+<p>
+  <strong>Textbackgroundalpha:</strong>
+  <%= @story_text.textBackgroundAlpha %>
+</p>
+
+<p>
+  <strong>Border:</strong>
+  <%= @story_text.border %>
+</p>
+
+<p>
+  <strong>Story:</strong>
+    <%= "#{@story_text.story_page.story.title} #{@story_text.story_page.page_number}" %>
+</p>
+
+<%= link_to 'Edit', edit_story_text_path(@story_text) %> |
+<%= link_to 'Back', story_texts_path %>

@@ -1,0 +1,25 @@
+<%= form_for(@actuation) do |f| %>
+  <% if @actuation.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@actuation.errors.count, "error") %> prohibited this actuation from being saved:</h2>
+
+      <ul>
+      <% @actuation.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :behavior_id %><br>
+    <%= select("actuation", "behavior_id", Behavior.all.collect {|p| [ p.name.humanize, p.id ] }, {include_blank: 'None'}) %>
+  </div>
+  <div class="field">
+    <%= f.label :flavor_id %><br>
+    <%= select("actuation", "flavor_id", Actuator.all.collect {|p| [ p.name.humanize, p.id ] }, {include_blank: 'None'}) %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>
