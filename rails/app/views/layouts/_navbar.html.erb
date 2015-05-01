@@ -23,11 +23,11 @@
 				<li class="<%= params[:controller] == "library" ? "active" : "" %>">
 					<%= link_to "Library", library_index_path %>
 				</li>
-				<li class="<%= params[:controller] == "study" ? "active" : "" %>">
+			<!-- 	<li class="<%= params[:controller] == "study" ? "active" : "" %>">
 					<%= link_to "Study", study_index_path %>
-				</li>
+				</li> -->
 				<li class="<%= params[:controller] == "composer" ? "active" : "" %>">
-					<%= link_to "Composer", composer_path %>
+					<%= link_to "Composer", smart_story_composer_path(1, 1) %>
 				</li>
 			</ul>
 			<p class="navbar-text pull-right">
