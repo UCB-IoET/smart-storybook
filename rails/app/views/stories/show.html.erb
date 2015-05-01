@@ -10,5 +10,12 @@
   <%= @story.author %>
 </p>
 
+<p>
+  <strong>Number of pages:</strong>
+  <%= @story.story_pages.lengths %>
+</p>
+
+
+
 <%= link_to 'Edit', edit_story_path(@story) %> |
 <%= link_to 'Back', stories_path %>
