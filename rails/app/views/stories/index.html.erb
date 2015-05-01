@@ -1,8 +1,9 @@
 <h1>Listing stories</h1>
 
-<table>
+<table class="table table-striped">
   <thead>
     <tr>
+      <th>Cover</th>
       <th>Title</th>
       <th>Author</th>
       <th></th>
@@ -14,8 +15,10 @@
   <tbody>
     <% @stories.each do |story| %>
       <tr>
+        <td><%= image_tag story.story_pages[0].story_images[0].file_url, :width => "100px" %></td>
         <td><%= story.title %></td>
         <td><%= story.author %></td>
+        <td><%= link_to 'Compose', smart_story_composer_path(story, 1) %></td>
         <td><%= link_to 'Show', story %></td>
         <td><%= link_to 'Edit', edit_story_path(story) %></td>
         <td><%= link_to 'Destroy', story, method: :delete, data: { confirm: 'Are you sure?' } %></td>

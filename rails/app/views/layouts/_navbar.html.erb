@@ -20,8 +20,11 @@
 				<li class="<%= params[:controller] == "application" ? "active" : "" %>">
 					<%= link_to 'Home', home_path %>
 				</li>
+				<li class="<%= params[:controller] == "stories" ? "active" : "" %>">
+					<%= link_to "Story Library", stories_path %>
+				</li>
 				<li class="<%= params[:controller] == "library" ? "active" : "" %>">
-					<%= link_to "Library", library_index_path %>
+					<%= link_to "Behavior Library", library_index_path %>
 				</li>
 			<!-- 	<li class="<%= params[:controller] == "study" ? "active" : "" %>">
 					<%= link_to "Study", study_index_path %>
