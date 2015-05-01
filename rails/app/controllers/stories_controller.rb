@@ -5,6 +5,8 @@ class StoriesController < ApplicationController
     story = Story.find(params[:id])
     output = {story: story.story_pages.map{|s|
       {
+        title: s.title,
+        author: s.author,
         type: s.storytype, 
         text_labels: s.story_texts.map{|st| {
             text: st.text, 
