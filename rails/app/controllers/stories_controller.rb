@@ -3,34 +3,35 @@ class StoriesController < ApplicationController
 
   def ipad_output
     story = Story.find(params[:id])
-    output = {story: story.story_pages.map{|s|
-      {
-        title: s.title,
-        author: s.author,
-        type: s.storytype, 
-        text_labels: s.story_texts.map{|st| {
-            text: st.text, 
-            fontSize: st.fontSize, 
-            center: JSON.parse(st.center),
-            textBackgroundHex: st.textBackgroundHex, 
-            textBackgroundAlpha: st.textBackgroundAlpha,
-            border: st.border 
+    output = {
+        title: story.title,
+        author: story.author,
+        story: story.story_pages.map{|s|
+          {
+          type: s.storytype, 
+          text_labels: s.story_texts.map{|st| {
+              text: st.text, 
+              fontSize: st.fontSize, 
+              center: JSON.parse(st.center),
+              textBackgroundHex: st.textBackgroundHex, 
+              textBackgroundAlpha: st.textBackgroundAlpha,
+              border: st.border 
+            }
+          },
+          image_labels: s.story_images.map{|st| {
+              imageURL: st.file_url, 
+              imageSize: JSON.parse(st.size)
+            }
+          }, 
+          actuator_labels: [{
+                              UUID: "3c10b74e-f027-11e4-90ec-1681e6b88ec1", 
+                              actuator_type: "SVCD", 
+                              metadata: {
+                                modality: "light", 
+                                action: "turn_on"
+                              }
+                            }]
           }
-        },
-        image_labels: s.story_images.map{|st| {
-            imageURL: st.file_url, 
-            imageSize: JSON.parse(st.size)
-          }
-        }, 
-        actuator_labels: [{
-                            UUID: "3c10b74e-f027-11e4-90ec-1681e6b88ec1", 
-                            actuator_type: "SVCD", 
-                            metadata: {
-                              modality: "light", 
-                              action: "turn_on"
-                            }
-                          }]
-        }
       }
     }
 
