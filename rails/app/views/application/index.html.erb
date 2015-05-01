@@ -1,23 +1,27 @@
 
 
 <div class="container">
-	<h2> Expressive Actuation</h2>
+	<h2> Smart Storybook </h2>
 	
 	<div class="col-xs-4">
-		<%= image_tag "/actuator_logo2x2.png", :width => "80%"%>
+		<%= image_tag "/lamp.png", :width => "80%"%>
 	</div>
 	<div class="col-xs-8">
 
 		<h3> Project Summary</h3>
-		<p class=''> 
-			Electronic components, specifically actuators (i.e., LEDs, motors, solenoids, etc..) are usually used in simple ways - mapped to intensity or frequency, used as a binary on/off, etc. However, there exists a wide design space that can enhance an electronics ability to communicate to a user [1,2]. We see an opportunity to expand this space by a) examining behaviors over a variety of modalities (motion, heat, light, sound), b) addressing the design of IoT distributed interoperable components, c) broadening participation within STEM education.
+		<p class='lead'> 
+			An augmented environment coordinator for storytelling. Smart Storybook polls devices in a room for storytelling capabilities (e.g. light, sound, smell) and contributes a content creation tool that synthesizes output into a unique storytelling experience.
 		</p>
-		<p>
-			<a class="btn btn-primary btn-lg"href='/light/synthesize'>
-				<span class="glyphicon glyphicon-pencil"></span> Synthesize Lights
-			</a>
+		<h3> Contributors </h3>
+		<p class="lead"> 
+			Aparna Dhinakaran, Romi Phadte, Michael Ho, Cesar Torres
+			<aparnadhinak,romiphadte,michaelho2016, cearto@berkeley.edu>
+		</p>
 
-		<%= link_to "View Library", library_index_path , :class=> "btn btn-default btn-lg" %>
+		<p>
+			<%= link_to smart_story_composer_path(1, 1), :class=> "btn btn-primary btn-lg" do %>
+				<span class="glyphicon glyphicon-edit"></span> Composer
+			<% end %>
 		</p>
 	</div>
 	
