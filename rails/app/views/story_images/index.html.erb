@@ -16,7 +16,7 @@
     <% @story_images.each do |story_image| %>
       <tr>
         <td><%= "#{story_image.story_page.story.title} #{story_image.story_page.page_number} " %></td>
-        <td><%= image_tag story_image.file_url %></td>
+        <td><%= image_tag story_image.file_url, width: "100px" %></td>
         <td><%= story_image.size %></td>
         
         <td><%= link_to 'Show', story_image %></td>
