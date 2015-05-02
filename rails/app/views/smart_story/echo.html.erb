@@ -1,0 +1,30 @@
+<h1>Listing requests</h1>
+<style type="text/css">
+  table{
+    background: white !important;
+  }
+</style>
+<table class="table">
+  <thead>
+    <tr>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @requests.each do |request| %>
+      <tr>
+        <td><%= request.response %></td>
+        <!-- <td><%= link_to 'Show', request %></td> -->
+        <!-- <td><%= link_to 'Edit', edit_request_path(request) %></td> -->
+        <!-- <td><%= link_to 'Destroy', request, method: :delete, data: { confirm: 'Are you sure?' } %></td> -->
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Request', new_request_path %>

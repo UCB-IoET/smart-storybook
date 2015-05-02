@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150502001349) do
+ActiveRecord::Schema.define(version: 20150502025242) do
 
   create_table "actuations", force: true do |t|
     t.integer  "flavor_id"
@@ -163,6 +163,12 @@ ActiveRecord::Schema.define(version: 20150502001349) do
     t.string  "name"
     t.string  "subphyla"
     t.integer "count"
+  end
+
+  create_table "requests", force: true do |t|
+    t.string   "response"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "schemes", force: true do |t|

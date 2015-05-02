@@ -1,5 +1,7 @@
 FlixelLights::Application.routes.draw do
 
+  resources :requests
+
   get "simulator/:iot_device_id/actuate/:action_id", :to => "simulator#actuate", :as => "simulator_actuate" 
   resources :iot_devices
 

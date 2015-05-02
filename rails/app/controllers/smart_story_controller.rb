@@ -14,7 +14,10 @@ class SmartStoryController < ApplicationController
 	end
 
 	def echo
-		render :json => params
+		@request = Request.new({response: "IP: #{request.ip} T: #{Time.now.strftime("%I:%M %p")} P: #{params} "})
+		@request.save
+	    @requests = Request.all.reverse
+		# render :json => params
 	end
 	
 	# generate based on nearby devices, segments with desired environment
