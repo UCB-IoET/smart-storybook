@@ -18,7 +18,7 @@
       <tr>
         <td><%= iot_device.uuid %></td>
         <td><%= iot_device.actuator_type %></td>
-        <td><%= iot_device.metadata.to_json.html_safe.to_s %></td>
+        <td><%= JSON.parse(iot_device.metadata).to_s.html_safe %></td>
         <td><%= time_diff(iot_device.last_seen, Time.now) %></td>
         <td><%= link_to 'Show', iot_device %></td>
         <td><%= link_to 'Edit', edit_iot_device_path(iot_device) %></td>
