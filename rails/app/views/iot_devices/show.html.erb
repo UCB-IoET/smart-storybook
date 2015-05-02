@@ -12,7 +12,7 @@
 
 <p>
   <strong>Metadata:</strong>
-  <%= JSON.parse(@iot_device.metadata).to_s.html_safe %>
+  <%= @iot_device.metadata.to_s.html_safe %>
 </p>
 
 <p>

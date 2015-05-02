@@ -1,0 +1,8 @@
+
+<h3><em>Actuating</em> <%= "#{@iot_device.metadata["name"]} via #{@iot_device.actuator_type}" %> </h3>
+<hr>
+
+<p class="lead"><%= @iot_device.uuid %></p>
+<p class="lead"><%= %></p>
+<p class="lead">ACTION: <%= @action %></p>
+<p class="lead">TIME: <%= Time.now.strftime("%I:%m %p") %></p>
