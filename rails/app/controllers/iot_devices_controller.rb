@@ -1,4 +1,5 @@
 class IotDevicesController < ApplicationController
+  helper IotDevicesHelper
   before_action :set_iot_device, only: [:show, :edit, :update, :destroy]
 
   # GET /iot_devices
