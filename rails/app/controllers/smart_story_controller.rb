@@ -113,6 +113,9 @@ class SmartStoryController < ApplicationController
 			devices.each { |uuid, val|
 				#actuate uuid
 			}
+		else
+			error_msg = "Advance story to specified segment. Please supply your storyboard's UUID and the segment to advance to."
+			render :json => error_msg.to_json
 		end
 	end
 	
