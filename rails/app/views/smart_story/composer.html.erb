@@ -25,7 +25,7 @@ $(function(){
 	</ol>
 	<div class="story-page">
 		<% @page.story_images.each do |p|%>
-			<%= image_tag p.file_url, :width => "100%" %>
+			<%= image_tag p.file_url, :height => "100%" %>
 		<% end %>
 		<% @page.story_texts.each do |t|%>
 			<% pos = JSON.parse(t.center) %>
