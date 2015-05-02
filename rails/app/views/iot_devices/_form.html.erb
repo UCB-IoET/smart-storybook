@@ -1,0 +1,33 @@
+<%= form_for(@iot_device) do |f| %>
+  <% if @iot_device.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@iot_device.errors.count, "error") %> prohibited this iot_device from being saved:</h2>
+
+      <ul>
+      <% @iot_device.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :uuid %><br>
+    <%= f.text_field :uuid %>
+  </div>
+  <div class="field">
+    <%= f.label :actuator_type %><br>
+        <%= select("iot_device", "actuator_type", ["SVCD", "BL", "SMAP"].map{|p| [ p, p ] }, {include_blank: 'Other'}) %>
+  </div>
+  <div class="field">
+    <%= f.label :metadata %><br>
+    <%= f.text_field :metadata %>
+  </div>
+  <div class="field">
+    <%= f.label :last_seen %><br>
+    <%= f.time_select :last_seen, :value => Time.now, :default => Time.now %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

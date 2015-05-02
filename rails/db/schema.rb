@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150428232546) do
+ActiveRecord::Schema.define(version: 20150502001349) do
 
   create_table "actuations", force: true do |t|
     t.integer  "flavor_id"
@@ -112,6 +112,15 @@ ActiveRecord::Schema.define(version: 20150428232546) do
   add_index "friendly_id_slugs", ["slug", "sluggable_type"], name: "index_friendly_id_slugs_on_slug_and_sluggable_type", unique: true, using: :btree
   add_index "friendly_id_slugs", ["sluggable_id"], name: "index_friendly_id_slugs_on_sluggable_id", using: :btree
   add_index "friendly_id_slugs", ["sluggable_type"], name: "index_friendly_id_slugs_on_sluggable_type", using: :btree
+
+  create_table "iot_devices", force: true do |t|
+    t.string   "uuid"
+    t.string   "actuator_type"
+    t.string   "metadata"
+    t.time     "last_seen"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "mappers", force: true do |t|
     t.datetime "created_at"

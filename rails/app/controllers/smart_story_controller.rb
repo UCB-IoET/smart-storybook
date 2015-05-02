@@ -12,17 +12,26 @@ class SmartStoryController < ApplicationController
 			end
 		end
 	end
+
 	def echo
 		render :json => params
 	end
+	
 	# generate based on nearby devices, segments with desired environment
 	def new_story
 		a = "New story"
 		render :json => a.to_json
 	end
+	
 	def composer
 		@story = Story.find(params[:story_id])
 		@page = @story.story_pages.find{|s| s.page_number == params[:page_number].to_i}
 		render :layout => "singe_page_app"
+	end
+
+	def actuator_list
+	end
+
+	def simulator
 	end
 end

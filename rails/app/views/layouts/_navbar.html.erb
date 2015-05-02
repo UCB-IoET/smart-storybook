@@ -20,6 +20,9 @@
 				<li class="<%= params[:controller] == "application" ? "active" : "" %>">
 					<%= link_to 'Home', home_path %>
 				</li>
+				<li class="<%= params[:controller] == "iot_devices" ? "active" : "" %>">
+					<%= link_to "IoT Library", iot_devices_path %>
+				</li>
 				<li class="<%= params[:controller] == "stories" ? "active" : "" %>">
 					<%= link_to "Story Library", stories_path %>
 				</li>

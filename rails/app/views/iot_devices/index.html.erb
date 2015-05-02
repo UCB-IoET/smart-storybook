@@ -1,0 +1,33 @@
+<h1>Listing IoET Devices</h1>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>UUID</th>
+      <th>Actuator type</th>
+      <th>Metadata</th>
+      <th>Last seen</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @iot_devices.each do |iot_device| %>
+      <tr>
+        <td><%= iot_device.uuid %></td>
+        <td><%= iot_device.actuator_type %></td>
+        <td><%= iot_device.metadata %></td>
+        <td><%= time_diff(iot_device.last_seen, Time.now) %></td>
+        <td><%= link_to 'Show', iot_device %></td>
+        <td><%= link_to 'Edit', edit_iot_device_path(iot_device) %></td>
+        <td><%= link_to 'Destroy', iot_device, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Iot device', new_iot_device_path %>

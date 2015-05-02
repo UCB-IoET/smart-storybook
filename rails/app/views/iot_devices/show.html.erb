@@ -1,0 +1,24 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Uuid:</strong>
+  <%= @iot_device.uuid %>
+</p>
+
+<p>
+  <strong>Actuator type:</strong>
+  <%= @iot_device.actuator_type %>
+</p>
+
+<p>
+  <strong>Metadata:</strong>
+  <%= @iot_device.metadata %>
+</p>
+
+<p>
+  <strong>Last seen:</strong>
+  @<%= @iot_device.last_seen.strftime(" %I:%M:%S%P")  %>
+  <%= time_diff(@iot_device.last_seen, Time.now) %>
+
+<%= link_to 'Edit', edit_iot_device_path(@iot_device) %> |
+<%= link_to 'Back', iot_devices_path %>

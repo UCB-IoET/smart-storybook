@@ -1,5 +1,9 @@
 FlixelLights::Application.routes.draw do
 
+  resources :iot_devices
+
+  resources :io_t_devices
+
   get "smart_story/:story_id/composer/:page_number", :to => "smart_story#composer", 
   :as => "smart_story_composer"
   
