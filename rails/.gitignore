@@ -17,3 +17,7 @@
 
 /test
 /app/helpers
+
+#ignore the devices file (subject to change always) and the folder of environments
+devices.json
+storyboard_environments/*
