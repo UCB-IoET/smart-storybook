@@ -29,7 +29,7 @@ $(function(){
 		<% end %>
 		<% @page.story_texts.each do |t|%>
 			<% pos = JSON.parse(t.center) %>
-			<p class="story-text" style="<%= "font-size: #{t.fontSize}pt; background-color: ##{t.textBackgroundHex}; opacity: #{t.textBackgroundAlpha}; width: 500px; text-align: center; margin-left: -250px; border: solid #{t.border}px black; top: #{pos[0] * 100}%; left: #{pos[1] * 100}%;"%>"> <%= t.text %> </p>
+			<p class="story-text" style="<%= "font-size: #{t.fontSize}pt; background-color: ##{t.textBackgroundHex}; opacity: #{t.textBackgroundAlpha}; width: 500px; text-align: center;margin-left: -250px; border: solid #{t.border}px black; top: #{pos[0] * 100}%; left: #{pos[1] * 100}%;"%>"> <%= t.text %> </p>
 		<% end %>
 	</div>
 	<div id="track">
