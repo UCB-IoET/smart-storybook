@@ -1,15 +1,19 @@
 class SmartStoryController < ApplicationController
 	def register
-		file = File.read('devices.json')
-		data_hash = JSON.parse(file)
-		if data_hash.has_key?(params[:uuid])
-			data_hash[params[:uuid]] = params[:modalities]
-		else
-			data_hash[params[:uuid]] = params[:modalities]
-			render :json => params[:uuid].to_json
-			File.open('devices.json', 'w') do |f|
-				f.write(JSON.pretty_generate(data_hash))
+		if params.has_key?("uuid") and params.has_key?("modalities")
+			file = File.read('devices.json')
+			data_hash = JSON.parse(file)
+			if data_hash.has_key?(params[:uuid])
+				data_hash[params[:uuid]] = params[:modalities]
+			else
+				data_hash[params[:uuid]] = params[:modalities]
+				File.open('devices.json', 'w') do |f|
+					f.write(JSON.pretty_generate(data_hash))
+				end
 			end
+		else
+			error_msg = "Register function. This function needs to have a uuid and modalities fields."
+			render :json => error_msg.to_json
 		end
 	end
 
@@ -22,13 +26,14 @@ class SmartStoryController < ApplicationController
 	
 	# generate based on nearby devices, segments with desired environment
 	def new_story
-		a = "New story. Push data to me by passing in UUIDs of nearby devices and segment descriptions"
-		render :json => a.to_json
 		if params.has_key?("uuid") and params.has_key?("nearby_devices") and params.has_key?("segments")
 			env_hash = create_env(params)
 			File.open('storyboard_environments/' + params[:uuid], 'w') do |f|
 				f.write(JSON.pretty_generate(env_hash))
 			end
+		else
+			error_msg = "New story. Push data to me by passing in your device's UUID, UUIDs of nearby devices and segment descriptions"
+			render :json => error_msg.to_json
 		end
 	end
         def create_env(params)
@@ -52,7 +57,7 @@ class SmartStoryController < ApplicationController
                                 if ls == 0 
                                         return attrs 
                                 else 
-                                        pool[Hash[uuid: uuid]] = Hash[:least_squares: ls, :attrs: attrs]
+                                        pool[Hash[uuid, uuid]] = Hash["least_squares", ls, "attrs", attrs]
                                 end
                         }
                         while level < nearby.length and improved
@@ -67,7 +72,7 @@ class SmartStoryController < ApplicationController
                                                                 pool[]
                                                                 improved = true
                                                                 this_improved = true
-                                                                pool[uuids.merge(Hash[uuid:uuid])] = Hash[:least_squares: new_ls, :attrs: new_attrs]
+                                                                pool[uuids.merge(Hash[uuid, uuid])] = Hash["least_squares", new_ls, "attrs", new_attrs]
                                                         end
                                                 }
                                         end
@@ -88,11 +93,16 @@ class SmartStoryController < ApplicationController
                 return env_hash
         end
 
-	def least_squares(desired, a, b)
+	def least_squares(desired, given)
 		ls = 0
-		for attr in desired
-			ls += (a[attr] - b[attr])^2
-		end
+		desired.each {|attr, value|
+			if given[attr] == nil
+				given_value = 0
+			else
+				given_value = given[attr]
+			end
+			ls += (value - given_value)^2
+		}
 		return ls
 	end
 	def advance_story
@@ -100,9 +110,9 @@ class SmartStoryController < ApplicationController
 			file = File.read('storyboard_environments/' + params[:uuid])
 			env_hash = JSON.parse(file)
 			devices = env_hash[:segments][params[:segment]]
-			for device in devices
-				#actuate
-			end
+			devices.each { |uuid, val|
+				#actuate uuid
+			}
 		end
 	end
 	
