@@ -35,6 +35,9 @@
 				<li class="<%= params[:controller] == "composer" ? "active" : "" %>">
 					<%= link_to "Composer", smart_story_composer_path(1, 1) %>
 				</li>
+				<li class="<%= params[:controller] == "smart_story" ? "active" : "" %>">
+					<%= link_to "Documentation", smart_story_documentation_path %>
+				</li>
 			</ul>
 			<p class="navbar-text pull-right">
 			<% if user_signed_in? %>
