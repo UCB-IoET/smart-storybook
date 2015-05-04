@@ -1,5 +1,4 @@
 class SmartStoryController < ApplicationController
-	 before_action :authenticate_user!, :only => :composer
 	def register
 		if params.has_key?("uuid") and params.has_key?("modalities")
 			file = File.read('devices.json')
@@ -13,7 +12,9 @@ class SmartStoryController < ApplicationController
 				end
 			end
 		else
-			error_msg = "Register function. This function needs to have a uuid and modalities fields."
+			error_msg = "
+					Register function. This function needs to have a uuid and modalities fields.\n
+					Format: {'uuid': storyboard_uuid, 'modalities': {"
 			render :json => error_msg.to_json
 			File.open('failures.txt', 'a') do |f|
 				f.write("register failed.")
