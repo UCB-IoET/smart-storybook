@@ -1,25 +1,35 @@
-class SmartStoryController < ApplicationController
+	before_action :authenticate_user!, :only => :composer
+
+	@@devices_file = 'public/devices.json';
+
 	def register
-		if params.has_key?("uuid") and params.has_key?("modalities")
-			file = File.read('devices.json')
-			data_hash = JSON.parse(file)
-			if data_hash.has_key?(params[:uuid])
-				data_hash[params[:uuid]] = params[:modalities]
-			else
-				data_hash[params[:uuid]] = params[:modalities]
-				File.open('devices.json', 'w') do |f|
-					f.write(JSON.pretty_generate(data_hash))
-				end
-			end
-		else
-			error_msg = "
-					Register function. This function needs to have a uuid and modalities fields.\n
-					Format: {'uuid': storyboard_uuid, 'modalities': {"
-			render :json => error_msg.to_json
-			File.open('failures.txt', 'a') do |f|
-				f.write("register failed.")
-			end
+		data_hash = uuid_modality_pairize
+		render :json => data_hash
+		# if params.has_key?("uuid") and params.has_key?("modalities")
+			# file = File.read(@@devices_file)
+			# data_hash = JSON.parse(file) rescue {}
+			# if data_hash.has_key?(params[:uuid])
+			# 	data_hash[params[:uuid]] = params[:modalities]
+			# else
+			# 	data_hash[params[:uuid]] = params[:modalities]
+			# 	File.open('devices.json', 'w') do |f|
+			# 		f.write(JSON.pretty_generate(data_hash))
+			# 	end
+			# end
+		# else
+		# 	error_msg = "Register function. This function needs to have a uuid and modalities fields."
+		# 	render :json => error_msg.to_json
+		# 	File.open('failures.txt', 'a') do |f|
+		# 		f.write("register failed.")
+		# 	end
+		# end
+	end
+	def uuid_modality_pairize
+		devices = {}
+		IotDevice.all.each do |e|
+			devices[e.uuid] = e.metadata
 		end
+		return devices
 	end
 
 	def echo
