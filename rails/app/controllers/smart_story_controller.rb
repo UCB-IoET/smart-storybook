@@ -1,3 +1,4 @@
+class SmartStoryController < ApplicationController
 	before_action :authenticate_user!, :only => :composer
 
 	@@devices_file = 'public/devices.json';
@@ -24,6 +25,7 @@
 		# 	end
 		# end
 	end
+
 	def uuid_modality_pairize
 		devices = {}
 		IotDevice.all.each do |e|
