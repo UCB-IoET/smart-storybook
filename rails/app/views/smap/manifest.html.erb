@@ -1,0 +1,21 @@
+<h1>SMAP Devices <span class="badge"><%= @devices.length %></span></h1>
+<table class="table">
+	<tr> 
+		<% header = ["Name", "UUID", "Actuator", "Metadata", "Path", "Properties"] %>
+		<% header.each do |h| %>
+		<th>  
+			<%= h %>
+		</th> 
+		<% end %>
+	</tr>
+	<% @devices.each do |d| %>
+		<tr>
+			<td> <%= d["Metadata"]["Name"] %> </td>
+			<td> <%= d["uuid"] %> </td>
+			<td> <%= d["Actuator"] %> </td>
+			<td> <%= d["Metadata"] %> </td>
+			<td> <%= d["Path"] %> </td>
+			<td> <%= d["Properties"] %> </td>
+		</tr>
+	<% end %>
+</table>

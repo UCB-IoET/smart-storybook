@@ -1,8 +1,8 @@
+require 'net/http'
+
 class SmartStoryController < ApplicationController
 	before_action :authenticate_user!, :only => :composer
-
-	@@devices_file = 'public/devices.json';
-
+	
 	def register
 		data_hash = uuid_modality_pairize
 		render :json => data_hash
