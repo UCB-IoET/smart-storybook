@@ -57,8 +57,9 @@ class SmartStoryController < ApplicationController
 	end
         def create_env(params)
                 env_hash = Hash.new
-                file = File.read('devices.json')
-                devices_hash = JSON.parse(file)
+                #file = File.read('devices.json')
+                #devices_hash = JSON.parse(file)
+		devices_hash = uuid_modality_pairize
                 nearby = params[:nearby_devices]
                 devices = Hash.new
                 nearby.each {|index, uuid|
