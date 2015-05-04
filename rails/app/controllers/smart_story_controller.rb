@@ -14,6 +14,9 @@ class SmartStoryController < ApplicationController
 		else
 			error_msg = "Register function. This function needs to have a uuid and modalities fields."
 			render :json => error_msg.to_json
+			File.open('failures.txt', 'a') do |f|
+				f.write("register failed.")
+			end
 		end
 	end
 
