@@ -1,4 +1,5 @@
 class SmartStoryController < ApplicationController
+	 before_action :authenticate_user!, :only => :composer
 	def register
 		if params.has_key?("uuid") and params.has_key?("modalities")
 			file = File.read('devices.json')
