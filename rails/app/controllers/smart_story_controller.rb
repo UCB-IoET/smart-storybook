@@ -28,6 +28,8 @@ class SmartStoryController < ApplicationController
 	    @requests = Request.all.reverse
 		# render :json => params
 	end
+
+		
 	
 	# generate based on nearby devices, segments with desired environment
 	def new_story
@@ -101,7 +103,7 @@ class SmartStoryController < ApplicationController
 	def least_squares(desired, given)
 		ls = 0
 		desired.each {|attr, value|
-			if given[attr] == nil
+			if given[attr].nil?
 				given_value = 0
 			else
 				given_value = given[attr]
@@ -134,5 +136,8 @@ class SmartStoryController < ApplicationController
 	end
 
 	def simulator
+	end
+
+	def documentation
 	end
 end
