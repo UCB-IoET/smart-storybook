@@ -15,7 +15,7 @@ FlixelLights::Application.routes.draw do
     get "new_story"
     get "register"
     get "echo"
-    put "echo"
+    post "echo"
   end
 
   resources :story_pages
