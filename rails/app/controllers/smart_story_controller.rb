@@ -136,4 +136,7 @@ class SmartStoryController < ApplicationController
 
 	def simulator
 	end
+
+	def documentation
+	end
 end

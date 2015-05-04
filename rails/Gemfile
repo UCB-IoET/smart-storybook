@@ -63,3 +63,5 @@ gem 'carrierwave_backgrounder'
 gem 'devise'
 
 gem 'thin'
+gem 'markdown-rails'
+gem 'redcarpet'

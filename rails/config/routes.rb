@@ -19,6 +19,7 @@ FlixelLights::Application.routes.draw do
     post "register"
     get "echo"
     post "echo"
+    get "documentation"
   end
 
   resources :story_pages
