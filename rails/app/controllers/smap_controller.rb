@@ -1,12 +1,12 @@
 class SmapController < ApplicationController
-@@devices_file = 'public/devices.json';
 	@@smap_server =  "http://shell.storm.pm:8079";
 	@@query_api = "/api/query"
-	@@actuation_api = "/add/apikey"
+
+	@@host_server = "proj.storm.pm"
+	@@data_port = "8081"
 
 	
-  def get_devices
-  	query = "select *"
+  def get_devices(query)
   	devices = post("#{@@smap_server}#{@@query_api}", query)
   	devices = JSON.parse(devices);
   	devices.select! do |c| 
@@ -16,40 +16,28 @@ class SmapController < ApplicationController
   	end
   	return devices
   end
+
+
   def manifest
-  	@devices = get_devices
+  	@devices = get_devices("select *")
   end
 
   def actuate
-  	act = get_devices[1];
+  	d = get_devices("select * where uuid='ee31c463-caef-5ed8-b6fb-70b2bf3fb99c'")[0];
+	path = d["Path"]
+	url = "/data#{path}?state=0"
+  	render :json => http_put(url)
 
-  	act = {'/actuate'=>  
-  			{
-  				'uuid'=>  act["uuid"],
-                'Readings'=>  [[Time.now(), 1]],
-                'Properties'=>  act["Properties"],
-                'Metadata'=> {'override'=>  act["uuid"]}
-            }
-        }  
-    render :json => { uuid: act, url: "#{@@smap_server}#{@@actuation_api}",  
-    				request: post2("#{@@smap_server}#{@@actuation_api}", act )}
-  	# devices = 
   end
 
-def post2(url, query)
-		uri = URI(url);
-		
-		req = Net::HTTP::Post.new(uri)
-		post_body = [query.to_json]
-		req.body = post_body.join
-		req.content_type = 'application/json; charset=utf-8'
-
-		res = Net::HTTP.start(uri.hostname, uri.port) do |http|
-		  http.request(req)
-		end
-		
-		return req.body
+def http_put(path)
+		http = Net::HTTP.new(@@host_server, @@data_port)
+		response = http.send_request('PUT', path);
+	
+		return {body: response.body, test: [@@host_server, @@data_port], path: path}
   end
+
+
   def post(url, query)
 		uri = URI(url);
 		
