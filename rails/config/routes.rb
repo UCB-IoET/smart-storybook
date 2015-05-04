@@ -1,5 +1,7 @@
 FlixelLights::Application.routes.draw do
 
+  get "smap/actuate"
+  get "smap/manifest"
   resources :requests
 
   get "simulator/:iot_device_id/actuate/:action_id", :to => "simulator#actuate", :as => "simulator_actuate" 
@@ -20,6 +22,7 @@ FlixelLights::Application.routes.draw do
     get "echo"
     post "echo"
     get "documentation"
+    get "get_smap_devices"
   end
 
   resources :story_pages
