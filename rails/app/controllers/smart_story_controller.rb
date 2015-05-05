@@ -45,11 +45,25 @@ class SmartStoryController < ApplicationController
 	
 	# generate based on nearby devices, segments with desired environment
 	def new_story
-		if params.has_key?("uuid") and params.has_key?("nearby_devices") and params.has_key?("segments")
+		# heat, air, light, smell, taste
+		# 0 - 100
+
+		#storybook's uuid, list of nearby devices, list of {page_number: {heat: 1, air:20}}
+		
+		if params.has_key?("uuid") and params.has_key?("nearby_devices") and params.has_key?("pages")
 			env_hash = create_env(params)
-			File.open('storyboard_environments/' + params[:uuid], 'w') do |f|
-				f.write(JSON.pretty_generate(env_hash))
-			end
+
+			
+			
+			# {"output" {1: [{uuid: uuid1, state: "on"}, {uuid: uuid2, state: "off"}]}, 
+			# 			4: [{uuid: uuid, state: state}]}
+
+
+			# File.open('storyboard_environments/' + params[:uuid], 'w') do |f|
+			# 	f.write(JSON.pretty_generate(env_hash))
+			# end
+
+			# ActuatorLabel()
 		else
 			error_msg = "New story. Push data to me by passing in your device's UUID, UUIDs of nearby devices and segment descriptions"
 			render :json => error_msg.to_json
@@ -71,7 +85,7 @@ class SmartStoryController < ApplicationController
                         improved = true
                         pool = Hash.new
                         level = 1
-                        devices.each {|uuid, info|
+                        devices.each{|uuid, info|
                         		info[:modalities].each {|state, attrs|
 	                                ls = least_squares(desired, attrs)
 	                                closest = ls
@@ -129,13 +143,24 @@ class SmartStoryController < ApplicationController
 		return ls
 	end
 	def advance_story
-		if params.has_key?("uuid") and params.has_key?("segment")
-			file = File.read('storyboard_environments/' + params[:uuid])
-			env_hash = JSON.parse(file)
-			devices = env_hash[:segments][params[:segment]]
-			devices.each { |uuid, val|
+
+		#data: [page
+		if params.has_key?("uuid") and params.has_key?("pages")
+			# file = File.read('storyboard_environments/' + params[:uuid])
+			# env_hash = JSON.parse(file)
+			# devices = env_hash[:segments][params[:segment]]
+			
+
+			# devices.each { |uuid, val|
+				# if StoryActuator.protocol == "SVCD"
+					# "SVCD Manifest"
+					# ipv6, socket
+				# elsif StoryActuator.protocol == "SMAP"
+					# SMAPActuator.find(devices.uuid).actuate(state);
+				# end
+			
 				#actuate uuid
-			}
+			# }
 		else
 			error_msg = "Advance story to specified segment. Please supply your storyboard's UUID and the segment to advance to."
 			render :json => error_msg.to_json
