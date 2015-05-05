@@ -187,7 +187,7 @@ class SmartStoryController < ApplicationController
 	def log(string)
 		time = Time.new
 		File.open('log.txt', 'a') do |f|
-			f.write(time.inspect + ": " + string + "\n")
+			f.puts(time.inspect + ": " + string)
 		end
 	end
 end
