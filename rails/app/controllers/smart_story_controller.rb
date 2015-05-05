@@ -2,9 +2,10 @@ require 'net/http'
 
 class SmartStoryController < ApplicationController
 	before_action :authenticate_user!, :only => :composer
-	time = Time.new
-	log_file = File.open('log.txt', 'a')
+
 	def register
+		time = Time.new
+		log_file = File.open('log.txt', 'a')
 		log_file.write("register accessed " + time.inspect)
 		data_hash = uuid_modality_pairize
 		render :json => data_hash
@@ -51,7 +52,8 @@ class SmartStoryController < ApplicationController
 		# 0 - 100
 
 		#storybook's uuid, list of nearby devices, list of {page_number: {heat: 1, air:20}}
-		
+		time = Time.new
+		log_file = File.open('log.txt', 'a')
 		log_file.write("new_story accessed " + time.inspect)
 
 		if params.has_key?("uuid") and params.has_key?("nearby_devices") and params.has_key?("pages")
@@ -150,6 +152,8 @@ class SmartStoryController < ApplicationController
 		return ls
 	end
 	def advance_story
+		time = Time.new
+		log_file = File.open('log.txt', 'a')
 		log_file.write("advance_story accessed " + time.inspect)
 		#data: [page
 		if params.has_key?("uuid") and params.has_key?("pages")
