@@ -32,13 +32,30 @@ class SmapController < ApplicationController
   	return get_devices("select * where uuid='#{uuid}'")[0];
   end
 
-
+  #changing attributes
   def test
   	uuid = "4c93ec25-c0c0-5261-94d1-c2080857fa59"
   	smart_story_metadata = {:Modality => "Light", :Flavor => "Binary"}.to_json
   	set_query = "set Metadata/SmartStoryBook = '#{smart_story_metadata}' where uuid = '#{uuid}'"
   	devices = http_post("#{@@smap_server}/api/query", set_query)
   	render :json => devices
+  end
+
+
+	def to_smart_json
+	  	devices = get_devices("select *")
+	  	devices.collect do |d|
+	  	{	
+	  		:name =>"SmartFan", 
+	  		:modalities =>
+	  			{"high"=>{"air"=>3}, 
+	  			 "medium"=>{"air"=>2}, 
+	  			 "low"=>{"air"=>1}, 
+	  			 "off"=>{"air"=>0}
+	  			 }, 
+	  		:actions =>["high", "medium", "low", "off"]
+	  	}
+	 end
   end
 
 
@@ -59,9 +76,12 @@ class SmapController < ApplicationController
   def get_devices(query)
   	devices = http_post("#{@@smap_server}#{@@query_api}", query)
   	devices = JSON.parse(devices);
+  	# c["Metadata"]["Building"] == "IOET" and 
+  	# and not c["Metadata"]["Name"].nil? and not c["Metadata"]["Name"]["Thermostat"]  
+  			
   	devices.select! do |c| 
-  		if not c["Actuator"].nil? and (not c["Actuator"]["States"].nil?  or not c["Actuator"]["Values"].nil?) and c["Metadata"] and c["Metadata"]["Building"] == "IOET" and not c["Metadata"]["Name"].nil? and not c["Metadata"]["Name"]["Thermostat"]  
-  			c 
+  		if not c["Actuator"].nil? and (not c["Actuator"]["States"].nil?  or not c["Actuator"]["Values"].nil?) and c["Metadata"] 
+  			c
   		end 
   	end
   	return devices
