@@ -1,7 +1,40 @@
 <h1>SMAP Devices <span class="badge"><%= @devices.length %></span></h1>
+<script type="text/javascript">
+$(function(){
+	$.each($(".update_actuator"), function(i,el){
+		$(el).click(function(){
+			var select = $(this).parent().parent().find("select");
+			var uuidEl = $(this).parent().parent().find(".uuid");
+			var uuid = uuidEl.html().trim();
+			var current_val = select.val();
+			console.log("Updating", uuid, current_val);
+			$.get("/smap/get_status?uuid=" + uuid, function(data){
+				console.log(data);
+				select.val(data.state);
+			});
+		});
+	});
+
+	$.each($(".actuate_actuator"), function(i,el){
+		// console.log(el);
+		$(el).click(function(){
+			var select = $(this).parent().parent().find("select");
+			var uuidEl = $(this).parent().parent().find(".uuid");
+			var uuid = uuidEl.html().trim();
+			var state = select.val();
+			console.log("Actuating");
+			$.get("/smap/actuate?uuid=" + uuid + "&state=" + state, function(data){
+				select.val(state);
+			});
+		});
+	});
+});
+
+
+</script>
 <table class="table">
 	<tr> 
-		<% header = ["Name", "UUID", "Actuator", "Metadata", "Path", "Properties"] %>
+		<% header = ["Name", "UUID", "Actuator", "", "Metadata", "Path", "Properties"] %>
 		<% header.each do |h| %>
 		<th>  
 			<%= h %>
@@ -10,9 +43,22 @@
 	</tr>
 	<% @devices.each do |d| %>
 		<tr>
-			<td> <%= d["Metadata"]["Name"] %> </td>
-			<td> <%= d["uuid"] %> </td>
-			<td> <%= d["Actuator"] %> </td>
+			<td> <%= d["Metadata"]["Name"] %> 
+				<%= button_tag 'Update', :class => "update_actuator btn btn-success btn-xs" %>
+        	</td>
+        	<td class="uuid"> <%= d["uuid"] %> </td>
+			<!-- <td> <%= d["Actuator"] %> </td> -->
+			<td>
+			<% if d["Actuator"]["States"] %>
+				<%= select("smap_device", "actuate", d["Actuator"]["States"].map{|c| [c[1], c[0]]}) %>
+        	<% elsif d["Actuator"]["Values"] %>
+        		<% d["Actuator"]["Values"] %>
+        		<%= select("smap_device", "actuate", d["Actuator"]["Values"].map{|c| [c, c]}) %>
+        	<% end %>
+        	</td>
+        	<td>
+        	<%= button_tag 'Actuate', :class => "actuate_actuator btn btn-danger btn-xs" %>
+        	</td>
 			<td> <%= d["Metadata"] %> </td>
 			<td> <%= d["Path"] %> </td>
 			<td> <%= d["Properties"] %> </td>

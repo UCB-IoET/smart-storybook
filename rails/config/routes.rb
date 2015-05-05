@@ -1,6 +1,7 @@
 FlixelLights::Application.routes.draw do
 
   get "smap/actuate"
+  get "smap/get_status"
   get "smap/manifest"
   resources :requests
 
