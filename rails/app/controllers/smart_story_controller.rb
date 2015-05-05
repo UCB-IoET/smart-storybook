@@ -2,8 +2,9 @@ require 'net/http'
 
 class SmartStoryController < ApplicationController
 	before_action :authenticate_user!, :only => :composer
-	
+
 	def register
+		log("register accessed")
 		data_hash = uuid_modality_pairize
 		# render :json => data_hash
 		render :json => params
@@ -38,11 +39,11 @@ class SmartStoryController < ApplicationController
 	def echo
 		@request = Request.new({response: params["data"].to_json.to_s})
 		@request.save
-	    @requests = Request.all.reverse[1..2]
+		@requests = Request.all.reverse[1..2]
 		# render :json => params
 	end
 
-		
+
 	
 	# generate based on nearby devices, segments with desired environment
 	def new_story
@@ -50,7 +51,7 @@ class SmartStoryController < ApplicationController
 		# 0 - 100
 
 		#storybook's uuid, list of nearby devices, list of {page_number: {heat: 1, air:20}}
-		
+		log("new_story accessed")
 		if params.has_key?("uuid") and params.has_key?("nearby_devices") and params.has_key?("pages")
 			env_hash = create_env(params)
 
@@ -70,81 +71,82 @@ class SmartStoryController < ApplicationController
 			render :json => error_msg.to_json
 		end
 	end
-        def create_env(params)
-                env_hash = Hash.new
-                #file = File.read('devices.json')
-                #devices_hash = JSON.parse(file)
-				devices_hash = uuid_modality_pairize
-                nearby = params[:nearby_devices]
-                devices = Hash.new
-                nearby.each {|index, uuid|
-                        devices[uuid] = devices_hash[uuid]
-                }
-                params[:segments].each {|segment, attrs|
-                        desired = params[segment]
-                        least = Hash.new
-                        improved = true
-                        pool = Hash.new
-                        level = 1
-                        devices.each{|uuid, info|
-                        		info[:modalities].each {|state, attrs|
-	                                ls = least_squares(desired, attrs)
-	                                closest = ls
-	                                if ls == 0 
-	                                        return attrs
-	                                else 
-	                                        pool[Hash[uuid, state]] = Hash["least_squares", ls, "attrs", attrs] #
-	                                end
-	                            }
-                        }
-                        while level < nearby.length and improved
-                                improved = false
-                                pool.each { |uuids, prev_info|
-                                        this_improved = false
-                                        if uuids.length == level
-                                                nearby.each { |uuid, info|
-                                                		info[:modalities].each {|state, attrs|
-	                                                        new_attrs = sum_attrs(attrs, prev_info[:attrs])
-	                                                        new_ls = least_squares(new_attrs, desired)
-	                                                        if new_ls < prev_info[:least_squares]
-	                                                                improved = true
-	                                                                this_improved = true
-	                                                                pool[uuids.merge(Hash[uuid, state])] = Hash["least_squares", new_ls, "attrs", new_attrs]
-	                                                        end
-	                                                    }
-                                                }
-                                        end
-                                        if this_improved
-                                                pool.delete(uuids)
-                                        end
-                                }
-                                level += 1
-                        end
-                        pool.each {|uuids, info|
-                                if info[:least_squares] < closest
-                                        closest = info[:least_squares]
-                                        env_hash = uuids
-                                end
-                        }
+	def create_env(params)
+		env_hash = Hash.new
+		devices_hash = uuid_modality_pairize
+		nearby = params[:nearby_devices]
+		devices = Hash.new
+		nearby.each do |index, uuid|
+			devices[uuid] = devices_hash[uuid]
+		end
+		params[:pages].each do |page, des_attrs|
+			least = Hash.new
+			improved = true
+			pool = Hash.new
+			level = 1
+			devices.each do |uuid, info|
+				info[:modalities].each do |state, attrs|
+					ls = least_squares(des_attrs, attrs)
+					closest = ls
+					if ls == 0 
+						return attrs
+					else 
+						pool[{uuid => state}] = {"least_squares" => ls, "attrs" => attrs}
+					end
+				end
+			end
+			while level < nearby.length and improved
+				improved = false
+				pool.each do |uuids, prev_info|
+					this_improved = false
+					if uuids.length == level
+						nearby.each do |uuid, info|
+							info[:modalities].each do |state, attrs|
+								new_attrs = sum_attrs(attrs, prev_info[:attrs])
+								new_ls = least_squares(new_attrs, desired)
+								if new_ls < prev_info[:least_squares]
+									improved = true
+									this_improved = true
+									pool[uuids.merge({uuid => state})] = {"least_squares" => new_ls, "attrs" => new_attrs}
+								end
+							end
+						end
+					end
+					if this_improved
+						pool.delete(uuids)
+					end
+				end
+				level += 1
+			end
+			pool.each do |uuids, info|
+				if info[:least_squares] < closest
+					closest = info[:least_squares]
+					closest_uuids = uuids
+				end
+			end
+			env_hash[page] = Array.new
+			closest_uuids.each do |uuid, state|
+				env_hash[page].push({"uuid"=> uuid, "state"=> state})
+			end
 
-                }
-                return env_hash
-        end
+		end
+		return env_hash
+	end
 
 	def least_squares(desired, given)
 		ls = 0
-		desired.each {|attr, value|
+		desired.each do |attr, value|
 			if given[attr].nil?
 				given_value = 0
 			else
 				given_value = given[attr]
 			end
 			ls += (value - given_value)^2
-		}
+		end
 		return ls
 	end
 	def advance_story
-
+		log("advance_story accessed")
 		#data: [page
 		if params.has_key?("uuid") and params.has_key?("pages")
 			# file = File.read('storyboard_environments/' + params[:uuid])
@@ -159,7 +161,7 @@ class SmartStoryController < ApplicationController
 				# elsif StoryActuator.protocol == "SMAP"
 					# SMAPActuator.find(devices.uuid).actuate(state);
 				# end
-			
+
 				#actuate uuid
 			# }
 		else
@@ -181,5 +183,12 @@ class SmartStoryController < ApplicationController
 	end
 
 	def documentation
+	end
+
+	def log(string)
+		time = Time.new
+		File.open('log.txt', 'a') do |f|
+			f.puts(time.inspect + ": " + string)
+		end
 	end
 end
