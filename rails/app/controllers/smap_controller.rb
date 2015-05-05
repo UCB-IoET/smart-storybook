@@ -50,7 +50,7 @@ class SmapController < ApplicationController
   	devices = http_post("#{@@smap_server}#{@@query_api}", query)
   	devices = JSON.parse(devices);
   	devices.select! do |c| 
-  		if not c["Actuator"].nil? and (not c["Actuator"]["States"].nil?  or not c["Actuator"]["Values"].nil?) and c["Metadata"] and c["Metadata"]["Building"] == "IOET" and not c["Metadata"]["Name"].nil?  
+  		if not c["Actuator"].nil? and (not c["Actuator"]["States"].nil?  or not c["Actuator"]["Values"].nil?) and c["Metadata"] and c["Metadata"]["Building"] == "IOET" and not c["Metadata"]["Name"].nil? and not c["Metadata"]["Name"]["Thermostat"]  
   			c 
   		end 
   	end
