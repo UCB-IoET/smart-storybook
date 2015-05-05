@@ -30,6 +30,14 @@ class StoriesController < ApplicationController
                                 modality: "light", 
                                 action: "turn_on"
                               }
+                            }, 
+                          {
+                              UUID: "3c10b74e-f027-11e4-90ec-1681e6b88ec2", 
+                              actuator_type: "SVCD", 
+                              metadata: {
+                                modality: "light", 
+                                action: "turn_on"
+                              }
                             }]
           }
       }
