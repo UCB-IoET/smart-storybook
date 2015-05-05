@@ -111,7 +111,7 @@ class SmartStoryController < ApplicationController
 	                                                        if new_ls < prev_info[:least_squares]
 	                                                                improved = true
 	                                                                this_improved = true
-	                                                                pool[uuids.merge({uuid, state})] = {"least_squares", new_ls, "attrs", new_attrs}
+	                                                                pool[uuids.merge({uuid => state})] = {"least_squares" => new_ls, "attrs" => new_attrs}
 	                                                        end
 	                                                    end
                                                 end
@@ -130,7 +130,7 @@ class SmartStoryController < ApplicationController
                         end
                         env_hash[page] = Array.new
                         closest_uuids.each do |uuid, state|
-                        	env_hash[page].push({"uuid", uuid, "state", state})
+                        	env_hash[page].push({"uuid"=> uuid, "state"=> state})
                         end
 
                 end
