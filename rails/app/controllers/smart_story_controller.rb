@@ -45,11 +45,25 @@ class SmartStoryController < ApplicationController
 	
 	# generate based on nearby devices, segments with desired environment
 	def new_story
-		if params.has_key?("uuid") and params.has_key?("nearby_devices") and params.has_key?("segments")
+		# heat, air, light, smell, taste
+		# 0 - 100
+
+		#storybook's uuid, list of nearby devices, list of {page_number: {heat: 1, air:20}}
+		
+		if params.has_key?("uuid") and params.has_key?("nearby_devices") and params.has_key?("pages")
 			env_hash = create_env(params)
-			File.open('storyboard_environments/' + params[:uuid], 'w') do |f|
-				f.write(JSON.pretty_generate(env_hash))
-			end
+
+			
+			
+			# {"output" {1: [{uuid: uuid1, state: "on"}, {uuid: uuid2, state: "off"}]}, 
+			# 			4: [{uuid: uuid, state: state}]}
+
+
+			# File.open('storyboard_environments/' + params[:uuid], 'w') do |f|
+			# 	f.write(JSON.pretty_generate(env_hash))
+			# end
+
+			# ActuatorLabel()
 		else
 			error_msg = "New story. Push data to me by passing in your device's UUID, UUIDs of nearby devices and segment descriptions"
 			render :json => error_msg.to_json
@@ -62,80 +76,94 @@ class SmartStoryController < ApplicationController
 				devices_hash = uuid_modality_pairize
                 nearby = params[:nearby_devices]
                 devices = Hash.new
-                nearby.each {|index, uuid|
+                nearby.each |index, uuid| do
                         devices[uuid] = devices_hash[uuid]
-                }
-                params[:segments].each {|segment, attrs|
-                        desired = params[segment]
+                end
+                params[:pages].each |page, des_attrs| do
                         least = Hash.new
                         improved = true
                         pool = Hash.new
                         level = 1
-                        devices.each {|uuid, info|
-                        		info[:modalities].each {|state, attrs|
-	                                ls = least_squares(desired, attrs)
+                        devices.each |uuid, info| do
+                        		info[:modalities].each |state, attrs| do
+	                                ls = least_squares(des_attrs, attrs)
 	                                closest = ls
 	                                if ls == 0 
 	                                        return attrs
 	                                else 
 	                                        pool[Hash[uuid, state]] = Hash["least_squares", ls, "attrs", attrs] #
 	                                end
-	                            }
-                        }
+	                            end
+                        end
                         while level < nearby.length and improved
                                 improved = false
-                                pool.each { |uuids, prev_info|
+                                pool.each |uuids, prev_info| do
                                         this_improved = false
                                         if uuids.length == level
-                                                nearby.each { |uuid, info|
-                                                		info[:modalities].each {|state, attrs|
+                                                nearby.each |uuid, info| do
+                                                		info[:modalities].each |state, attrs| do
 	                                                        new_attrs = sum_attrs(attrs, prev_info[:attrs])
 	                                                        new_ls = least_squares(new_attrs, desired)
 	                                                        if new_ls < prev_info[:least_squares]
 	                                                                improved = true
 	                                                                this_improved = true
-	                                                                pool[uuids.merge(Hash[uuid, state])] = Hash["least_squares", new_ls, "attrs", new_attrs]
+	                                                                pool[uuids.merge({uuid, state})] = {"least_squares", new_ls, "attrs", new_attrs}
 	                                                        end
-	                                                    }
-                                                }
+	                                                    end
+                                                end
                                         end
                                         if this_improved
                                                 pool.delete(uuids)
                                         end
-                                }
+                                end
                                 level += 1
                         end
-                        pool.each {|uuids, info|
+                        pool.each |uuids, info| do
                                 if info[:least_squares] < closest
                                         closest = info[:least_squares]
-                                        env_hash = uuids
+                                        closest_uuids = uuids
                                 end
-                        }
+                        end
+                        env_hash[page] = Array.new
+                        closest_uuids.each |uuid, state| do
+                        	env_hash[page].push({"uuid", uuid, "state", state})
+                        end
 
-                }
+                end
                 return env_hash
         end
 
 	def least_squares(desired, given)
 		ls = 0
-		desired.each {|attr, value|
+		desired.each |attr, value| do
 			if given[attr].nil?
 				given_value = 0
 			else
 				given_value = given[attr]
 			end
 			ls += (value - given_value)^2
-		}
+		end
 		return ls
 	end
 	def advance_story
-		if params.has_key?("uuid") and params.has_key?("segment")
-			file = File.read('storyboard_environments/' + params[:uuid])
-			env_hash = JSON.parse(file)
-			devices = env_hash[:segments][params[:segment]]
-			devices.each { |uuid, val|
+
+		#data: [page
+		if params.has_key?("uuid") and params.has_key?("pages")
+			# file = File.read('storyboard_environments/' + params[:uuid])
+			# env_hash = JSON.parse(file)
+			# devices = env_hash[:segments][params[:segment]]
+			
+
+			# devices.each { |uuid, val|
+				# if StoryActuator.protocol == "SVCD"
+					# "SVCD Manifest"
+					# ipv6, socket
+				# elsif StoryActuator.protocol == "SMAP"
+					# SMAPActuator.find(devices.uuid).actuate(state);
+				# end
+			
 				#actuate uuid
-			}
+			# }
 		else
 			error_msg = "Advance story to specified segment. Please supply your storyboard's UUID and the segment to advance to."
 			render :json => error_msg.to_json
