@@ -4,9 +4,7 @@ class SmartStoryController < ApplicationController
 	before_action :authenticate_user!, :only => :composer
 
 	def register
-		time = Time.new
-		log_file = File.open('log.txt', 'a')
-		log_file.write("register accessed " + time.inspect)
+		log("register accessed")
 		data_hash = uuid_modality_pairize
 		render :json => data_hash
 		# if params.has_key?("uuid") and params.has_key?("modalities")
@@ -52,10 +50,8 @@ class SmartStoryController < ApplicationController
 		# 0 - 100
 
 		#storybook's uuid, list of nearby devices, list of {page_number: {heat: 1, air:20}}
-		time = Time.new
-		log_file = File.open('log.txt', 'a')
-		log_file.write("new_story accessed " + time.inspect)
-
+		log("new_story accessed")
+		end
 		if params.has_key?("uuid") and params.has_key?("nearby_devices") and params.has_key?("pages")
 			env_hash = create_env(params)
 
@@ -150,9 +146,7 @@ class SmartStoryController < ApplicationController
 		return ls
 	end
 	def advance_story
-		time = Time.new
-		log_file = File.open('log.txt', 'a')
-		log_file.write("advance_story accessed " + time.inspect)
+		log("advance_story accessed")
 		#data: [page
 		if params.has_key?("uuid") and params.has_key?("pages")
 			# file = File.read('storyboard_environments/' + params[:uuid])
@@ -189,5 +183,12 @@ class SmartStoryController < ApplicationController
 	end
 
 	def documentation
+	end
+
+	def log(string)
+		time = Time.new
+		File.open('log.txt', 'a') do |f|
+			f.write(time.inspect + ": " + string)
+		end
 	end
 end
