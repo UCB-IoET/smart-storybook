@@ -40,11 +40,11 @@ class SmartStoryController < ApplicationController
 	def echo
 		@request = Request.new({response: params["data"].to_json.to_s})
 		@request.save
-	    @requests = Request.all.reverse[1..2]
+		@requests = Request.all.reverse[1..2]
 		# render :json => params
 	end
 
-		
+	
 	
 	# generate based on nearby devices, segments with desired environment
 	def new_story
@@ -75,69 +75,67 @@ class SmartStoryController < ApplicationController
 			render :json => error_msg.to_json
 		end
 	end
-        def create_env(params)
-                env_hash = Hash.new
-                #file = File.read('devices.json')
-                #devices_hash = JSON.parse(file)
-				devices_hash = uuid_modality_pairize
-                nearby = params[:nearby_devices]
-                devices = Hash.new
-                nearby.each do |index, uuid|
-                        devices[uuid] = devices_hash[uuid]
-                end
-                params[:pages].each do |page, des_attrs|
-                        least = Hash.new
-                        improved = true
-                        pool = Hash.new
-                        level = 1
-                        devices.each do |uuid, info|
-                        		info[:modalities].each do |state, attrs|
-	                                ls = least_squares(des_attrs, attrs)
-	                                closest = ls
-	                                if ls == 0 
-	                                        return attrs
-	                                else 
-	                                        pool[Hash[uuid, state]] = Hash["least_squares", ls, "attrs", attrs] #
-	                                end
-	                            end
-                        end
-                        while level < nearby.length and improved
-                                improved = false
-                                pool.each do |uuids, prev_info|
-                                        this_improved = false
-                                        if uuids.length == level
-                                                nearby.each do |uuid, info|
-                                                		info[:modalities].each do |state, attrs|
-	                                                        new_attrs = sum_attrs(attrs, prev_info[:attrs])
-	                                                        new_ls = least_squares(new_attrs, desired)
-	                                                        if new_ls < prev_info[:least_squares]
-	                                                                improved = true
-	                                                                this_improved = true
-	                                                                pool[uuids.merge({uuid => state})] = {"least_squares" => new_ls, "attrs" => new_attrs}
-	                                                        end
-	                                                    end
-                                                end
-                                        end
-                                        if this_improved
-                                                pool.delete(uuids)
-                                        end
-                                end
-                                level += 1
-                        end
-                        pool.each do |uuids, info|
-                                if info[:least_squares] < closest
-                                        closest = info[:least_squares]
-                                        closest_uuids = uuids
-                                end
-                        end
-                        env_hash[page] = Array.new
-                        closest_uuids.each do |uuid, state|
-                        	env_hash[page].push({"uuid"=> uuid, "state"=> state})
-                        end
+	def create_env(params)
+		env_hash = Hash.new
+		devices_hash = uuid_modality_pairize
+		nearby = params[:nearby_devices]
+		devices = Hash.new
+		nearby.each do |index, uuid|
+			devices[uuid] = devices_hash[uuid]
+		end
+		params[:pages].each do |page, des_attrs|
+			least = Hash.new
+			improved = true
+			pool = Hash.new
+			level = 1
+			devices.each do |uuid, info|
+				info[:modalities].each do |state, attrs|
+					ls = least_squares(des_attrs, attrs)
+					closest = ls
+					if ls == 0 
+						return attrs
+					else 
+						pool[{uuid => state]] = {"least_squares" => ls, "attrs" => attrs}
+					end
+				end
+			end
+			while level < nearby.length and improved
+				improved = false
+				pool.each do |uuids, prev_info|
+					this_improved = false
+					if uuids.length == level
+						nearby.each do |uuid, info|
+							info[:modalities].each do |state, attrs|
+								new_attrs = sum_attrs(attrs, prev_info[:attrs])
+								new_ls = least_squares(new_attrs, desired)
+								if new_ls < prev_info[:least_squares]
+									improved = true
+									this_improved = true
+									pool[uuids.merge({uuid => state})] = {"least_squares" => new_ls, "attrs" => new_attrs}
+								end
+							end
+						end
+					end
+					if this_improved
+						pool.delete(uuids)
+					end
+				end
+				level += 1
+			end
+			pool.each do |uuids, info|
+				if info[:least_squares] < closest
+					closest = info[:least_squares]
+					closest_uuids = uuids
+				end
+			end
+			env_hash[page] = Array.new
+			closest_uuids.each do |uuid, state|
+				env_hash[page].push({"uuid"=> uuid, "state"=> state})
+			end
 
-                end
-                return env_hash
-        end
+		end
+		return env_hash
+	end
 
 	def least_squares(desired, given)
 		ls = 0
@@ -169,7 +167,7 @@ class SmartStoryController < ApplicationController
 				# elsif StoryActuator.protocol == "SMAP"
 					# SMAPActuator.find(devices.uuid).actuate(state);
 				# end
-			
+				
 				#actuate uuid
 			# }
 		else
