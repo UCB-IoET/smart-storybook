@@ -5,7 +5,7 @@ class SmartStoryController < ApplicationController
 
 	def register
 		log("register accessed")
-		data_hash = uuid_modality_pairize
+		#data_hash = uuid_modality_pairize
 		# render :json => data_hash
 		render :json => params
 		# if params.has_key?("uuid") and params.has_key?("modalities")

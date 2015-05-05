@@ -9,8 +9,6 @@ FlixelLights::Application.routes.draw do
   get "simulator/:iot_device_id/actuate/:action_id", :to => "simulator#actuate", :as => "simulator_actuate" 
   resources :iot_devices
 
-  resources :io_t_devices
-
   get "smart_story/:story_id/composer/:page_number", :to => "smart_story#composer", 
   :as => "smart_story_composer"
   
