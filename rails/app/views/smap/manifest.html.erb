@@ -32,7 +32,7 @@ $(function(){
 
 
 </script>
-<table class="table">
+<table class="table table-striped">
 	<tr> 
 		<!-- "Path", "Properties" -->
 		<% header = ["Name", "UUID", "Actuator", "", "Metadata", "SmartStory_Metadata"] %>
@@ -45,7 +45,7 @@ $(function(){
 	<% @devices.each do |d| %>
 		<tr>
 			<td> <%= d["Metadata"]["Name"] %> 
-				<%= button_tag 'Update', :class => "update_actuator btn btn-success btn-xs" %>
+				<%= button_tag 'Update', :class => "update_actuator btn btn-primary btn-xs" %>
         	</td>
         	<td class="uuid"> <%= d["uuid"] %> </td>
 			 <td> <%= d["Actuator"] %> </td> 

@@ -37,9 +37,9 @@ class SmartStoryController < ApplicationController
 	end
 
 	def echo
-		@request = Request.new({response: params["data"].to_json.to_s})
+		@request = Request.new({response: request.ip.to_s + params.to_json.to_s})
 		@request.save
-		@requests = Request.all.reverse[1..2]
+		@requests = Request.all.reverse[1..10]
 		# render :json => params
 	end
 
