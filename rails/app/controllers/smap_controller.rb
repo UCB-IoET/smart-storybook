@@ -32,6 +32,16 @@ class SmapController < ApplicationController
   	return get_devices("select * where uuid='#{uuid}'")[0];
   end
 
+
+  def test
+  	uuid = "4c93ec25-c0c0-5261-94d1-c2080857fa59"
+  	smart_story_metadata = {:Modality => "Light", :Flavor => "Binary"}.to_json
+  	set_query = "set Metadata/SmartStoryBook = '#{smart_story_metadata}' where uuid = '#{uuid}'"
+  	devices = http_post("#{@@smap_server}/api/query", set_query)
+  	render :json => devices
+  end
+
+
   def actuate
   	uuid = params["uuid"]
   	state = params["state"]

@@ -34,7 +34,8 @@ $(function(){
 </script>
 <table class="table">
 	<tr> 
-		<% header = ["Name", "UUID", "Actuator", "", "Metadata", "Path", "Properties"] %>
+		<!-- "Path", "Properties" -->
+		<% header = ["Name", "UUID", "Actuator", "", "Metadata", "SmartStory_Metadata"] %>
 		<% header.each do |h| %>
 		<th>  
 			<%= h %>
@@ -60,8 +61,9 @@ $(function(){
         	<%= button_tag 'Actuate', :class => "actuate_actuator btn btn-danger btn-xs" %>
         	</td>
 			<td> <%= d["Metadata"] %> </td>
-			<td> <%= d["Path"] %> </td>
-			<td> <%= d["Properties"] %> </td>
+			<td> <%= d["Metadata"]["SmartStoryBook"] %> </td>
+			<!-- <td> <% d["Path"] %> </td>
+			<td> <% d["Properties"] %> </td> -->
 		</tr>
 	<% end %>
 </table>
