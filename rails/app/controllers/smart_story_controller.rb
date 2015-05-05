@@ -44,7 +44,7 @@ class SmartStoryController < ApplicationController
 		# render :json => params
 	end
 
-	
+
 	
 	# generate based on nearby devices, segments with desired environment
 	def new_story
@@ -95,7 +95,7 @@ class SmartStoryController < ApplicationController
 					if ls == 0 
 						return attrs
 					else 
-						pool[{uuid => state]] = {"least_squares" => ls, "attrs" => attrs}
+						pool[{uuid => state}] = {"least_squares" => ls, "attrs" => attrs}
 					end
 				end
 			end
@@ -167,7 +167,7 @@ class SmartStoryController < ApplicationController
 				# elsif StoryActuator.protocol == "SMAP"
 					# SMAPActuator.find(devices.uuid).actuate(state);
 				# end
-				
+
 				#actuate uuid
 			# }
 		else
