@@ -59,7 +59,7 @@ class SmartStoryController < ApplicationController
                 env_hash = Hash.new
                 #file = File.read('devices.json')
                 #devices_hash = JSON.parse(file)
-		devices_hash = uuid_modality_pairize
+				devices_hash = uuid_modality_pairize
                 nearby = params[:nearby_devices]
                 devices = Hash.new
                 nearby.each {|index, uuid|
@@ -71,29 +71,32 @@ class SmartStoryController < ApplicationController
                         improved = true
                         pool = Hash.new
                         level = 1
-                        devices.each {|uuid, attrs| 
-                                ls = least_squares(desired, attrs)
-                                closest = ls
-                                if ls == 0 
-                                        return attrs 
-                                else 
-                                        pool[Hash[uuid, uuid]] = Hash["least_squares", ls, "attrs", attrs]
-                                end
+                        devices.each {|uuid, info|
+                        		info[:modalities].each {|state, attrs|
+	                                ls = least_squares(desired, attrs)
+	                                closest = ls
+	                                if ls == 0 
+	                                        return attrs
+	                                else 
+	                                        pool[Hash[uuid, state]] = Hash["least_squares", ls, "attrs", attrs] #
+	                                end
+	                            }
                         }
                         while level < nearby.length and improved
                                 improved = false
                                 pool.each { |uuids, prev_info|
                                         this_improved = false
                                         if uuids.length == level
-                                                nearby.each { |uuid, attrs|
-                                                        new_attrs = sum_attrs(attrs, prev_info[:attrs])
-                                                        new_ls = least_squares(new_attrs, desired)
-                                                        if new_ls < prev_info[:least_squares]
-                                                                pool[]
-                                                                improved = true
-                                                                this_improved = true
-                                                                pool[uuids.merge(Hash[uuid, uuid])] = Hash["least_squares", new_ls, "attrs", new_attrs]
-                                                        end
+                                                nearby.each { |uuid, info|
+                                                		info[:modalities].each {|state, attrs|
+	                                                        new_attrs = sum_attrs(attrs, prev_info[:attrs])
+	                                                        new_ls = least_squares(new_attrs, desired)
+	                                                        if new_ls < prev_info[:least_squares]
+	                                                                improved = true
+	                                                                this_improved = true
+	                                                                pool[uuids.merge(Hash[uuid, state])] = Hash["least_squares", new_ls, "attrs", new_attrs]
+	                                                        end
+	                                                    }
                                                 }
                                         end
                                         if this_improved
