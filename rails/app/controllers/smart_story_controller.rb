@@ -51,7 +51,6 @@ class SmartStoryController < ApplicationController
 
 		#storybook's uuid, list of nearby devices, list of {page_number: {heat: 1, air:20}}
 		log("new_story accessed")
-		end
 		if params.has_key?("uuid") and params.has_key?("nearby_devices") and params.has_key?("pages")
 			env_hash = create_env(params)
 
