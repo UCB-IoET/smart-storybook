@@ -80,16 +80,16 @@ class SmartStoryController < ApplicationController
 				devices_hash = uuid_modality_pairize
                 nearby = params[:nearby_devices]
                 devices = Hash.new
-                nearby.each |index, uuid| do
+                nearby.each do |index, uuid|
                         devices[uuid] = devices_hash[uuid]
                 end
-                params[:pages].each |page, des_attrs| do
+                params[:pages].each do |page, des_attrs|
                         least = Hash.new
                         improved = true
                         pool = Hash.new
                         level = 1
-                        devices.each |uuid, info| do
-                        		info[:modalities].each |state, attrs| do
+                        devices.each do |uuid, info|
+                        		info[:modalities].each do |state, attrs|
 	                                ls = least_squares(des_attrs, attrs)
 	                                closest = ls
 	                                if ls == 0 
@@ -101,11 +101,11 @@ class SmartStoryController < ApplicationController
                         end
                         while level < nearby.length and improved
                                 improved = false
-                                pool.each |uuids, prev_info| do
+                                pool.each do |uuids, prev_info|
                                         this_improved = false
                                         if uuids.length == level
-                                                nearby.each |uuid, info| do
-                                                		info[:modalities].each |state, attrs| do
+                                                nearby.each do |uuid, info|
+                                                		info[:modalities].each do |state, attrs|
 	                                                        new_attrs = sum_attrs(attrs, prev_info[:attrs])
 	                                                        new_ls = least_squares(new_attrs, desired)
 	                                                        if new_ls < prev_info[:least_squares]
@@ -122,14 +122,14 @@ class SmartStoryController < ApplicationController
                                 end
                                 level += 1
                         end
-                        pool.each |uuids, info| do
+                        pool.each do |uuids, info|
                                 if info[:least_squares] < closest
                                         closest = info[:least_squares]
                                         closest_uuids = uuids
                                 end
                         end
                         env_hash[page] = Array.new
-                        closest_uuids.each |uuid, state| do
+                        closest_uuids.each do |uuid, state|
                         	env_hash[page].push({"uuid", uuid, "state", state})
                         end
 
@@ -139,7 +139,7 @@ class SmartStoryController < ApplicationController
 
 	def least_squares(desired, given)
 		ls = 0
-		desired.each |attr, value| do
+		desired.each do |attr, value|
 			if given[attr].nil?
 				given_value = 0
 			else
