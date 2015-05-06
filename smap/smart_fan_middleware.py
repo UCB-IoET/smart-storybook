@@ -15,7 +15,6 @@ sock = socket.socket(socket.AF_INET6,
     socket.SOCK_DGRAM)
 sock.bind((UDP_IP, UDP_PORT))
 
-ts_paths = ['smartfan']
 
 data, addr = sock.recvfrom(1024)
 msg = msgpack.unpackb(data)
@@ -38,14 +37,16 @@ smap = {
   }
 }
 while True:
-#       data, addr = sock.recvfrom(1024)
-#       msg = msgpack.unpackb(data)
-        val = 35
+    try: 
+        data, addr = sock.recvfrom(1024)
+        msg = msgpack.unpackb(data)
+        val = float(msg)
         smap['/smartfan']['Readings'] = [[int(time.time()), val]]
         print smap
         x = requests.post('http://54.215.11.207:8079/add/fanstate', data = json.dumps(smap))
-        break
-
+    except Exception as e:
+       print e
+~                  
 
 
 
