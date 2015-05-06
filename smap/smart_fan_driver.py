@@ -1,3 +1,9 @@
+import os
+import socket
+import msgpack
+import json
+import requests
+
 from smap import driver, actuate
 from smap.util import periodicSequentialCall
 
@@ -25,15 +31,15 @@ class SmartFan(driver.SmapDriver):
         self.readperiod = float(opts.get('ReadPeriod', .5))
         fan_state = self.add_timeseries('/fan_state', 'state', data_type='long')
 	
-        self.set_metadata('/', {'Metadata/Device': 'Fan Controller',
+        self.set_metadata('/smartfan', {'Metadata/Device': 'Fan Controller',
                                 'Metadata/Model': 'Smart Fan',
 				'Metadata/SourceName' : "Smart Fan", 
 				'Properties/Timezone' : "America/Los_Angeles", 
 				'Properties/UnitofTime' : 's', 
 				'Properties/UnitofMeasure': 'Watt', 
 				'Properties/ReadingType': 'double', 
-				'Metadata/Location': {"City": "Berkeley"}, 
-                                'Metadata/Driver': __name__})
+				'Metadata/Location/City':  "Berkeley", 
+                                'Metadata/Driver': 'SmartFan'})
 
 
         archiver = opts.get('archiver')
