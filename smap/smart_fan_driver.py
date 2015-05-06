@@ -18,7 +18,8 @@ class SmartFan(driver.SmapDriver):
                                 'Metadata/Driver': __name__})
 
         archiver = opts.get('archiver')
-	fan_state.add_actuator(StateActuator(states=[0,1,2,3],
+	fan_state.add_actuator(StateActuator(tstat = self, 
+					     states=[0,1,2,3],
 					     archiver=archiver, 
 					     subscribe=opts.get('on')))
 
@@ -43,7 +44,7 @@ class SmartFanActuator(actuate.SmapActuator):
         self.subscribe(opts.get('subscribe'))
 
 
-class StateActuator(SmartFanActuator, actuate.NSActuator):
+class StateActuator(SmartFanActuator, actuate.NStateActuator):
 
     def __init__(self, **opts):
         actuate.NStateActuator.__init__(self, opts['states'])
