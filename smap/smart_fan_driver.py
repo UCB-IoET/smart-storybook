@@ -10,7 +10,18 @@ class SmartFan(driver.SmapDriver):
 	#	      'low': 1, 
 	#	      'medium': 2, 
 	#	      'high': 3}
-        self.currentFanState = 0
+        
+	# This is what we are listening on for messages
+	UDP_IP = "::" #all IPs
+	UDP_PORT = 1236
+
+	# Note we are creating an INET6 (IPv6) socket
+	sock = socket.socket(socket.AF_INET6,
+   		 socket.SOCK_DGRAM)
+	#sock.bind((UDP_IP, UDP_PORT))
+
+
+	self.currentFanState = 0
         self.readperiod = float(opts.get('ReadPeriod', .5))
         fan_state = self.add_timeseries('/fan_state', 'state', data_type='long')
 	
@@ -63,5 +74,6 @@ class StateActuator(SmartFanActuator, actuate.NStateActuator):
     
     def set_state(self, request, state):
         self.fan.currentFanState = state
+        self.fan.sock.sendto(state, (self.fan.UDP_IP, self.fan.UDP_PORT))
         return self.fan.currentFanState
 
