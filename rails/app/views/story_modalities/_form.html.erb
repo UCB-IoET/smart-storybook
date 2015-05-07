@@ -1,0 +1,33 @@
+<%= form_for(@story_modality) do |f| %>
+  <% if @story_modality.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@story_modality.errors.count, "error") %> prohibited this story_modality from being saved:</h2>
+
+      <ul>
+      <% @story_modality.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :actuator_id %><br>
+    <%= select("story_modality", "actuator_id", Actuator.all.collect {|p| [ p.name, p.id ] }) %>
+  </div>
+  <div class="field">
+    <%= f.label :strength %><br>
+    <%= f.number_field :strength %>
+  </div>
+  <div class="field">
+    <%= f.label :story_id %><br>
+    <%= select("story_modality", "story_id", Story.all.collect {|p| [ p.title, p.id ] }) %>
+  </div>
+  <div class="field">
+    <%= f.label :story_page_id %><br>
+    <%= select("story_modality", "story_page_id", StoryPage.all.collect {|p| ["#{p.story.title} #{p.page_number}", p.id ] }) %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

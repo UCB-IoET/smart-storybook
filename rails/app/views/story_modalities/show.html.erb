@@ -1,0 +1,24 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Actuator:</strong>
+  <%= @story_modality.actuator_id %>
+</p>
+
+<p>
+  <strong>Strength:</strong>
+  <%= @story_modality.strength %>
+</p>
+
+<p>
+  <strong>Story:</strong>
+  <%= @story_modality.story_id %>
+</p>
+
+<p>
+  <strong>Page number:</strong>
+  <%= @story_modality.story_page_id %>
+</p>
+
+<%= link_to 'Edit', edit_story_modality_path(@story_modality) %> |
+<%= link_to 'Back', story_modalities_path %>

@@ -1,5 +1,7 @@
 FlixelLights::Application.routes.draw do
 
+  resources :story_modalities
+
   namespace :smap do
     get "actuate"
     get "get_status"
@@ -17,6 +19,7 @@ FlixelLights::Application.routes.draw do
   :as => "smart_story_composer"
   
   namespace :smart_story do
+    get "environment"
     get "new_story"
     post "new_story"
     get "advance_story"

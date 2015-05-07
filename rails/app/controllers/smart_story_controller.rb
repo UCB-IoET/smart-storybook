@@ -17,9 +17,6 @@ class SmartStoryController < SmapController
 		redirect_to iot_devices_path, notice: 'SMAP devices where successfully registered.' 
 	end
 
-
-
-
 	def uuid_modality_pairize
 		devices = {}
 		IotDevice.all.each do |e|
@@ -36,11 +33,22 @@ class SmartStoryController < SmapController
 	end
 
 
-	
+	def environment(story_id)
+		data = Story.find(story_id).story_pages
+		# data.map{|s| { s.page_number: s.story_modalities.map{|x| {x.actuator.name : x.strength }}}
+		data = data.map{|s| { s.page_number => s.story_modalities.map{|x| {x.actuator.name => x.strength}}}}
+		render :json => data
+		return data
+	end
 	# generate based on nearby devices, segments with desired environment
 	def new_story
 		# heat, air, light, smell, taste
 		# 0 - 100
+		story_id = 1
+		story_env = environment(story_id)
+		devices = uuid_modality_pairize()
+
+		params = {uuid: story_id, pages: story_env, nearby_devices: devices}
 
 		#storybook's uuid, list of nearby devices, list of {page_number: {heat: 1, air:20}}
 		log("new_story accessed")
@@ -58,6 +66,7 @@ class SmartStoryController < SmapController
 			# end
 
 			# ActuatorLabel()
+			
 		else
 			error_msg = "New story. Push data to me by passing in your device's UUID, UUIDs of nearby devices and segment descriptions"
 			render :json => error_msg.to_json
@@ -166,7 +175,6 @@ class SmartStoryController < SmapController
 	end
 	
 	def composer
-
 		@actuators = {}
 		Actuator.all.each do |a|
 			@actuators[a.id] = a
@@ -175,6 +183,19 @@ class SmartStoryController < SmapController
 
 		@story = Story.find(params[:story_id])
 		@page = @story.story_pages.find{|s| s.page_number == params[:page_number].to_i}
+		
+		@modalities = @page.story_modalities.map do |m|
+			{id: m.id, actuator_id: m.actuator_id, url: m.actuator.picture_url, name: m.actuator.name, strength: m.strength}
+		end
+		previous_page = StoryPage.where("page_number = ?", @page.page_number - 1).first;
+		@previous_modalities = {}
+
+		if previous_page
+			@previous_modalities = previous_page.story_modalities.map do |m|
+				{id: m.id, actuator_id: m.actuator_id, url: m.actuator.picture_url, name: m.actuator.name, strength: m.strength}
+			end
+		end
+		# render :json => previous_page
 		render :layout => "singe_page_app"
 	end
 
