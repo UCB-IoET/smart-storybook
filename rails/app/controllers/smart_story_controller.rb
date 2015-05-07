@@ -2,6 +2,8 @@ require 'net/http'
 
 class SmartStoryController < SmapController
 	before_action :authenticate_user!, :only => :composer
+	skip_before_filter  :verify_authenticity_token
+	protect_from_forgery with: :null_session
 
 	def uuid_modality_pairize
 		devices = {}
@@ -70,7 +72,7 @@ class SmartStoryController < SmapController
 		end
 		debug = []
 
-		StoryActuator.all.destroy_all
+		StoryActuator.destroy_all
 		results.each do |page, actuators|
 			story_page = StoryPage.where("story_id = ? and page_number = ?", story_id, page).first;
 			actuators = actuators.collect{|a| {uuid: a[0], state: a[1], story_page_id: story_page.id}}
@@ -280,9 +282,13 @@ class SmartStoryController < SmapController
 		return ls
 	end
 	def find_closest(actions, modality, strength)
-		values = actions[modality].collect{|k, v| k }
-		min = values.min_by { |v| (v.to_i - strength.to_i).abs } 
-		return actions[modality][min]
+		if actions[modality]
+			values = actions[modality].collect{|k, v| k }
+			min = values.min_by { |v| (v.to_i - strength.to_i).abs } 
+			return actions[modality][min]
+		else
+			return []
+		end
 	end
 
 	def whatishappening
