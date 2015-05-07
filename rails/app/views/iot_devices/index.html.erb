@@ -7,6 +7,7 @@
       var uuid = uuidEl.html().trim();
       var current_val = select.val();
       console.log("Updating", uuid, current_val);
+      console.log("/smap/get_status?uuid=" + uuid);
       $.get("/smap/get_status?uuid=" + uuid, function(data){
         console.log(data);
         select.val(data.state);
@@ -22,8 +23,10 @@
       var uuid = uuidEl.html().trim();
       var state = select.val();
       console.log("Actuating");
+      console.log("/smap/actuate?uuid=" + uuid + "&state=" + state);
       $.get("/smap/actuate?uuid=" + uuid + "&state=" + state, function(data){
         select.val(state);
+
       });
     });
   });

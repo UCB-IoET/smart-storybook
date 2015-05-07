@@ -4,6 +4,9 @@ class ApplicationController < ActionController::Base
 	protect_from_forgery with: :null_session
 	@@host_server = "proj.storm.pm"
 	@@data_port = "8081"
+	@@our_data_port = "4008"
+
+
 	def dehumanize(str)
 		result = str.to_s.dup
 		result.downcase.gsub(/ +/,'_')
@@ -23,21 +26,27 @@ class ApplicationController < ActionController::Base
 
 	def index
 	end
-	def http_get(path)
-		http_action("GET", path)
+
+	def http_get(path, port)
+		port = port or @@data_port
+		print "PORT2", port,  "\n"
+		http_action("GET", path, port)
 	end
 
-	def http_put(path)
-		http_action("PUT", path)
+	def http_put(path, port)
+		port = port or @@data_port
+		print "PORT2", port,  "\n"
+		http_action("PUT", path, port)
 	end
 
-	def http_action(rest_tag, path)
-		http = Net::HTTP.new(@@host_server, @@data_port)
+	def http_action(rest_tag, path, port)
+		print "#{rest_tag}  #{@@host_server}:#{port}#{path} \n"
+		http = Net::HTTP.new(@@host_server, port)
 		response = http.send_request(rest_tag, path);
 		if not response.nil?
 			response = response.body
 		end
-		return  response
+		return response
 	end
 
 	def http_post(url, query)

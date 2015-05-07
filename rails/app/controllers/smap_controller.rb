@@ -4,6 +4,7 @@ class SmapController < ApplicationController
 
   def manifest
   	@devices = get_devices("select *")
+  	# render :json => @devices
   end
 
   def get_status
@@ -13,8 +14,12 @@ class SmapController < ApplicationController
 	else 
 		d = select_actuator(uuid)
 		path = d["Path"]
+		print "PORT: ", d["Metadata"]["Port"], "\n"
+		port = d["Metadata"]["Port"] or @@data_port
 		url = "/data#{path}"
-	    resp = http_get(url)
+		print url
+
+	    resp = http_get(url, port)
 	    if resp["error"].nil?
 	    	resp = JSON.parse(resp)
 	    	time = resp["Readings"][0][0]
@@ -36,10 +41,11 @@ class SmapController < ApplicationController
   def test
   	# uuid = "ae43a05b-92c8-50c2-97f7-1f409b63fa13"
 
-  	uuids = ["bd97276f-b1cc-545d-b7ea-4abfd789123a", "e662d900-a8df-56fd-bba7-841c8068b990", "972ccd71-2174-5dcb-877b-a9e70ae8b5d5", "a64219a2-0a0b-579d-aa40-677e5c692fd0"]
+  	uuids = ["ae43a05b-92c8-50c2-97f7-1f409b63fa13"]
   	devices = []
   	uuids.each do |uuid|
-  	set_query = "set Metadata/Name = 'SmartChair' where uuid = '#{uuid}'"
+  	set_query = "set Metadata/Port = '4008' where uuid = '#{uuid}'"
+  	# set_query = "set Metadata/Name = 'SmartChair' where uuid = '#{uuid}'"
   		# set_query = "set Path = '/buildinggeneral/plugstrip0/outlet4/on_act' where uuid = '#{uuid}'"
   		# smart_story_metadata = {:Modality => ["Air"], :Flavor => "Discrete"}.to_json
   		# set_query = "set Metadata/SmartStoryBook = '#{smart_story_metadata}' where uuid = '#{uuid}'"
@@ -116,8 +122,13 @@ class SmapController < ApplicationController
 	else 
 	  	d = select_actuator(uuid)
 		path = d["Path"]
+		port = @@data_port
+		if d["Metadata"]["Port"]
+			port = d["Metadata"]["Port"]
+		end
+		print "PORT", port, @@data_port, "\n"
 		url = "/data#{path}?state=#{state}"
-		resp = http_put(url)
+		resp = http_put(url, port)
   	end
   	render :json => resp
   end
