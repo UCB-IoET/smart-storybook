@@ -1,0 +1,31 @@
+<h1>Listing story_actuators</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Uuid</th>
+      <th>State</th>
+      <th>Story page</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @story_actuators.each do |story_actuator| %>
+      <tr>
+        <td><%= story_actuator.uuid %></td>
+        <td><%= story_actuator.state %></td>
+        <td><%= story_actuator.story_page_id %></td>
+        <td><%= link_to 'Show', story_actuator %></td>
+        <td><%= link_to 'Edit', edit_story_actuator_path(story_actuator) %></td>
+        <td><%= link_to 'Destroy', story_actuator, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Story actuator', new_story_actuator_path %>
