@@ -19,7 +19,7 @@ class SmartFan(driver.SmapDriver):
 	#	      'high': 3}
         
 	# This is what we are listening on for messages
-	self.UDP_IP = "::" #all IPs
+	self.UDP_IP = "2001:470:4956:2:212:6d02::3035" #all IPs
 	self.UDP_PORT = 1236
 
 	# Note we are creating an INET6 (IPv6) socket
@@ -82,8 +82,11 @@ class StateActuator(SmartFanActuator, actuate.NStateActuator):
         return self.fan.currentFanState
     
     def set_state(self, request, state):
-        self.fan.currentFanState = state
-        self.fan.sock.sendto(state, (self.fan.UDP_IP, self.fan.UDP_PORT))
-        print state
-        return self.fan.currentFanState
-
+        try: 
+		self.fan.currentFanState = state
+		print state, "BEFORE I SEND"
+        	self.fan.sock.sendto(msgpack.packb(state), (self.fan.UDP_IP, self.fan.UDP_PORT))
+       		print state, "AFTER I SEND"
+       		return self.fan.currentFanState
+	except Exception as e:
+		print e
