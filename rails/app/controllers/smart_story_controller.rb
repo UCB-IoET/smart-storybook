@@ -75,7 +75,7 @@ class SmartStoryController < SmapController
 		StoryActuator.destroy_all
 		results.each do |page, actuators|
 			story_page = StoryPage.where("story_id = ? and page_number = ?", story_id, page).first;
-			actuators = actuators.collect{|a| {uuid: a[0], state: a[1], story_page_id: story_page.id}}
+			actuators = actuators[0..0].collect{|a| {uuid: a[0], state: a[1], story_page_id: story_page.id}}
 			debug << StoryActuator.create(actuators)
 		end
 		# render :json => debug
