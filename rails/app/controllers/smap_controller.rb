@@ -117,7 +117,11 @@ class SmapController < ApplicationController
   def actuate
   	uuid = params["uuid"]
   	state = params["state"]
-	if uuid.nil? 
+	resp = actuate_device(uuid, state)
+  	render :json => resp
+  end
+  def actuate_device(uuid, state)
+  	if uuid.nil? 
 		resp = "Error, no UUID specified." 
 	else 
 	  	d = select_actuator(uuid)
@@ -130,7 +134,7 @@ class SmapController < ApplicationController
 		url = "/data#{path}?state=#{state}"
 		resp = http_put(url, port)
   	end
-  	render :json => resp
+  	return resp
   end
 
   def get_devices(query)

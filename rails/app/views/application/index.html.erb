@@ -19,7 +19,10 @@
 		</p>
 
 		<p>
-			<%= link_to smart_story_composer_path(1, 1), :class=> "btn btn-primary btn-lg" do %>
+			<%= link_to stories_path, :class=> "btn btn-primary btn-lg" do %>
+				<span class="glyphicon glyphicon-book"></span> Stories
+			<% end %>
+			<%= link_to smart_story_composer_path(1, 1), :class=> "btn btn-default btn-lg" do %>
 				<span class="glyphicon glyphicon-edit"></span> Composer
 			<% end %>
 			<%= link_to "GitHub", "https://github.com/UCB-IoET/smart-storybook", :class=> "btn btn-default btn-lg" %>

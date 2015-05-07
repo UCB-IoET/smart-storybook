@@ -3,6 +3,27 @@ require 'net/http'
 class SmartStoryController < SmapController
 	before_action :authenticate_user!, :only => :composer
 
+	def uuid_modality_pairize
+		devices = {}
+		IotDevice.all.each do |e|
+			devices[e.uuid] = e.metadata
+		end
+		return devices
+	end
+
+	def story_environment(story_id)
+		data = Story.find(story_id).story_pages
+		story_env = {}
+		data = data.each do |s| 
+			story_env[s.page_number.to_i] = {};
+			s.story_modalities.each{|x| story_env[s.page_number.to_i][x.actuator.name.downcase]  = x.strength}
+		end
+		debug = []
+		story_env = story_env.select{|s, v| not v.empty? }
+		return story_env
+	end
+
+
 	# SMAP registration of devices...
 	def register
 		IotDevice.where("actuator_type = ?", "SMAP").destroy_all
@@ -17,50 +38,13 @@ class SmartStoryController < SmapController
 		redirect_to iot_devices_path, notice: 'SMAP devices where successfully registered.' 
 	end
 
-	def uuid_modality_pairize
-		devices = {}
-		IotDevice.all.each do |e|
-			devices[e.uuid] = e.metadata
-		end
-		return devices
-	end
-
-	def echo
-		@request = Request.new({response: request.ip.to_s + params.to_json.to_s})
-		@request.save
-		@requests = Request.all.reverse[1..10]
-		# render :json => params
-	end
-
-
-	def story_environment(story_id)
-		data = Story.find(story_id).story_pages
-
-		story_env = {}
-		# data.map{|s| { s.page_number: s.story_modalities.map{|x| {x.actuator.name : x.strength }}}
-		data = data.each do |s| 
-			story_env[s.page_number.to_i] = {};
-			s.story_modalities.each{|x| story_env[s.page_number.to_i][x.actuator.name.downcase]  = x.strength}
-		end
-		debug = []
-		story_env = story_env.select{|s, v| not v.empty? }
-		# render :json => data
-		return story_env
-	end
-
-	def whatishappening
-		story_id = 1
-		story_env = story_environment(story_id)
-		# devices = []
-		devices = uuid_modality_pairize()
-		params = {uuid: story_id, 
-				  pages: story_env, 
-				  nearby_devices: devices}
-
-		render :json => params
-	end
 	def super_new_story
 		story_id = 1
+		
+		if params["story_id"]
+			story_id = params["story_id"].to_i			
+		end
+
 		story_env = story_environment(story_id)
 		devices = uuid_modality_pairize()
 
@@ -85,53 +69,88 @@ class SmartStoryController < SmapController
 			end
 		end
 		debug = []
+
+		StoryActuator.all.destroy_all
 		results.each do |page, actuators|
 			story_page = StoryPage.where("story_id = ? and page_number = ?", story_id, page).first;
 			actuators = actuators.collect{|a| {uuid: a[0], state: a[1], story_page_id: story_page.id}}
 			debug << StoryActuator.create(actuators)
 		end
-		render :json => debug
+		# render :json => debug
+		redirect_to stories_path, notice: 'A new story awaits...' 
+	end
+	
+	# ACTUATION LOGIC GOES HERE
+	def advance_story
+		page_number = params["page_number"].to_i
+		story_id = params["story_id"].to_i
+		story_page = StoryPage.where("story_id = ? and page_number = ?", story_id, page_number).first;
+		output = []
+		story_page.story_actuators.each do |a|
+			output << actuate_device(a.uuid, a.state)
+		end
+		render :json => output
 	end
 
-	def find_closest(actions, modality, strength)
-		values = actions[modality].collect{|k, v| k }
-		min = values.min_by { |v| (v.to_i - strength.to_i).abs } 
-		return actions[modality][min]
+
+	# DEBUG CODE
+	def echo
+		@request = Request.new({response: request.ip.to_s + params.to_json.to_s})
+		@request.save
+		@requests = Request.all.reverse[1..10]
+		# render :json => params
 	end
+	
 	# generate based on nearby devices, segments with desired environment
+
 	def new_story
-		# heat, air, light, smell, taste
-		# 0 - 100
 		story_id = 1
 		story_env = story_environment(story_id)
 		devices = uuid_modality_pairize()
-
 		params = {uuid: story_id, pages: story_env, nearby_devices: devices}
-
-		#storybook's uuid, list of nearby devices, list of {page_number: {heat: 1, air:20}}
-		log("new_story accessed")
-		# if params.has_key?("uuid") and params.has_key?("nearby_devices") and params.has_key?("pages")
-		
 		env_hash = create_env(params)
-
-			
-			
-			# {"output" {1: [{uuid: uuid1, state: "on"}, {uuid: uuid2, state: "off"}]}, 
-			# 			4: [{uuid: uuid, state: state}]}
-
-
-			# File.open('storyboard_environments/' + params[:uuid], 'w') do |f|
-			# 	f.write(JSON.pretty_generate(env_hash))
-			# end
-
-			# ActuatorLabel()
-
-		# else
-		# 	error_msg = "New story. Push data to me by passing in your device's UUID, UUIDs of nearby devices and segment descriptions"
-		# 	render :json => error_msg.to_json
-		# end
 		render :json => env_hash
 	end
+	
+	
+	def composer
+		@actuators = {}
+		Actuator.all.each do |a|
+			@actuators[a.id] = a
+		end
+		@actuators = @actuators.to_json
+
+		@story = Story.find(params[:story_id])
+		@page = @story.story_pages.find{|s| s.page_number == params[:page_number].to_i}
+		
+		@modalities = @page.story_modalities.map do |m|
+			{id: m.id, actuator_id: m.actuator_id, url: m.actuator.picture_url, name: m.actuator.name, strength: m.strength}
+		end
+		previous_page = StoryPage.where("page_number = ?", @page.page_number - 1).first;
+		@previous_modalities = {}
+
+		if previous_page
+			@previous_modalities = previous_page.story_modalities.map do |m|
+				{id: m.id, actuator_id: m.actuator_id, url: m.actuator.picture_url, name: m.actuator.name, strength: m.strength}
+			end
+		end
+		# render :json => previous_page
+		render :layout => "singe_page_app"
+	end
+
+	def simulator
+	end
+
+	def documentation
+	end
+
+	def log(string)
+		time = Time.new
+		File.open('log.txt', 'a') do |f|
+			f.puts(time.inspect + ": " + string)
+		end
+	end
+
 	def create_env(params)
 	    print "Creating a Whole New World\n"
 
@@ -260,69 +279,21 @@ class SmartStoryController < SmapController
 		
 		return ls
 	end
-
-	# ACTUATION LOGIC GOES HERE
-	def advance_story
-
-		log("advance_story accessed")
-		#data: [page
-		if params.has_key?("uuid") and params.has_key?("pages")
-			# file = File.read('storyboard_environments/' + params[:uuid])
-			# env_hash = JSON.parse(file)
-			# devices = env_hash[:segments][params[:segment]]
-			
-
-			# devices.each { |uuid, val|
-				# if StoryActuator.protocol == "SVCD"
-					# "SVCD Manifest"
-					# ipv6, socket
-				# elsif StoryActuator.protocol == "SMAP"
-					# SMAPActuator.find(devices.uuid).actuate(state);
-				# end
-
-				#actuate uuid
-			# }
-		else
-			error_msg = "Advance story to specified segment. Please supply your storyboard's UUID and the segment to advance to."
-			render :json => error_msg.to_json
-		end
-	end
-	
-	def composer
-		@actuators = {}
-		Actuator.all.each do |a|
-			@actuators[a.id] = a
-		end
-		@actuators = @actuators.to_json
-
-		@story = Story.find(params[:story_id])
-		@page = @story.story_pages.find{|s| s.page_number == params[:page_number].to_i}
-		
-		@modalities = @page.story_modalities.map do |m|
-			{id: m.id, actuator_id: m.actuator_id, url: m.actuator.picture_url, name: m.actuator.name, strength: m.strength}
-		end
-		previous_page = StoryPage.where("page_number = ?", @page.page_number - 1).first;
-		@previous_modalities = {}
-
-		if previous_page
-			@previous_modalities = previous_page.story_modalities.map do |m|
-				{id: m.id, actuator_id: m.actuator_id, url: m.actuator.picture_url, name: m.actuator.name, strength: m.strength}
-			end
-		end
-		# render :json => previous_page
-		render :layout => "singe_page_app"
+	def find_closest(actions, modality, strength)
+		values = actions[modality].collect{|k, v| k }
+		min = values.min_by { |v| (v.to_i - strength.to_i).abs } 
+		return actions[modality][min]
 	end
 
-	def simulator
-	end
+	def whatishappening
+		story_id = 1
+		story_env = story_environment(story_id)
+		# devices = []
+		devices = uuid_modality_pairize()
+		params = {uuid: story_id, 
+				  pages: story_env, 
+				  nearby_devices: devices}
 
-	def documentation
-	end
-
-	def log(string)
-		time = Time.new
-		File.open('log.txt', 'a') do |f|
-			f.puts(time.inspect + ": " + string)
-		end
+		render :json => params
 	end
 end
