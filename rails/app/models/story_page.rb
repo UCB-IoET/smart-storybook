@@ -3,4 +3,5 @@ class StoryPage < ActiveRecord::Base
 	has_many :story_images
 	has_many :story_texts
 	has_many :story_modalities
+	has_many :story_actuators
 end

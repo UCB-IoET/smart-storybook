@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150507033054) do
+ActiveRecord::Schema.define(version: 20150507062800) do
 
   create_table "actuations", force: true do |t|
     t.integer  "flavor_id"
@@ -212,6 +212,14 @@ ActiveRecord::Schema.define(version: 20150507033054) do
   create_table "stories", force: true do |t|
     t.string   "title"
     t.string   "author"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "story_actuators", force: true do |t|
+    t.string   "uuid"
+    t.string   "state"
+    t.string   "story_page_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

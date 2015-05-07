@@ -59,7 +59,45 @@ class SmartStoryController < SmapController
 
 		render :json => params
 	end
+	def super_new_story
+		story_id = 1
+		story_env = story_environment(story_id)
+		devices = uuid_modality_pairize()
 
+		actions = {}
+		devices.each do |uuid, info|
+			info["modalities"].each do |action, characteristic|
+				characteristic.each do |modality, strength|
+					if not actions[modality] then actions[modality] = {} end
+					if not actions[modality][strength] then actions[modality][strength] = [] end
+					actions[modality][strength].append([uuid, action])
+				end
+			end
+		end
+		results = {}
+		story_env.each do |page_number, modalities|
+			modalities.each do |modality, strength|
+				if not results[page_number] then results[page_number] = [] end
+				valid = find_closest(actions, modality, strength)
+				valid.each do |v|
+					results[page_number].append(v)
+				end
+			end
+		end
+		debug = []
+		results.each do |page, actuators|
+			story_page = StoryPage.where("story_id = ? and page_number = ?", story_id, page).first;
+			actuators = actuators.collect{|a| {uuid: a[0], state: a[1], story_page_id: story_page.id}}
+			debug << StoryActuator.create(actuators)
+		end
+		render :json => debug
+	end
+
+	def find_closest(actions, modality, strength)
+		values = actions[modality].collect{|k, v| k }
+		min = values.min_by { |v| (v.to_i - strength.to_i).abs } 
+		return actions[modality][min]
+	end
 	# generate based on nearby devices, segments with desired environment
 	def new_story
 		# heat, air, light, smell, taste
@@ -95,10 +133,13 @@ class SmartStoryController < SmapController
 		render :json => env_hash
 	end
 	def create_env(params)
+	    print "Creating a Whole New World\n"
+
 		env_hash = Hash.new
 		nearby = params[:nearby_devices]
 		devices = params[:nearby_devices]
 
+		print "DEVICES", devices, "\n"
 		# TODO: FILTER NEARBY
 		# devices_hash = uuid_modality_pairize
 		# nearby = params[:nearby_devices]
@@ -107,42 +148,52 @@ class SmartStoryController < SmapController
 		# 	devices[uuid] = devices_hash[uuid]
 		# end
 		debug = []
+		closest_uuids = []
 
 		params[:pages].each do |page, des_attrs|
 			least = Hash.new
 			improved = true
 			pool = {}
 			level = 1
+			closest = 0
+
 
 			devices.each do |uuid, info|
 				info["modalities"].each do |state, attrs|
 					ls = least_squares(des_attrs, attrs)
 					closest = ls
 					if ls == 0 
-						return attrs
+						return {uuid => state}
 					else 
 						pool[{uuid => state}] = {:least_squares => ls, :attrs => attrs}
 					end
 				end
+				print "INFO", info["modalities"], "\n"
 			end
-
+			print "POOL", pool, "\n"
+			
 			i = 0
-			while i < 1 and improved
-			# while level < nearby.length and improved
+			# while i < 1 and improved
+			while level < nearby.length and improved
+				print "Level", level, "\n"
 				improved = false
+				add_to_pool = {}
 				pool.each do |uuids, prev_info|
 					this_improved = false
 					if uuids.length == level
 						nearby.each do |uuid, info|
-							
 							info["modalities"].each do |state, attrs|
 								# debug << sum_attrs(attrs, prev_info[:attrs])
 								new_attrs = sum_attrs(attrs, prev_info[:attrs])
 								new_ls = least_squares(new_attrs, des_attrs)
+								print "NEW_LS", new_ls, "\n"
+								if new_ls == 0
+									return uuids.merge({uuid => state})
+								end
 								if new_ls < prev_info[:least_squares]
 									improved = true
 									this_improved = true
-									pool[uuids.merge({uuid => state})] = {:least_squares => new_ls, :attrs => new_attrs}
+									add_to_pool[uuids.merge({uuid => state})] = {:least_squares => new_ls, :attrs => new_attrs}
 								end
 							end
 						end
@@ -151,31 +202,35 @@ class SmartStoryController < SmapController
 						pool.delete(uuids)
 					end
 				end
+				add_to_pool.each{|k, v| pool[k] = v}
 				level += 1
 				i = i + 1
+				print "Pool", pool, "\n"
 				# debug << pool
 			end
 
-
-			# pool.each do |uuids, info|
-			# 	if info[:least_squares] < closest
-			# 		closest = info[:least_squares]
-			# 		closest_uuids = uuids
-			# 	end
-			# end
+			
+			pool.each do |uuids, info|
+				if info[:least_squares] < closest
+					closest = info[:least_squares]
+					closest_uuids = uuids
+				end
+			end
 
 
 			env_hash[page] = []
-			# closest_uuids.each do |uuid, state|
-			# 	env_hash[page].push({"uuid"=> uuid, "state"=> state})
-			# end
+			closest_uuids.each do |uuid, state|
+				env_hash[page].push({"uuid"=> uuid, "state"=> state})
+			end
 
 			# devices.each do |uuid, state|
 			# 	env_hash[page].push({"uuid"=> uuid, "state"=> state})
 			# end
 			# debug << pool
+
 		end
-		return debug
+		print "FINAL RESULT", env_hash, "\n"
+		return env_hash
 	end
 	def sum_attrs(curr, prev)
 		result = {}
@@ -187,15 +242,22 @@ class SmartStoryController < SmapController
 		return result
 	end
 	def least_squares(desired, given)
+		print "Desired", desired, "  Given", given, "\n"
 		ls = 0
+
+		diff = {}
+		# desired.each{|d| d.each }
 		desired.each do |attr, value|
 			if given[attr].nil?
 				given_value = 0
 			else
 				given_value = given[attr]
 			end
-			ls += (value - given_value)^2
+			ls += (value - given_value)**2
+			print "LS: ", ls, "\n"
 		end
+		print "FINAL LS: ", ls, "\n"
+		
 		return ls
 	end
 
