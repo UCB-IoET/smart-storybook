@@ -23,14 +23,47 @@ function addHandlers(){
 	$('#actuator_list').ddslick();
 	$('#save_environment').click(function(){
 		var data = getActuation();
+
 		$.map(data, function(el, i){
-			el.page_number = page_info.page_number;
+			el.story_page_id = page_info.id;
 			el.story_id = page_info.story_id;
 			return el;
 		});
 		console.log(data);
-	});
 
+		for(i in data){
+			var id = data[i]["id"];
+			delete data[i]["id"];
+			
+			if(update_these.indexOf(data[i].actuator_id) == -1){
+				
+				$.ajax({
+					url: "/story_modalities", 
+					type: "POST", 
+					data: {story_modality: data[i]},
+					dataType: "json", 
+					success: function(data){
+						console.log(data);
+					}
+				});
+			}
+			else{
+
+				$.ajax({
+					url: "/story_modalities/" + id, 
+					type: "PUT", 
+					data: {story_modality: data[i]},
+					dataType: "json", 
+					success: function(data){
+						console.log(data);
+					}
+				});
+			}
+		}
+	});
+	$('.page-actuation-table input[type="range"]').on("input change", function(){ 
+						$(this).parent().parent().find(".value").html($(this).val());
+	});
 	$('#add-actuation').click(function(){
 		var selected = parseInt($("#actuator_list").data('ddslick').selectedData.value);
 		var actuator = actuator_list[selected];
@@ -38,7 +71,8 @@ function addHandlers(){
 		
 	});
 }
-var added = [];
+var added = <%= if @modalities then @modalities.map{|m| m[:actuator_id]} else [] end %>;
+var update_these = <%= if @modalities then @modalities.map{|m| m[:actuator_id]} else [] end %>;
 function makeActuationNode(actuator){
 	if(added.indexOf(actuator.id) != -1) return;
 	added.push(actuator.id);
@@ -67,7 +101,11 @@ function getActuation(){
 	$.each(actuators, function(i, el){
 		el = $(el);
 		console.log(i, el);
-		actuations.push({actuator_id: parseInt(el.attr('data-id')), value: parseInt( el.find(".value").html())});
+		actuations.push({
+			actuator_id: parseInt(el.attr('data-id')), 
+			strength: parseInt( el.find(".value").html()),
+			id: parseInt( el.attr('data-mod-id'))
+		});
 	});
 	return actuations;
 }
@@ -122,11 +160,18 @@ function getActuation(){
 			<th>  </th>
 		</tr>
 
-		<!-- PAGE ACTUATION GOES HERE -->
+		<% @modalities.each do |m| %>
+		<tr data-id="<%= m[:actuator_id]%>" data-mod-id="<%= m[:id] %>">
+			<td> <%= image_tag m[:url], :class => "icon" %> </td>
+			<td> <%= m[:name] %> </td>
+			<td class="value"> <%= m[:strength] %> </td>
+			<td> <input type="range" min="0" max="100" step="1" value="<%= m[:strength] %>"/></td>
+		</tr>
+		<% end %>
 	</table>
 
 
-	<% previous = Actuator.all %>
+	
 	<table class="table sexy-table">
 		<tr class="header">
 			<th colspan="4" class="central-title"> 
@@ -138,11 +183,11 @@ function getActuation(){
 			<th> Value </th>
 			<th>  </th>
 		</tr>
-		<% previous.each do |p| %>
+		<% @previous_modalities.each do |m| %>
 		<tr>
-			<td> <%= image_tag p.picture_url, :class => "icon" %> </td>
-			<td> <%= p.name %> </td>
-			<td> 0 </td>
+			<td> <%= image_tag m[:url], :class => "icon" %> </td>
+			<td> <%= m[:name] %> </td>
+			<td> <%= m[:strength] %> </td>
 		</tr>
 		<% end %>
 	</table>
