@@ -1,31 +1,11 @@
 <%= javascript_include_tag "composer", "data-turbolinks-track" => true %>
 
-<script type="text/javascript">
-var smart_story_composer_path = <%= smart_story_composer_path(@story.id, @page.page_number).to_json.html_safe %>;
-$(function(){
-	$("#page-nav").click(function(e){
-		var smart_path = smart_story_composer_path.split('/');
-		var selected_page = $('#story-page_page_number').val();
-		smart_path[smart_path.length - 1] = selected_page;
-		smart_path = smart_path.join('/');
-		$(this).attr('href', smart_path);
-	});
-});
-</script>
 <div id="app-wrapper">
 <div id="main" class="col-xs-8 no-padding">
-	<ol class="breadcrumb">
-	  <li><%= link_to @story.title, story_path(@story) %></li>
-	  <li class="active">
-	  	 <%= select("story-page", "page_number", @story.story_pages.collect {|p| [ p.page_number, p.page_number ] }, {selected: params[:page_number]}) %>
-	  </li>
-	   <li class="active">
-	   	<%= link_to "Go", smart_story_composer_path(@story.id, @page.page_number), :class => "btn btn-primary btn-xs", :id => "page-nav" %>
-	   </li>
-	</ol>
+	
 	<div class="story-page">
 		<% @page.story_images.each do |p|%>
-			<%= image_tag p.file_url, :height => "100%" %>
+			<% image_tag p.file_url, :height => "100%" %>
 		<% end %>
 		<% @page.story_texts.each do |t|%>
 			<% pos = JSON.parse(t.center) %>
@@ -37,7 +17,9 @@ $(function(){
 	</div>
 </div>
 <div id="sidebar" class="col-xs-4 no-padding">
-	<%= render :partial => "composer/library_selector" %>
+
+	<%= render :partial => "composer/smart_story_selector" %>
+	<% render :partial => "composer/library_selector" %>
 	<% render :partial => "composer/wave_view" %>
 </div>
 </div>

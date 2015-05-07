@@ -10,6 +10,7 @@ from smap.util import periodicSequentialCall
 import threading
 import importlib
 
+
 class SmartFan(driver.SmapDriver):
     def setup(self, opts):
        # self.states = {'off': 0,
@@ -18,11 +19,11 @@ class SmartFan(driver.SmapDriver):
 	#	      'high': 3}
         
 	# This is what we are listening on for messages
-	UDP_IP = "::" #all IPs
-	UDP_PORT = 1236
+	self.UDP_IP = "::" #all IPs
+	self.UDP_PORT = 1236
 
 	# Note we are creating an INET6 (IPv6) socket
-	sock = socket.socket(socket.AF_INET6,
+	self.sock = socket.socket(socket.AF_INET6,
    		 socket.SOCK_DGRAM)
 	#sock.bind((UDP_IP, UDP_PORT))
 
@@ -30,8 +31,10 @@ class SmartFan(driver.SmapDriver):
 	self.currentFanState = 0
         self.readperiod = float(opts.get('ReadPeriod', .5))
         fan_state = self.add_timeseries('/fan_state', 'state', data_type='long')
-	
-        self.set_metadata('/smartfan', {'Metadata/Device': 'Fan Controller',
+	print fan_state
+	print self
+	print self.set_metadata
+        self.set_metadata('/', {'Metadata/Device': 'Fan Controller',
                                 'Metadata/Model': 'Smart Fan',
 				'Metadata/SourceName' : "Smart Fan", 
 				'Properties/Timezone' : "America/Los_Angeles", 
@@ -39,7 +42,7 @@ class SmartFan(driver.SmapDriver):
 				'Properties/UnitofMeasure': 'Watt', 
 				'Properties/ReadingType': 'double', 
 				'Metadata/Location/City':  "Berkeley", 
-                                'Metadata/Driver': 'SmartFan'})
+                                'Metadata/Driver': __name__})
 
 
         archiver = opts.get('archiver')
