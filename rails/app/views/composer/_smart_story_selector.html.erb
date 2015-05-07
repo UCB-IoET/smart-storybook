@@ -1,0 +1,204 @@
+
+<%= javascript_include_tag "application", "jquery.ddslick.min" %>
+
+<script type="text/javascript">
+var smart_story_composer_path = <%= smart_story_composer_path(@story.id, @page.page_number).to_json.html_safe %>;
+$(function(){
+	
+	addHandlers();
+});
+var actuator_list = <%= @actuators.html_safe %>;
+var page_info = <%= @page.to_json.html_safe %>;
+function addHandlers(){
+	$("#page-nav").click(function(e){
+		var smart_path = smart_story_composer_path.split('/');
+		var selected_page = $('#story-page_page_number').val();
+		smart_path[smart_path.length - 1] = selected_page;
+		smart_path = smart_path.join('/');
+		console.log(smart_path);
+		$(this).attr('href', smart_path);
+		
+	});
+	
+	$('#actuator_list').ddslick();
+	$('#save_environment').click(function(){
+		var data = getActuation();
+		$.map(data, function(el, i){
+			el.page_number = page_info.page_number;
+			el.story_id = page_info.story_id;
+			return el;
+		});
+		console.log(data);
+	});
+
+	$('#add-actuation').click(function(){
+		var selected = parseInt($("#actuator_list").data('ddslick').selectedData.value);
+		var actuator = actuator_list[selected];
+		makeActuationNode(actuator);
+		
+	});
+}
+var added = [];
+function makeActuationNode(actuator){
+	if(added.indexOf(actuator.id) != -1) return;
+	added.push(actuator.id);
+	var rowDOM = DOM.tag("tr").attr("data-id", actuator.id);
+	var imgDOM = DOM.tag("td").append(DOM.tag("img", true).addClass("icon").attr('src', actuator.picture.url));
+	var nameDOM = DOM.tag("td").html(actuator.name);
+	var valueDOM = DOM.tag("td").html(0).addClass("value");
+	var rangeDOM =  DOM.tag("td").append(DOM.tag("input", true)
+					.attr('type', 'range')
+					.attr('min', 0)
+					.attr('max', 100)
+					.attr('step', 1)
+					.attr('value', 0)
+					.on("input change", function(){ 
+						$(this).parent().parent().find(".value").html($(this).val());
+
+					}));
+	rowDOM.append([imgDOM, nameDOM, valueDOM, rangeDOM]);
+	$('.page-actuation-table').append(rowDOM);
+	console.log(actuator);
+}
+
+function getActuation(){
+	var actuations = [];
+	var actuators = $('.page-actuation-table tr').not(".header");
+	$.each(actuators, function(i, el){
+		el = $(el);
+		console.log(i, el);
+		actuations.push({actuator_id: parseInt(el.attr('data-id')), value: parseInt( el.find(".value").html())});
+	});
+	return actuations;
+}
+</script>
+
+<div id="actuator-list" class="col-xs-12 column_list">
+	<table class="table">
+		<tr class="header">
+			<th> 
+			TITLE: <%= link_to @story.title, story_path(@story) %> 
+
+			<div class="button-group pull-right">
+	  	 		<%= select("story-page", "page_number", @story.story_pages.collect {|p| [ p.page_number, p.page_number ] }, {selected: params[:page_number]}) %>
+	   			<%= link_to "Go", smart_story_composer_path(@story.id, @page.page_number), :class => "btn btn-primary btn-xs", :id => "page-nav" %>
+	   		</div>
+			</th>
+		</tr>
+	</table>
+	<table class="table">
+		<tr>
+			<td class="offset"><td>
+			<td>
+				<select id="actuator_list">
+					<% i = 0 %>
+					<% Actuator.all.each do |a| %>
+						<% if i == 0 %>
+							<option value=<%=a.id%> selected data-imagesrc="<%= a.picture_url %>" data-description="<% a.name%>"> <%= a.name %></option>
+						<% else %>
+							<option value=<%=a.id%> data-imagesrc="<%= a.picture_url %>" data-description="<% a.name%>"> <%= a.name %></option>
+						<% end %>
+						<% i = i + 1 %>
+					<% end %>
+				</select>
+			</td>
+			<td>
+				<button id="add-actuation" class="btn btn-primary btn-lg">
+					<span class="glyphicon glyphicon-plus"></span>
+			 	</button>
+			 </td>
+			 <td class="offset"><td>
+		</tr>
+	</table>
+	<table class="table page-actuation-table sexy-table">
+		<tr class="header">
+			<th colspan="4" class="central-title"> 
+				ACTUATION ON CURRENT PAGE 
+			</th>
+		</tr>
+		<tr class="header">
+			<th colspan="2"> Type </th>
+			<th> Value </th>
+			<th>  </th>
+		</tr>
+
+		<!-- PAGE ACTUATION GOES HERE -->
+	</table>
+
+
+	<% previous = Actuator.all %>
+	<table class="table sexy-table">
+		<tr class="header">
+			<th colspan="4" class="central-title"> 
+				ACTUATION ON PREVIOUS PAGE 
+			</th>
+		</tr>
+		<tr class="header">
+			<th colspan="2"> Type </th>
+			<th> Value </th>
+			<th>  </th>
+		</tr>
+		<% previous.each do |p| %>
+		<tr>
+			<td> <%= image_tag p.picture_url, :class => "icon" %> </td>
+			<td> <%= p.name %> </td>
+			<td> 0 </td>
+		</tr>
+		<% end %>
+	</table>
+	<table class="table sexy-table">
+		<tr>
+			<td class="offset"><td>
+			<td>
+				<button id="save_environment" class="btn btn-success btn-lg">
+				<span class="glyphicon glyphicon-save"></span>&nbsp; SAVE ENVIRONMENT
+				</button>
+			</td>
+			<td class="offset"><td>
+		</tr>
+	</table>
+</div>
+<style type="text/css">
+	.sexy-table tr td{
+		font-size: 12pt;
+	}
+	.sexy-table .icon{
+		width: 20px; 
+	}
+	.central-title{
+		text-align: center;
+	}
+	.offset{
+		width: 300px;
+	}
+	.dd-container{
+		width: 155px !important;
+		/*height: 45px !important;*/
+		/*overflow: hidden;*/
+	}
+	.dd-select, .dd-options{
+		width: 155px !important;
+		overflow: hidden;
+	}
+	.dd-selected-image, .dd-option-image{
+		height: 25px !important;
+	}
+	.dd-selected-text, .dd-option-text{
+		line-height: 27px !important;
+ 		font-size: 14pt !important;
+	}
+	.dd-select, .dd-selected, .dd-option{
+		width: 155px !important;
+		height: 45px !important;
+	}
+	.dd-pointer-down{
+	  border: solid 8px transparent;
+	  border-top: solid 10px #000;
+	}
+	.dd-pointer-up {
+		border: solid 8px transparent !important;
+		border-bottom: solid 10px #000 !important;
+		margin-top: -12px !important;
+	}
+	
+</style>
