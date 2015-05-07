@@ -18,12 +18,15 @@ storm.io.set_mode(storm.io.OUTPUT,  storm.io.D2)
 storm.io.set_mode(storm.io.OUTPUT,  storm.io.D3)
 storm.io.set_mode(storm.io.OUTPUT,  storm.io.D4)
 
-smap_sock = storm.net.udpsocket(1236, function(payload, from, port) fanControl(payload) end)
+smap_sock = storm.net.udpsocket(1236, function(payload, from, port) 
+msg_state = storm.mp.unpack(payload) 	
+fanControl(tonumber(msg_state)) end)
 
 function fanControl(state)
     storm.io.set(0, storm.io.D2)
     storm.io.set(0, storm.io.D3)
     storm.io.set(0, storm.io.D4)
+    print(storm.io.D2)
 	fan_mode = 0
 	if state == 0 then 
 		print("Fan stays off")
