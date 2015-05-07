@@ -137,7 +137,10 @@ class SmartStoryController < SmapController
 		end
 		return ls
 	end
+
+	# ACTUATION LOGIC GOES HERE
 	def advance_story
+
 		log("advance_story accessed")
 		#data: [page
 		if params.has_key?("uuid") and params.has_key?("pages")
@@ -166,9 +169,6 @@ class SmartStoryController < SmapController
 		@story = Story.find(params[:story_id])
 		@page = @story.story_pages.find{|s| s.page_number == params[:page_number].to_i}
 		render :layout => "singe_page_app"
-	end
-
-	def actuator_list
 	end
 
 	def simulator
