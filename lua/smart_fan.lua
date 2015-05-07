@@ -18,7 +18,7 @@ storm.io.set_mode(storm.io.OUTPUT,  storm.io.D2)
 storm.io.set_mode(storm.io.OUTPUT,  storm.io.D3)
 storm.io.set_mode(storm.io.OUTPUT,  storm.io.D4)
 
-smap_sock = storm.net.udpsocket(50000, function(payload, from, port) print("got something") end)
+smap_sock = storm.net.udpsocket(1236, function(payload, from, port) print("got something") end)
 
 function fanControl(state)
     storm.io.set(0, storm.io.D2)

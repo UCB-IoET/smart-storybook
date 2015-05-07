@@ -84,5 +84,6 @@ class StateActuator(SmartFanActuator, actuate.NStateActuator):
     def set_state(self, request, state):
         self.fan.currentFanState = state
         self.fan.sock.sendto(state, (self.fan.UDP_IP, self.fan.UDP_PORT))
+        print state
         return self.fan.currentFanState
 
