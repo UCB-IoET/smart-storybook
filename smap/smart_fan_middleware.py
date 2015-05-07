@@ -25,12 +25,14 @@ smap = {
       "SourceName" : "Smart Fan",
       "Location" : { "City" : "Berkeley" }
     },
+    "Actuator"{
+	
+	}
     "Properties": {
       "Timezone": "America/Los_Angeles",
       "UnitofTime": "s",
       "UnitofMeasure": "Watt",
-      "ReadingType": "double",  
-      "Fan State": 
+      "ReadingType": "double" 
     },
     "Readings" : [[1351043674000, 0], [1351043675000, 1]],
     "uuid" : "119128be-e78a-11e4-8a00-1681e6b88ec1"
