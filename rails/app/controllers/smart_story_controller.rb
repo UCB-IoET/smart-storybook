@@ -88,8 +88,10 @@ class SmartStoryController < SmapController
 		story_id = params["story_id"].to_i
 		story_page = StoryPage.where("story_id = ? and page_number = ?", story_id, page_number).first;
 		output = []
-		story_page.story_actuators.each do |a|
-			output << actuate_device(a.uuid, a.state)
+		Thread.new do
+			story_page.story_actuators.each do |a|
+				output << actuate_device(a.uuid, a.state)
+			end
 		end
 		render :json => output
 	end
