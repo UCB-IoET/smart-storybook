@@ -26,7 +26,7 @@ class SmartFan(driver.SmapDriver):
    		 socket.SOCK_DGRAM)
 	#sock.bind((UDP_IP, UDP_PORT))
 
-
+	print self
 	self.currentFanState = 0
         self.readperiod = float(opts.get('ReadPeriod', .5))
         fan_state = self.add_timeseries('/fan_state', 'state', data_type='long')
