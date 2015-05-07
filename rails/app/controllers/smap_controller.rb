@@ -120,7 +120,9 @@ class SmapController < ApplicationController
 	resp = actuate_device(uuid, state)
   	render :json => resp
   end
+
   def actuate_device(uuid, state)
+  	
   	if uuid.nil? 
 		resp = "Error, no UUID specified." 
 	else 

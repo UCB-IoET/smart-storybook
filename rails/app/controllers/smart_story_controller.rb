@@ -90,7 +90,12 @@ class SmartStoryController < SmapController
 		output = []
 		# Thread.new do
 			story_page.story_actuators.each do |a|
-				output << actuate_device(a.uuid, a.state)
+				state = a.state
+				if a.state["value"] 
+					state = a.state.split('_')[1].to_i
+				end
+				output << actuate_device(a.uuid, state)
+				output << a.state
 			end
 		# end
 		render :json => output
