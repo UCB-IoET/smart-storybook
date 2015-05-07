@@ -1,9 +1,13 @@
 FlixelLights::Application.routes.draw do
 
-  get "smap/actuate"
-  get "smap/get_status"
-  get "smap/test"
-  get "smap/manifest"
+  namespace :smap do
+    get "actuate"
+    get "get_status"
+    get "test"
+    get "manifest"
+    get "to_smart_json"
+  end 
+
   resources :requests
 
   get "simulator/:iot_device_id/actuate/:action_id", :to => "simulator#actuate", :as => "simulator_actuate" 

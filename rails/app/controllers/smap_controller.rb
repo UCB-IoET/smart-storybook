@@ -34,28 +34,58 @@ class SmapController < ApplicationController
 
   #changing attributes
   def test
-  	uuid = "4c93ec25-c0c0-5261-94d1-c2080857fa59"
-  	smart_story_metadata = {:Modality => "Light", :Flavor => "Binary"}.to_json
-  	set_query = "set Metadata/SmartStoryBook = '#{smart_story_metadata}' where uuid = '#{uuid}'"
+  	uuid = "25674a28-c05b-5bd1-940d-5c2790bfd919"
+  	set_query = "set Path = '/buildinggeneral/plugstrip0/outlet4/on_act' where uuid = '#{uuid}'"
+  	# smart_story_metadata = {:Modality => ["Light"], :Flavor => "Binary"}.to_json
+  	# set_query = "set Metadata/SmartStoryBook = '#{smart_story_metadata}' where uuid = '#{uuid}'"
   	devices = http_post("#{@@smap_server}/api/query", set_query)
-  	render :json => devices
+  	render :json => set_query
   end
 
 
-	def to_smart_json
+  def to_smart_json
 	  	devices = get_devices("select *")
-	  	devices.collect do |d|
-	  	{	
-	  		:name =>"SmartFan", 
-	  		:modalities =>
-	  			{"high"=>{"air"=>3}, 
-	  			 "medium"=>{"air"=>2}, 
-	  			 "low"=>{"air"=>1}, 
-	  			 "off"=>{"air"=>0}
-	  			 }, 
-	  		:actions =>["high", "medium", "low", "off"]
-	  	}
-	 end
+
+	  	devices.collect! do |d|
+	  		modalities = {}
+	  		actions = []
+	  		if not d["Metadata"]["SmartStoryBook"].nil?
+	  			modality = JSON.parse(d["Metadata"]["SmartStoryBook"])["Modality"]
+
+	  			model = d["Actuator"]["Model"]
+	  			if model == "binary"
+	  				states = d["Actuator"]["States"]
+	  				states.map! do |s|
+	  					modalities[s[1]] = {}
+	  					modality.each do |m|
+	  						m.downcase!
+	  						modalities[s[1]][m] = s[0].to_i * 100
+	  					end
+	  					actions << s[1]
+
+	  				end
+	  				
+	  			elsif model =="discrete"
+	  				states = d["Actuator"]["Values"]
+	  				states.map! do |s|
+	  					s
+	  				end
+	  				modalities = states
+	  			end
+
+	  		end
+	  		{
+	  			:uuid => d["uuid"],
+	  			:actuator_type => "SMAP",
+	  			:metadata => {
+		  			:name => (d["Metadata"]["Name"] or "No name"), 
+			  		:modalities => modalities,
+			  		:actions => actions
+			  	}  
+			}	
+	 	end
+
+	return devices
   end
 
 
@@ -77,12 +107,11 @@ class SmapController < ApplicationController
   	devices = http_post("#{@@smap_server}#{@@query_api}", query)
   	devices = JSON.parse(devices);
   	# c["Metadata"]["Building"] == "IOET" and 
-  	# and not c["Metadata"]["Name"].nil? and not c["Metadata"]["Name"]["Thermostat"]  
   			
   	devices.select! do |c| 
-  		if not c["Actuator"].nil? and (not c["Actuator"]["States"].nil?  or not c["Actuator"]["Values"].nil?) and c["Metadata"] 
+  		# if not c["Actuator"].nil? and (not c["Actuator"]["States"].nil?  or not c["Actuator"]["Values"].nil?) and c["Metadata"]  and not c["Metadata"]["Name"].nil? and not c["Metadata"]["Name"]["Thermostat"]  
   			c
-  		end 
+  		# end 
   	end
   	return devices
   end

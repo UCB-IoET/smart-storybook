@@ -1,25 +1,53 @@
 <script>
   $(function(){
-    $.each($('a.actuator'), function(i, el){
-      $(el).click(function(e){
-        var action = $(el).parent().parent().find("select").val();
-        var href = $(el).attr("href");
-        var edit_href = href.split("/");
-        edit_href[edit_href.length-1] = action;
-        href = edit_href.join('/');
-        console.log(edit_href);
-        $(el).attr("href", href);
+    $.each($(".update_actuator"), function(i,el){
+    $(el).click(function(){
+      var select = $(this).parent().parent().parent().find("select");
+      var uuidEl = $(this).parent().parent().parent().find(".uuid");
+      var uuid = uuidEl.html().trim();
+      var current_val = select.val();
+      console.log("Updating", uuid, current_val);
+      $.get("/smap/get_status?uuid=" + uuid, function(data){
+        console.log(data);
+        select.val(data.state);
       });
     });
   });
 
+  $.each($(".actuate_actuator"), function(i,el){
+    // console.log(el);
+    $(el).click(function(){
+      var select = $(this).parent().parent().parent().find("select");
+      var uuidEl = $(this).parent().parent().parent().find(".uuid");
+      var uuid = uuidEl.html().trim();
+      var state = select.val();
+      console.log("Actuating");
+      $.get("/smap/actuate?uuid=" + uuid + "&state=" + state, function(data){
+        select.val(state);
+      });
+    });
+  });
+  });
+function updateAll(){
+  $(".update_actuator").click();
+}
 </script>
-<h1>Listing IoET Devices</h1>
+
+<h1>Listing IoET Devices 
+  <%= link_to smart_story_register_path, :class=> "btn btn-success pull-right" do %>
+    <span class="glyphicon glyphicon-send"></span>   &nbsp;Find SMAP Devices
+  <% end %> 
+
+  <%= button_tag :class=> "btn btn-default pull-right", :onclick=>"updateAll();" do %>
+    <span class="glyphicon glyphicon-refresh"></span>   &nbsp;Update SMAP Devices
+  <% end %> 
+</h1>
 
 <table class="table">
   <thead>
     <tr>
       <th>UUID</th>
+      <th>Name</th>
       <th>Actuator type</th>
       <th>Metadata</th>
       <th>Last seen</th>
@@ -32,15 +60,25 @@
   <tbody>
     <% @iot_devices.each do |iot_device| %>
       <tr>
-        <td><%= iot_device.uuid %></td>
+        <td class="uuid"><%= iot_device.uuid %></td>
+        <td><%= iot_device.metadata["name"] %></td>
         <td><%= iot_device.actuator_type %></td>
         <td><%= iot_device.metadata.to_s.html_safe %></td>
+      
         <td><%= time_diff(iot_device.last_seen, Time.now) %></td>
         <% i = -1 %>
-        <td><%= select("iot_device", "actuate", iot_device.metadata["actions"].collect {|p| i = i+1;  [p, i] }) %>
-        </td>
         <td>
-          <%= link_to 'Actuate', simulator_actuate_path(iot_device.id, 0), :class => "actuator btn btn-danger btn-xs" %></td>
+          <%= select("iot_device", "actuate", iot_device.metadata["actions"].collect {|p| i = i+1;  [p, i] }) %>
+          <div class="btn-group" role="group" >
+            <%= button_tag :class => "actuate_actuator btn btn-default btn-xs" do %>
+            <span class="glyphicon glyphicon-send"></span>
+            <% end %>
+            <%= button_tag :class => "update_actuator btn btn-default btn-xs" do %>
+            <span class="glyphicon glyphicon-refresh"></span>
+            <% end %>
+          </div>
+        </td>
+        
         <td><%= link_to 'Show', iot_device %></td>
         <td><%= link_to 'Edit', edit_iot_device_path(iot_device) %></td>
         <td><%= link_to 'Destroy', iot_device, method: :delete, data: { confirm: 'Are you sure?' } %></td>
@@ -52,3 +90,8 @@
 <br>
 
 <%= link_to 'New Iot device', new_iot_device_path %>
+<style type="text/css">
+h1 button{
+  margin-right: 4px;
+}
+</style>

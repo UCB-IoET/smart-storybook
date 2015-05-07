@@ -35,7 +35,7 @@ $(function(){
 <table class="table table-striped">
 	<tr> 
 		<!-- "Path", "Properties" -->
-		<% header = ["Name", "UUID", "Actuator", "", "Metadata", "SmartStory_Metadata"] %>
+		<% header = ["Name", "UUID", "Actuator", "","", "Metadata", "SmartStory_Metadata", "Path"] %>
 		<% header.each do |h| %>
 		<th>  
 			<%= h %>
@@ -44,9 +44,10 @@ $(function(){
 	</tr>
 	<% @devices.each do |d| %>
 		<tr>
-			<td> <%= d["Metadata"]["Name"] %> 
+			<td> <%= if d["Metadata"] then d["Metadata"]["Name"] end %> 
 				<%= button_tag 'Update', :class => "update_actuator btn btn-primary btn-xs" %>
         	</td>
+        	<% if d["Actuator"] %>
         	<td class="uuid"> <%= d["uuid"] %> </td>
 			 <td> <%= d["Actuator"] %> </td> 
 			<td>
@@ -60,10 +61,11 @@ $(function(){
         	<td>
         	<%= button_tag 'Actuate', :class => "actuate_actuator btn btn-danger btn-xs" %>
         	</td>
+        	<% end %>
 			<td> <%= d["Metadata"] %> </td>
-			<td> <%= d["Metadata"]["SmartStoryBook"] %> </td>
-			<!-- <td> <% d["Path"] %> </td>
-			<td> <% d["Properties"] %> </td> -->
+			<td> <%= if d["Metadata"] then d["Metadata"]["SmartStoryBook"] end %> </td>
+			<td> <%= d["Path"] %> </td>
+			<!-- <td> <% d["Properties"] %> </td> -->
 		</tr>
 	<% end %>
 </table>

@@ -1,32 +1,24 @@
 require 'net/http'
 
-class SmartStoryController < ApplicationController
+class SmartStoryController < SmapController
 	before_action :authenticate_user!, :only => :composer
 
+	# SMAP registration of devices...
 	def register
-		log("register accessed")
-		#data_hash = uuid_modality_pairize
-		# render :json => data_hash
-		render :json => params
-		# if params.has_key?("uuid") and params.has_key?("modalities")
-			# file = File.read(@@devices_file)
-			# data_hash = JSON.parse(file) rescue {}
-			# if data_hash.has_key?(params[:uuid])
-			# 	data_hash[params[:uuid]] = params[:modalities]
-			# else
-			# 	data_hash[params[:uuid]] = params[:modalities]
-			# 	File.open('devices.json', 'w') do |f|
-			# 		f.write(JSON.pretty_generate(data_hash))
-			# 	end
-			# end
-		# else
-		# 	error_msg = "Register function. This function needs to have a uuid and modalities fields."
-		# 	render :json => error_msg.to_json
-		# 	File.open('failures.txt', 'a') do |f|
-		# 		f.write("register failed.")
-		# 	end
-		# end
+		IotDevice.where("actuator_type = ?", "SMAP").destroy_all
+
+		devices = to_smart_json;
+		devices.each do |d| 
+			d[:metadata] = d[:metadata].to_json.html_safe 
+			d[:last_seen] = Time.now
+		end
+		
+		s = IotDevice.create(devices);
+		redirect_to iot_devices_path, notice: 'SMAP devices where successfully registered.' 
 	end
+
+
+
 
 	def uuid_modality_pairize
 		devices = {}
