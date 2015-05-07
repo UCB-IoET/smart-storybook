@@ -10,6 +10,7 @@ from smap.util import periodicSequentialCall
 import threading
 import importlib
 
+
 class SmartFan(driver.SmapDriver):
     def setup(self, opts):
        # self.states = {'off': 0,
