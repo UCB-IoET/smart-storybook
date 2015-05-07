@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150502025242) do
+ActiveRecord::Schema.define(version: 20150506223349) do
 
   create_table "actuations", force: true do |t|
     t.integer  "flavor_id"
@@ -117,7 +117,7 @@ ActiveRecord::Schema.define(version: 20150502025242) do
     t.string   "uuid"
     t.string   "actuator_type"
     t.string   "metadata"
-    t.time     "last_seen"
+    t.datetime "last_seen"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

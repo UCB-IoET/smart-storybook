@@ -15,6 +15,7 @@ class IotDevicesController < ApplicationController
   # GET /iot_devices/new
   def new
     @iot_device = IotDevice.new
+    @iot_device.last_seen = Time.now
   end
 
   # GET /iot_devices/1/edit
@@ -25,7 +26,7 @@ class IotDevicesController < ApplicationController
   # POST /iot_devices.json
   def create
     @iot_device = IotDevice.new(iot_device_params)
-
+    @iot_device.last_seen = Time.now
     respond_to do |format|
       if @iot_device.save
         format.html { redirect_to @iot_device, notice: 'Iot device was successfully created.' }
