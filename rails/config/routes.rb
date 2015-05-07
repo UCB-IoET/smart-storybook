@@ -20,6 +20,7 @@ FlixelLights::Application.routes.draw do
   
   namespace :smart_story do
     get "environment"
+    get "whatishappening"
     get "new_story"
     post "new_story"
     get "advance_story"
