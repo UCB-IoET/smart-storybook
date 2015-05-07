@@ -1,5 +1,7 @@
 FlixelLights::Application.routes.draw do
 
+  resources :story_actuators
+
   resources :story_modalities
 
   namespace :smap do
@@ -20,6 +22,8 @@ FlixelLights::Application.routes.draw do
   
   namespace :smart_story do
     get "environment"
+    get "whatishappening"
+    get "super_new_story"
     get "new_story"
     post "new_story"
     get "advance_story"
