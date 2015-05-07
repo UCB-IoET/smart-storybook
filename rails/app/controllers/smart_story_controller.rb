@@ -166,6 +166,13 @@ class SmartStoryController < SmapController
 	end
 	
 	def composer
+
+		@actuators = {}
+		Actuator.all.each do |a|
+			@actuators[a.id] = a
+		end
+		@actuators = @actuators.to_json
+
 		@story = Story.find(params[:story_id])
 		@page = @story.story_pages.find{|s| s.page_number == params[:page_number].to_i}
 		render :layout => "singe_page_app"
