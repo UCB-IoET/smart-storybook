@@ -17,13 +17,16 @@ FlixelLights::Application.routes.draw do
   get "simulator/:iot_device_id/actuate/:action_id", :to => "simulator#actuate", :as => "simulator_actuate" 
   resources :iot_devices
 
+
+  get "smart_story/:story_id/super_new_story", :to => "smart_story#super_new_story", 
+  :as => "smart_story_creater"
+
   get "smart_story/:story_id/composer/:page_number", :to => "smart_story#composer", 
   :as => "smart_story_composer"
   
   namespace :smart_story do
     get "environment"
     get "whatishappening"
-    get "super_new_story"
     get "new_story"
     post "new_story"
     get "advance_story"
@@ -43,6 +46,11 @@ FlixelLights::Application.routes.draw do
   resources :story_images
 
   resources :stories do 
+    
+    collection do 
+      get :info
+    end
+
     member do 
       get :ipad_output
     end
