@@ -84,7 +84,7 @@ class SmartStoryController < SmapController
 	
 	# ACTUATION LOGIC GOES HERE
 	def advance_story
-		page_number = params["page_number"].to_i
+		page_number = params["page_number"].to_i + 1
 		story_id = params["story_id"].to_i
 		story_page = StoryPage.where("story_id = ? and page_number = ?", story_id, page_number).first;
 		output = []
