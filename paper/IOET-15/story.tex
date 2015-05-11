@@ -8,6 +8,8 @@
 \usepackage{url}
 \usepackage{wrapfig}
 \usepackage{lipsum}
+\usepackage{setspace}
+\usepackage{helvet}
 
 
 \makeatletter
@@ -57,7 +59,13 @@ breaklinks=true,
 
 \begin{document}
 
-\title{\name}
+
+\title{
+\setstretch{2} \ttlfnt
+\name: IoET Augmented Environment \\
+Coordinator for Storytelling
+\vspace{-16pt}
+}
 
 \iftoggle{anonymous}{
   %if anonymous
@@ -72,33 +80,35 @@ breaklinks=true,
 \numberofauthors{1}
   \author{
   \alignauthor {Cesar Torres\quad}\\
+    \affaddr{Electrical Engineering and Computer Sciences}\\
     \affaddr{University of California, Berkeley}\\
     \email{cearto@berkeley.edu}\\
   }
 }
 
-% Some fancy Latex (that I copied) to make a title page banner
+% % Some fancy Latex (that I copied) to make a title page banner
 % \makeatletter
 % \let\@oldmaketitle\@maketitle% Store \@maketitle
 % \renewcommand{\@maketitle}{\@oldmaketitle% Update \@maketitle to insert...
 %   \includegraphics[keepaspectratio, width=\linewidth]
-%     {figures/teaser-sketch-2.pdf}\bigskip}% ... an image
+%     {figures/teaser.pdf}\bigskip}% ... an image
 % \makeatother
 
 
-% \teaser {
-%   \vspace{-8pt}
-%   \centering
-%     \includegraphics[width=\linewidth]{figures/teaser-sketch-2.pdf}
-%     \caption{Example objects created with \name. \textit{External} and \textit{Internal} tools easily add tactility, interactivity, flexibility, and weight to objects.}
-% \label{fig:teaser}
-% \vspace{-8pt}
-% }
+\teaser {
+  \vspace{-10pt}
+  \centering
+    \includegraphics[width=\linewidth]{figures/teaser.pdf}
+      \caption{Example story pages augmented with \name. (a) As the Big Bad Wolf huffs and puffs, a connected fan is triggered in the environment. (b) When the situation comes to a boil, a nearby heater warms the room. }
+\label{fig:teaser}
+\vspace{-8pt}
+}
  
 \maketitle
 
 \begin{abstract}
-  An augmented environment coordinator for storytelling. Polls devices in a room for storytelling capabilities (e.g. light, sound, smell) and contributes a content creation tool that synthesizes output into a unique storytelling experience. 
+Reading stories and experiencing storytelling is formative to a child’s development and critical tool for sense-making. As the Internet of Things develops, we see new opportunities to expand the aesthetics of storytelling. We introduce SmartStorybook, an augmented environment (AE) application that controls the rich multimodal environment enabled by IoT to create interactive engagement with reading material. 
+Smart Storybook contributes a content creation tool that synthesizes output with storylines. Upon reading time, the tool polls devices in a room for story enhancing capabilities (e.g. providing light, sound, smell). The desired story telling environment is resolved dynamically, providing a unique storytelling experience based on available devices and services.  
 \end{abstract}
 
 
@@ -114,19 +124,25 @@ breaklinks=true,
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%% INTRODUCTION %%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
+\newpage
 \section{INTRODUCTION}
-\lipsum[2]
+As reading technologies continue to develop, we have a new opportunity to alter and enhance the story telling experience. Story telling is fundamental to modern culture, as a means of passing knowledge and as a tool for sense-making. Interactive stories (the content) and interactive story books (the object) have been a long sought goal for human-computer interaction researchers in order to realize a long-term engagement and critical thinking. Due to the wide variety of publication mediums (print, digital, verbal) and a tension between traditional storytelling modalities, this has proved difficult. In particular, the spectacle of an augmented story book often overpowers the content and affects the learning value of the story itself. 
+
+We present \name, a digital storybook that polls for IoT-connected devices and triggers actions based on story content. Our approach enhances the physical environment rather than imposing a virtual one. We show how this type of interface provides a seamless interaction with the storytelling experience and present novel application scenarios for improving sense-making and creating a dynamic story telling experience for repeat engagement with stories. 
    
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%% BACKGROUND %%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \section{BACKGROUND}
-Augmented reality storybook \cite{scherrer_haunted_2008}. 
-Patent on modal interaction in book (i.e. greeting card sounds) \cite{iggulden_printed_1999}. 
-Detecting page flips, ubicomp \cite{fujinami_page-flipping_2009}.
-Telepresent story telling \cite{raffle_family_2010}. 
+The ``magic book'' has been long sought goal for interaction researchers. Billinghurst proposes three spheres of interaction: the tangible object, the mixed-reality universe, and the virtual universe \cite{billinghurst_magicbook-moving_2001}. Several technologies have been used to operate in each of these spaces: refined computer vision techniques have been used to prove the feasibility of an augmented reality storybook free of machine-readable markup \cite{scherrer_haunted_2008}. Camera free approaches, such as Fujinami's augmented book cover and bookmark, detect page flips and offer a more mobile detection routine \cite{fujinami_page-flipping_2009}. Head-mounted displays with a book as interface have been shown to create immersive visual environments \cite{saso_little_2003}. Unlike mixed-reality initiatives that augment physical artifacts with virtual elements, Smart Storybook uses the StoryBubbles iPad storybook application to interface with devices and directly alter the real representation of the environment.
+
+Other research has focused on added new interactivity to story books. 
+Through simple energy harvesting, Karagozler, et al., demonstrated that powered devices can be embedded directly onto the pages of a story book \cite{karagozler_paper_2013}. A rubbing action is used to generate charge to drive LEDs and power e-paper displays and enable dynamic animations and hidden messages. 
+Multimodal output have been integrated into printed artifacts \cite{iggulden_printed_1999} seen primarily in greeting cards. 
+
+The enhanced storybook has also been examined as a method of creating a more collaborative story telling experience and enhancing the learning value of these books. Raffle, et al., demonstrated how Internet-connected storybooks could be used to create a telepresent story-telling between children and distant relatives \cite{raffle_family_2010}. The character Elmo was used to facilitate the remote interaction; however this caused attention issues since children were more prone to engage with the digital cartoon. SmartStorybook has a similar ``WOW'' factor characteristic of many new media storybooks, however we show how this is not merely a superficial element, but can be designed so children directly engage with the story content. 
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%% DESIGN  %%%%%%%%%%%%%%%%%
@@ -142,14 +158,37 @@ Telepresent story telling \cite{raffle_family_2010}.
       \label{fig:architecture} 
     \end{figure}
 
-\lipsum[3]
+System Architecture 
+Our architecture composes of three major components - IoT devices (SVCD, BLE, 15.4), a middleware application used as a book repository and for content creation, and a previously developed iPad application (StoryBubbles) for viewing story content. 
+\subsection{Discovery (SMAP, BL*, 15.4*)} 
+Several protocols exist for discovering devices in an environment. To facilitate this, we created a central repository that communicates retrieves manifest for each of the above protocols. For locality, a distance attribute is added to each environment.
+
+\subsection{Matching}
+Metadata was added to published manifest for each device describing each action and its corresponding modality. Modalities described sensory characteristics as follows: Light, Sound, Noise, Air, Heat, Taste, and Motion. Each action was ascribed an amplitude (“on” —> 100). 
+Two matching schemes where devices for resolving devices to desired environmental or interactive conditions. 
+\begin{itemize}
+\item Least-squares - takes the difference in desired environment and IoT device enhanceable environment and finds the optimal fit. 
+
+\item Greedy - Finds the closest modality strength value and actuate all equivalent actions. 
+\end{itemize}
+\subsection{Actuation}
+
+
+The iPad storybook application pulls down storybook information from a server. Each page turn then functions as a button press. The server subscribes to this stream, and looks up appropriate devices to actuate. 
+The server communicates with each protocol using a base station to handle actuation. For instance, BL devices are actuated using an iPad or other BL device as a relay. All device actuation logic exists in the middleware layer. 
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%% EVALUATION %%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\section{BACKGROUND}
-\lipsum[3]
+\section{APPLICATIONS}
+\subsection{Augmented Environments}
+Beyond visual animations that are present in screen-based applications, Smart Storybook interacts with a wider range of sensory experiences. By connecting to smart fans, Smart Storybook can control air flow. This allows us to simulate a cooler narrative.
+\subsection{Character Enhancement}
+Through, Smart Storybook's content creation tool, character actions are joined with environment coordinations. The reader experiences the actions of a character through various modalities. In our favorite example, the wolf in the Three Little Pigs blows down the house alongside a fan turned to high speed. These cues add theatricality as the story and environment become melded together, and signal to young readers character presence. 
+\subsection{Dynamic Storytelling and Interactivity}
+At each environment, Smart Storybook queries to find what devices are available to contribute to the storytelling experience. This means that each room has its own storytelling capabilities, and the story becomes anew with a new environment. For instance, the story Goodnight Moon, where a reader bids goodnight to the inhabitants of a room, can be made interactive such that each “good night” turns off an IoT device. By retaining the novelty of stories through different augmented environments, Smart Storybook can facilitate continued engagement with readers. 
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -157,7 +196,7 @@ Telepresent story telling \cite{raffle_family_2010}.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \section{CONCLUSION}
-  \lipsum[1]
+Smart Storybook provides an alternative viewpoint to the IoT narrative. By project touches on issues of discovery management and ensemble creation. Ultimately, ascribing relevant metadata remains the chief deterrent to widespread applicability. While the SMAP definition provides some flexibility,  there is inherently a lack of proximity information and the granularity needed for storytelling. SVCD can provide better proximity data through RSSI, or resolving devices can be made a user-process.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%% ACK %%%%%%%%%%%%%%%%%%%%%
