@@ -44,17 +44,18 @@ linkcolor=black,
 urlcolor=black,
 breaklinks=true,
 }
-\toappear{CS294 Report - IoET 2015 - David Culler.}
+\toappear{CS294 Final Project Report\\Internet of Everyday Things, Spring 2015\\ Prof. David Culler}
 
 \newcommand\tabhead[1]{\small\textbf{#1}}
 \newcommand\group[1]{\textit{#1}}
-\newcommand\quoted[1]{\textsl{#1}}
+
 \newcommand\name{SmartStoryboard}
 \newcommand\namesp{SmartStorybaord }
 
 
 \newcommand*{\layer}[1]{{\textbf{\small{\fontfamily{cmss}\selectfont{#1}}}}}
-
+\newenvironment{myquote}{\list{}{\leftmargin=0.01\textwidth \rightmargin=0.01\textwidth}\item[]}{\endlist}
+\newcommand*{\quoted}[1]{{\small{\fontfamily{cmss}\selectfont{#1}}}}
 % End of preamble.
 
 \begin{document}
@@ -107,7 +108,7 @@ Coordinator for Storytelling
 \maketitle
 
 \begin{abstract}
-Reading stories and experiencing storytelling is formative to a child’s development and critical tool for sense-making. As the Internet of Things develops, we see new opportunities to expand the aesthetics of storytelling. We introduce SmartStorybook, an augmented environment (AE) application that controls the rich multimodal environment enabled by IoT to create interactive engagement with reading material. 
+Reading stories and experiencing storytelling is formative to a child's development and critical tool for sense-making. As the Internet of Things develops, we see new opportunities to expand the aesthetics of storytelling. We introduce SmartStorybook, an augmented environment (AE) application that controls the rich multimodal environment enabled by IoT to create interactive engagement with reading material. 
 Smart Storybook contributes a content creation tool that synthesizes output with storylines. Upon reading time, the tool polls devices in a room for story enhancing capabilities (e.g. providing light, sound, smell). The desired story telling environment is resolved dynamically, providing a unique storytelling experience based on available devices and services.  
 \end{abstract}
 
@@ -134,8 +135,19 @@ We present \name, a digital storybook that polls for IoT-connected devices and t
 %%%%%%%%%%%%%%%% BACKGROUND %%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+
+  \begin{figure*}[th!]
+      % \vspace{-8pt}
+      \centering
+      \includegraphics[keepaspectratio, width=0.98\textwidth]{figures/architecture.pdf} 
+      \caption{\namesp architecture. }
+      \vspace{-4pt}
+      \label{fig:architecture} 
+    \end{figure*}
+
 \section{BACKGROUND}
-The ``magic book'' has been long sought goal for interaction researchers. Billinghurst proposes three spheres of interaction: the tangible object, the mixed-reality universe, and the virtual universe \cite{billinghurst_magicbook-moving_2001}. Several technologies have been used to operate in each of these spaces: refined computer vision techniques have been used to prove the feasibility of an augmented reality storybook free of machine-readable markup \cite{scherrer_haunted_2008}. Camera free approaches, such as Fujinami's augmented book cover and bookmark, detect page flips and offer a more mobile detection routine \cite{fujinami_page-flipping_2009}. Head-mounted displays with a book as interface have been shown to create immersive visual environments \cite{saso_little_2003}. Unlike mixed-reality initiatives that augment physical artifacts with virtual elements, Smart Storybook uses the StoryBubbles iPad storybook application to interface with devices and directly alter the real representation of the environment.
+The ``magic book'' has been long sought goal for interaction researchers.
+Billinghurst, et al., proposes three spheres of interaction: the tangible object, the mixed-reality universe, and the virtual universe \cite{billinghurst_magicbook-moving_2001}. Several technologies have been used to operate in each of these spaces: refined computer vision techniques have been used to prove the feasibility of an augmented reality storybook free of machine-readable markup \cite{scherrer_haunted_2008}. Camera free approaches, such as Fujinami's augmented book cover and bookmark, detect page flips and offer a more mobile detection routine \cite{fujinami_page-flipping_2009}. Head-mounted displays with a book as interface have been shown to create immersive visual environments \cite{saso_little_2003}. Unlike mixed-reality initiatives that augment physical artifacts with virtual elements, Smart Storybook uses the StoryBubbles iPad storybook application to interface with devices and directly alter the real representation of the environment.
 
 Other research has focused on added new interactivity to story books. 
 Through simple energy harvesting, Karagozler, et al., demonstrated that powered devices can be embedded directly onto the pages of a story book \cite{karagozler_paper_2013}. A rubbing action is used to generate charge to drive LEDs and power e-paper displays and enable dynamic animations and hidden messages. 
@@ -148,22 +160,19 @@ The enhanced storybook has also been examined as a method of creating a more col
 %%%%%%%%%%%%%%%% DESIGN  %%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\section{SYSTEM DESIGN}
-  \begin{figure}[t!]
-      % \vspace{-8pt}
-      \centering
-      \includegraphics[keepaspectratio, width=0.5\textwidth]{figures/architecture.pdf} 
-      \caption{\namesp architecture. }
-      \vspace{-4pt}
-      \label{fig:architecture} 
-    \end{figure}
 
-System Architecture 
-Our architecture composes of three major components - IoT devices (SVCD, BLE, 15.4), a middleware application used as a book repository and for content creation, and a previously developed iPad application (StoryBubbles) for viewing story content. 
-\subsection{Discovery (SMAP, BL*, 15.4*)} 
+\section{SYSTEM DESIGN}
+Our architecture is composed of three major components - IoT devices (SVCD, BLE, 15.4), a middleware application used as a book repository and for content creation, and a previously developed iPad application (StoryBubbles) for viewing story content. The system architecture is depicted in Figure \ref{fig:architecture} and consists of three steps: discovery devices and services, mapping services to pages in a storybook, and actuating the necessary device through the appropriate protocol. 
+
+\subsection{IoET Device Discovery} 
 Several protocols exist for discovering devices in an environment. To facilitate this, we created a central repository that communicates retrieves manifest for each of the above protocols. For locality, a distance attribute is added to each environment.
 
-\subsection{Matching}
+
+\subsubsection{sMAP}
+The Simple Measurement and Actuation Profile (sMAP) is a specification for transmitting physical data to and from sensors and actuators  \cite{dawson-haggerty_smap:_2010}. In this paper, we focus primarily on the actuation component of sMAP, which provides a set of commonly used actuation patterns: binary two-state, discrete n-state, any-integer, and continuous-value actuation.A sMAP registered connected device publishes its available services to a middleware server and subscribes to a socket and listens for incoming requests. The server provides a RESTful HTTP API to get/set actuator state, while offering some rate-limiting control. Additional metadata was added to the published services to indicate the modality of the actuation. Modality is described in terms of physical and sensory characteristics as follows: 
+\quoted{Light, Air, Sound, Small, Heat, Taste, Motion.}
+
+\subsection{STORY COMPILATION}
 Metadata was added to published manifest for each device describing each action and its corresponding modality. Modalities described sensory characteristics as follows: Light, Sound, Noise, Air, Heat, Taste, and Motion. Each action was ascribed an amplitude (“on” —> 100). 
 Two matching schemes where devices for resolving devices to desired environmental or interactive conditions. 
 \begin{itemize}
@@ -171,11 +180,13 @@ Two matching schemes where devices for resolving devices to desired environmenta
 
 \item Greedy - Finds the closest modality strength value and actuate all equivalent actions. 
 \end{itemize}
-\subsection{Actuation}
-
-
+\subsection{ACTUATION}
 The iPad storybook application pulls down storybook information from a server. Each page turn then functions as a button press. The server subscribes to this stream, and looks up appropriate devices to actuate. 
 The server communicates with each protocol using a base station to handle actuation. For instance, BL devices are actuated using an iPad or other BL device as a relay. All device actuation logic exists in the middleware layer. 
+
+
+\section{STORY ENVIRONMENT}
+In a mock IoET storytelling environment, our system architecture discovered up to seven connected devices in the 19-page story of The Three Little Pigs by Little Green. The devices included a 4-state sMAP/15.4/BL fan and a sMAP smart powerstrip with binary control to 6 devices: 3 lights, a personal heater and fan, and a scent diffuser.  
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -196,7 +207,7 @@ At each environment, Smart Storybook queries to find what devices are available 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \section{CONCLUSION}
-Smart Storybook provides an alternative viewpoint to the IoT narrative. By project touches on issues of discovery management and ensemble creation. Ultimately, ascribing relevant metadata remains the chief deterrent to widespread applicability. While the SMAP definition provides some flexibility,  there is inherently a lack of proximity information and the granularity needed for storytelling. SVCD can provide better proximity data through RSSI, or resolving devices can be made a user-process.
+Smart Storybook provides an alternative viewpoint to the IoT narrative. By project touches on issues of discovery management and ensemble creation. Ultimately, ascribing relevant metadata remains the chief deterrent to widespread applicability. While the sMAP definition provides some flexibility,  there is inherently a lack of proximity information and the granularity needed for storytelling. SVCD can provide better proximity data through RSSI, or resolving devices can be made a user-process.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%% ACK %%%%%%%%%%%%%%%%%%%%%
