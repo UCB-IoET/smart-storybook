@@ -49,8 +49,8 @@ breaklinks=true,
 \newcommand\tabhead[1]{\small\textbf{#1}}
 \newcommand\group[1]{\textit{#1}}
 
-\newcommand\name{SmartStoryboard}
-\newcommand\namesp{SmartStorybaord }
+\newcommand\name{SmartStorybook}
+\newcommand\namesp{SmartStorybook }
 
 
 \newcommand*{\layer}[1]{{\textbf{\small{\fontfamily{cmss}\selectfont{#1}}}}}
@@ -140,7 +140,7 @@ We present \name, a digital storybook that polls for IoT-connected devices and t
       % \vspace{-8pt}
       \centering
       \includegraphics[keepaspectratio, width=0.98\textwidth]{figures/architecture.pdf} 
-      \caption{\namesp architecture. }
+      \caption{\namesp architecture. Devices in a room broadcast available services through supported physical communication (Bluetooth, IEEE 802.15.4) in a IoET device discovery phase. A device-action list is then matched to desired actions in a story page. This story is pulled down by a storybook interface which publishes its page location. On a page turn event, the bound actions are actuated via its appropriately. }
       \vspace{-4pt}
       \label{fig:architecture} 
     \end{figure*}
