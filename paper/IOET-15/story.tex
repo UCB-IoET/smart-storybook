@@ -175,7 +175,7 @@ In this paper, we focus primarily on the actuation component of sMAP, which prov
 This sMAP pattern was extended to devices published through 15.4 and Bluetooth. 
 Metadata was added to published manifest for each device describing each action and its corresponding modality. 
 Modality is described in terms of physical and sensory characteristics as follows: \quoted{$\langle$ light, air, sound, smell, heat, taste, motion $\rangle$}.
-Each action was ascribed an amplitude (\quoted{on} $\rightarrow$ 100), and for locality a distance attribute was added to each environment. Lastly, a RESTful API set/get point was allocated to each device.
+Each action was ascribed an amplitude (\quoted{on} $\rightarrow$ 100), and a distance attribute was added to each environment for locality. Lastly, a RESTful API set/get point was assigned to each device.
 
 \begin{figure}[t!]
     % \vspace{-8pt}
@@ -203,7 +203,7 @@ A tuple containing UUID of the device and the name of the action was bound to th
 
 \subsection{Actuation}
 Finally, a previously developed iPad application (StoryBubbles) was used to view story content. StoryBubbles retrieves storybook information from a server. The storybook is treated as a button stream, where each page -turn is treated as a button press event which publishes its current page number. The server subscribes to this stream, looks up linked device actions, and actuate each respective device. 
-The server communicates with each protocol using a base station that ``talks'' the language of the device. For instance, BL devices are actuated using an iPad or other BL device as a relay. All device actuation logic exists in the middleware layer. 
+The server communicates with each protocol using a base station that ``talks'' the language of the device. For instance, BLE devices are actuated using an iPad or other BLE device as a relay. All device actuation logic exists in the middleware layer. 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%% APPLICATIONS %%%%%%%%%%%%%%
@@ -240,7 +240,7 @@ In each environment, Smart Storybook queries to find what devices are available 
 \section{Evaluation}
 This following example story was tested informally in a public demonstration (Figure \ref{fig:demo}). The audience was invited to participate in a personal reading or as a oral group reading.
 
-In a mock IoET storytelling environment, our system discovered up to seven connected devices. The devices included a 4-state sMAP/15.4/BL fan and a sMAP smart powerstrip with binary control to 6 devices: 3 lights, a personal heater and fan, and a scent diffuser.  
+In a mock IoET storytelling environment, our system discovered up to seven connected devices. The devices included a 4-state sMAP/15.4/BLE fan and a sMAP smart powerstrip with binary control to 6 devices: 3 lights, a personal heater and fan, and a scent diffuser.  
 
 \subsection{Story: The Big Bad Wolf}
 Our testing story consisted of 19-page full-page illustration of The Three Little Pigs by Little Green. Device interactions are composed in the story as follows:
@@ -270,7 +270,7 @@ Ultimately, ascribing relevant metadata remains the chief deterrent to widesprea
 While the sMAP definition provides some flexibility, there is inherently a lack of proximity information and the granularity needed for storytelling. SVCD can provide better proximity data through RSSI, or resolving devices can be made a user-process.
 
 Furthermore, richer actuator control is limited by connectivity. For instance, a lightning behavior (a lamp turning on and off rapidly) is subject to the throughput of the server.
-Lastly, during the demo, several groups were using similar devices.A similar case would likely occur in the wild; access control needs to be added to devices to prevent unwanted behavior (such as actuating a thermometer of a building). 
+Lastly, during the demo, several groups were using similar devices. A similar case would likely occur in the wild; access control needs to be added to devices to prevent unwanted behavior (such as actuating a thermometer of a building). 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%   CONCLUSION    %%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
