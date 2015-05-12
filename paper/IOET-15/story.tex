@@ -63,8 +63,8 @@ breaklinks=true,
 
 \title{
 \setstretch{2} \ttlfnt
-\name: IoET Augmented Environment \\
-Coordinator for Storytelling
+\name: An Internet of Things\\
+Augmented Environment Coordinator for Storytelling
 \vspace{-16pt}
 }
 
@@ -146,7 +146,7 @@ We present \name, a digital storybook that polls for IoT-connected devices and t
     \end{figure*}
 
 \section{BACKGROUND}
-The ``magic book'' has been long sought goal for interaction researchers.
+The ``magic book'' has been a long sought goal for interaction researchers.
 Billinghurst, et al., proposes three spheres of interaction: the tangible object, the mixed-reality universe, and the virtual universe \cite{billinghurst_magicbook-moving_2001}. Several technologies have been used to operate in each of these spaces: refined computer vision techniques have been used to prove the feasibility of an augmented reality storybook free of machine-readable markup \cite{scherrer_haunted_2008}. Camera free approaches, such as Fujinami's augmented book cover and bookmark, detect page flips and offer a more mobile detection routine \cite{fujinami_page-flipping_2009}. Head-mounted displays with a book as interface have been shown to create immersive visual environments \cite{saso_little_2003}. Unlike mixed-reality initiatives that augment physical artifacts with virtual elements, Smart Storybook uses the StoryBubbles iPad storybook application to interface with devices and directly alter the real representation of the environment.
 
 Other research has focused on added new interactivity to story books. 
@@ -177,46 +177,74 @@ Metadata was added to published manifest for each device describing each action 
 Modality is described in terms of physical and sensory characteristics as follows: \quoted{$\langle$ light, air, sound, smell, heat, taste, motion $\rangle$}.
 Each action was ascribed an amplitude (\quoted{on} $\rightarrow$ 100), and for locality a distance attribute was added to each environment. Lastly, a RESTful API set/get point was allocated to each device.
 
+\begin{figure}[t!]
+    % \vspace{-8pt}
+    \centering
+    \includegraphics[keepaspectratio, width=0.5\textwidth]{figures/composer.pdf} 
+    \caption{\namesp composer. Modalities are assigned to each page in the storybook to create a desired ambiance. Active page actuations are displayed to remind content authors of current conditions.}
+    \vspace{-4pt}
+    \label{fig:composer} 
+  \end{figure}
+
 \subsection{Story compilation}
 In order to allow story developers to author interactive content into existing storybooks, we created a IoT story composer that assigns a high-level description of a desired environment to a story page (Figure \ref{fig:composer}). For each page, a story developer can specify the intensity of each modality along a continuous range from 0 to 100. For usability, active actuations (triggered from previous pages) are displayed alongside the desired environment.
 
 \subsubsection{Matching}
-Two matching schemes where devices for resolving devices to desired environmental or interactive conditions. 
+Two matching schemes were constructed to resolving devices to desired environmental or interactive conditions. 
 \begin{itemize}
 \item Least-squares - takes the difference in desired environment and the permutation of IoT device actions and finds the closest optimal fit. 
 \item Greedy - Finds the closest modality strength value and actuate $n$ equivalent actions (e.g. $\langle$\quoted{light}, 100, $n \rangle \rightarrow$ turn on $n$ \quoted{light} actuators). 
+A tuple containing UUID of the device and the name of the action was bound to the appropriate page in the story.
 
 \end{itemize}
+
+
 \subsection{Actuation}
-The iPad storybook application pulls down storybook information from a server. Each page turn then functions as a button press. The server subscribes to this stream, and looks up appropriate devices to actuate. 
-The server communicates with each protocol using a base station to handle actuation. For instance, BL devices are actuated using an iPad or other BL device as a relay. All device actuation logic exists in the middleware layer. 
+The iPad storybook application retrieves storybook information from a server. The storybook is treated as a button stream, where each page -turn is treated as a button press event which publishes its current page number. The server subscribes to this stream, looks up linked device actions, and actuate each respective device. 
+The server communicates with each protocol using a base station that ``talks'' the language of the device. For instance, BL devices are actuated using an iPad or other BL device as a relay. All device actuation logic exists in the middleware layer. 
 
- 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%% APPLICATIONS %%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
-\section{EXAMPLE STORY}
-In a mock IoET storytelling environment, our system architecture discovered up to seven connected devices in the 19-page story of The Three Little Pigs by Little Green. The devices included a 4-state sMAP/15.4/BL fan and a sMAP smart powerstrip with binary control to 6 devices: 3 lights, a personal heater and fan, and a scent diffuser.  
-  \begin{figure}[t!]
-      % \vspace{-8pt}
-      \centering
-      \includegraphics[keepaspectratio, width=0.5\textwidth]{figures/composer.pdf} 
-      \caption{\namesp composer. Modalities are assigned to each page in the storybook to create a desired ambiance. Active page actuations are displayed to remind content authors of current conditions.}
-      \vspace{-4pt}
-      \label{fig:composer} 
-    \end{figure}
+\section{APPLICATIONS}
+\subsection{Augmented Environments}
+Beyond visual animations that are present in screen-based applications, Smart Storybook interacts with a wider range of sensory experiences. By connecting to IoT devices, \name can control environmental conditions such as humidity, temperature, smell. These types of actions are generally slow actuations, taking several minutes to achieve a discriminable change. We forsee these as chapter-based interactions; whereas as more immediate changes such as air flow and ambient noise can be triggered to simulate the narrative's environment.
 
+
+\subsection{Character Enhancement}
+Through, Smart Storybook's content creation tool, character actions are joined with environment coordinations. The reader experiences the actions of a character through various modalities. In our favorite example, the wolf in the Three Little Pigs blows down the house alongside a fan turned to high speed. These cues add theatricality as the story and environment become melded together, and signal to young readers character presence. 
+\subsection{Dynamic Storytelling and Interactivity}
+At each environment, Smart Storybook queries to find what devices are available to contribute to the storytelling experience. This means that each room has its own storytelling capabilities, and the story becomes anew with a new environment. For instance, the story Goodnight Moon, where a reader bids goodnight to the inhabitants of a room, can be made interactive such that each “good night” turns off an IoT device. By retaining the novelty of stories through different augmented environments, Smart Storybook can facilitate continued engagement with readers. 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%% EVALUATION %%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\section{APPLICATIONS}
-\subsection{Augmented Environments}
-Beyond visual animations that are present in screen-based applications, Smart Storybook interacts with a wider range of sensory experiences. By connecting to smart fans, Smart Storybook can control air flow. This allows us to simulate a cooler narrative.
-\subsection{Character Enhancement}
-Through, Smart Storybook's content creation tool, character actions are joined with environment coordinations. The reader experiences the actions of a character through various modalities. In our favorite example, the wolf in the Three Little Pigs blows down the house alongside a fan turned to high speed. These cues add theatricality as the story and environment become melded together, and signal to young readers character presence. 
-\subsection{Dynamic Storytelling and Interactivity}
-At each environment, Smart Storybook queries to find what devices are available to contribute to the storytelling experience. This means that each room has its own storytelling capabilities, and the story becomes anew with a new environment. For instance, the story Goodnight Moon, where a reader bids goodnight to the inhabitants of a room, can be made interactive such that each “good night” turns off an IoT device. By retaining the novelty of stories through different augmented environments, Smart Storybook can facilitate continued engagement with readers. 
+
+
+\section{Evaluation}
+This following example story was tested informally in a public demonstration. The audience was invited to participate in a personal interaction with a single story in the \name application or a group storytelling. 
+
+In a mock IoET storytelling environment, our system architecture discovered up to seven connected devices. The devices included a 4-state sMAP/15.4/BL fan and a sMAP smart powerstrip with binary control to 6 devices: 3 lights, a personal heater and fan, and a scent diffuser.  
+
+\subsection{Story: The Big Bad Wolf}
+Our testing story consisted of 19-page full-page illustration of The Three Little Pigs by Little Green. Device interactions are composed in the story as follows:
+\begin{itemize}
+\item Firstly, a 4-state connected fan is mapped to the ``huff and puff'' of the Big Bad Wolf. As the wolf visits each respective pig's home, the fan is actuated to a higher intensity. 
+\item At the introduction of each of the piglet's construction ideology, a light is turned on. For the child, this presents an opportunity to have multiple external representation (MER) important to sense-making \cite{ainsworth_deft:_2006}. 
+\item Furthermore, each light is mapped to the presence of each piglet throughout the book. This acts as a cue to which characters are ``on the stage''. 
+\item At the climax of the story, the wolf is thrown into a boiling pot of water. We trigger a personal heater to turn on and remain heating the environment until the conclusion of the story. 
+\end{itemize}
+\subsection{Results}
+Due to the unexpected co-use of devices by other demonstrators, we refined the list of available devices to a single fan. Our system was able to create an augmented story with the same prior definition as above. When a heater was added to the device manifest, it was appropriately dynamically linked to trigger based on story events. 
+
+In a personal reading setting, we quickly found that synchronousness was fundamental to the interaction. Delays in actuation would dissolve a user's ``suspension of disbelief'', or the suspension of the implausibility of the narrative. We suspect a more private setting would aid with the delay effect since evaluating of public demonstrations is more subject to its spectacle value. 
+
+In a group setting, where one of the project authors facilitated the reading of the story, we observed that IoT actuations provided a more engaging storytelling experience especially since most of the audience where adults highly familiar with the story content. 
+
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%   LIMITATIONS & FUTURE WORK  %%%%%%%%%
