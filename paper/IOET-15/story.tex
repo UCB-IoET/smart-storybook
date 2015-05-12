@@ -168,35 +168,41 @@ Our architecture is composed of three major components - IoT devices (SVCD, BLE,
 Several protocols exist for discovering devices in an environment. To allow for interoperability, we created a central repository that stores manifests for 15.4\footnote{802.15.4 6LoWPAN - Low power Wireless Personal Area Networks - a IPv6 protocol that enables small devices to have Internet-connectivity},
 Bluetooth\footnote{Bluetooth Generic Attribute Profile},
 and sMAP\footnote{The Simple Measurement and Actuation Profile (sMAP) is a specification for transmitting physical data to and from sensors and actuators \cite{dawson-haggerty_smap:_2010}.} 
-devices. For locality, a distance attribute is added to each environment.
+devices. 
 
+In this paper, we focus primarily on the actuation component of sMAP, which provides a specification for commonly used actuation patterns: binary two-state, discrete n-state, any-integer, and continuous-value actuation. A sMAP registered connected device publishes its available services to a middleware server and subscribes to a socket and listens for incoming requests. The server provides a RESTful HTTP API to get/set actuator state, while offering some rate-limiting control. 
 
-\subsubsection{sMAP}
- In this paper, we focus primarily on the actuation component of sMAP, which provides a set of commonly used actuation patterns: binary two-state, discrete n-state, any-integer, and continuous-value actuation.A sMAP registered connected device publishes its available services to a middleware server and subscribes to a socket and listens for incoming requests. The server provides a RESTful HTTP API to get/set actuator state, while offering some rate-limiting control. Additional metadata was added to the published services to indicate the modality of the actuation. Modality is described in terms of physical and sensory characteristics as follows: 
-\quoted{Light, Air, Sound, Small, Heat, Taste, Motion.}
+This sMAP pattern was extended to devices published through 15.4 and Bluetooth. 
+Metadata was added to published manifest for each device describing each action and its corresponding modality. 
+Modality is described in terms of physical and sensory characteristics as follows: \quoted{$\langle$ light, air, sound, smell, heat, taste, motion $\rangle$}.
+Each action was ascribed an amplitude (\quoted{on} $\rightarrow$ 100), and for locality a distance attribute was added to each environment. Lastly, a RESTful API set/get point was allocated to each device.
 
 \subsection{Story compilation}
-Metadata was added to published manifest for each device describing each action and its corresponding modality. Modalities described sensory characteristics as follows: Light, Sound, Noise, Air, Heat, Taste, and Motion. Each action was ascribed an amplitude (“on” —> 100). 
+In order to allow story developers to author interactive content into existing storybooks, we created a IoT story composer that assigns a high-level description of a desired environment to a story page (Figure \ref{fig:composer}). For each page, a story developer can specify the intensity of each modality along a continuous range from 0 to 100. For usability, active actuations (triggered from previous pages) are displayed alongside the desired environment.
+
+\subsubsection{Matching}
 Two matching schemes where devices for resolving devices to desired environmental or interactive conditions. 
 \begin{itemize}
-\item Least-squares - takes the difference in desired environment and IoT device enhanceable environment and finds the optimal fit. 
+\item Least-squares - takes the difference in desired environment and the permutation of IoT device actions and finds the closest optimal fit. 
+\item Greedy - Finds the closest modality strength value and actuate $n$ equivalent actions (e.g. $\langle$\quoted{light}, 100, $n \rangle \rightarrow$ turn on $n$ \quoted{light} actuators). 
 
-\item Greedy - Finds the closest modality strength value and actuate all equivalent actions. 
 \end{itemize}
 \subsection{Actuation}
 The iPad storybook application pulls down storybook information from a server. Each page turn then functions as a button press. The server subscribes to this stream, and looks up appropriate devices to actuate. 
 The server communicates with each protocol using a base station to handle actuation. For instance, BL devices are actuated using an iPad or other BL device as a relay. All device actuation logic exists in the middleware layer. 
 
-\section{COMPOSER}
-\subsection{STORY ENVIRONMENT}
+ 
+
+
+\section{EXAMPLE STORY}
 In a mock IoET storytelling environment, our system architecture discovered up to seven connected devices in the 19-page story of The Three Little Pigs by Little Green. The devices included a 4-state sMAP/15.4/BL fan and a sMAP smart powerstrip with binary control to 6 devices: 3 lights, a personal heater and fan, and a scent diffuser.  
   \begin{figure}[t!]
       % \vspace{-8pt}
       \centering
       \includegraphics[keepaspectratio, width=0.5\textwidth]{figures/composer.pdf} 
-      \caption{\namesp composer. }
+      \caption{\namesp composer. Modalities are assigned to each page in the storybook to create a desired ambiance. Active page actuations are displayed to remind content authors of current conditions.}
       \vspace{-4pt}
-      \label{fig:architecture} 
+      \label{fig:composer} 
     \end{figure}
 
 
