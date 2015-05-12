@@ -165,14 +165,17 @@ The enhanced storybook has also been examined as a method of creating a more col
 Our architecture is composed of three major components - IoT devices (SVCD, BLE, 15.4), a middleware application used as a book repository and for content creation, and a previously developed iPad application (StoryBubbles) for viewing story content. The system architecture is depicted in Figure \ref{fig:architecture} and consists of three steps: discovery devices and services, mapping services to pages in a storybook, and actuating the necessary device through the appropriate protocol. 
 
 \subsection{IoET Device Discovery} 
-Several protocols exist for discovering devices in an environment. To facilitate this, we created a central repository that communicates retrieves manifest for each of the above protocols. For locality, a distance attribute is added to each environment.
+Several protocols exist for discovering devices in an environment. To allow for interoperability, we created a central repository that stores manifests for 15.4\footnote{802.15.4 6LoWPAN - Low power Wireless Personal Area Networks - a IPv6 protocol that enables small devices to have Internet-connectivity},
+Bluetooth\footnote{Bluetooth Generic Attribute Profile},
+and sMAP\footnote{The Simple Measurement and Actuation Profile (sMAP) is a specification for transmitting physical data to and from sensors and actuators \cite{dawson-haggerty_smap:_2010}.} 
+devices. For locality, a distance attribute is added to each environment.
 
 
 \subsubsection{sMAP}
-The Simple Measurement and Actuation Profile (sMAP) is a specification for transmitting physical data to and from sensors and actuators  \cite{dawson-haggerty_smap:_2010}. In this paper, we focus primarily on the actuation component of sMAP, which provides a set of commonly used actuation patterns: binary two-state, discrete n-state, any-integer, and continuous-value actuation.A sMAP registered connected device publishes its available services to a middleware server and subscribes to a socket and listens for incoming requests. The server provides a RESTful HTTP API to get/set actuator state, while offering some rate-limiting control. Additional metadata was added to the published services to indicate the modality of the actuation. Modality is described in terms of physical and sensory characteristics as follows: 
+ In this paper, we focus primarily on the actuation component of sMAP, which provides a set of commonly used actuation patterns: binary two-state, discrete n-state, any-integer, and continuous-value actuation.A sMAP registered connected device publishes its available services to a middleware server and subscribes to a socket and listens for incoming requests. The server provides a RESTful HTTP API to get/set actuator state, while offering some rate-limiting control. Additional metadata was added to the published services to indicate the modality of the actuation. Modality is described in terms of physical and sensory characteristics as follows: 
 \quoted{Light, Air, Sound, Small, Heat, Taste, Motion.}
 
-\subsection{STORY COMPILATION}
+\subsection{Story compilation}
 Metadata was added to published manifest for each device describing each action and its corresponding modality. Modalities described sensory characteristics as follows: Light, Sound, Noise, Air, Heat, Taste, and Motion. Each action was ascribed an amplitude (“on” —> 100). 
 Two matching schemes where devices for resolving devices to desired environmental or interactive conditions. 
 \begin{itemize}
@@ -180,13 +183,21 @@ Two matching schemes where devices for resolving devices to desired environmenta
 
 \item Greedy - Finds the closest modality strength value and actuate all equivalent actions. 
 \end{itemize}
-\subsection{ACTUATION}
+\subsection{Actuation}
 The iPad storybook application pulls down storybook information from a server. Each page turn then functions as a button press. The server subscribes to this stream, and looks up appropriate devices to actuate. 
 The server communicates with each protocol using a base station to handle actuation. For instance, BL devices are actuated using an iPad or other BL device as a relay. All device actuation logic exists in the middleware layer. 
 
-
-\section{STORY ENVIRONMENT}
+\section{COMPOSER}
+\subsection{STORY ENVIRONMENT}
 In a mock IoET storytelling environment, our system architecture discovered up to seven connected devices in the 19-page story of The Three Little Pigs by Little Green. The devices included a 4-state sMAP/15.4/BL fan and a sMAP smart powerstrip with binary control to 6 devices: 3 lights, a personal heater and fan, and a scent diffuser.  
+  \begin{figure}[t!]
+      % \vspace{-8pt}
+      \centering
+      \includegraphics[keepaspectratio, width=0.5\textwidth]{figures/composer.pdf} 
+      \caption{\namesp composer. }
+      \vspace{-4pt}
+      \label{fig:architecture} 
+    \end{figure}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -201,7 +212,14 @@ Through, Smart Storybook's content creation tool, character actions are joined w
 \subsection{Dynamic Storytelling and Interactivity}
 At each environment, Smart Storybook queries to find what devices are available to contribute to the storytelling experience. This means that each room has its own storytelling capabilities, and the story becomes anew with a new environment. For instance, the story Goodnight Moon, where a reader bids goodnight to the inhabitants of a room, can be made interactive such that each “good night” turns off an IoT device. By retaining the novelty of stories through different augmented environments, Smart Storybook can facilitate continued engagement with readers. 
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%   LIMITATIONS & FUTURE WORK  %%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+\section{LIMITATIONS AND FUTURE WORK}
+Adding device metadata such as proximity and context information. Many devices are proxies for actions. The granularity of their service is suspect. This can be mediated through a user selection process. 
+Richer actuator control is limited by connectivity. For instance, a lightning behavior (a lamp turning on and off rapidly) is subject to the throughput of the server.
+Privacy and control. During the demo, several groups were using similar devices.A similar case would likely occur in the wild; access control needs to be added to devices to prevent unwanted behavior (such as acuating a thermometer of a building). 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%   CONCLUSION    %%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
