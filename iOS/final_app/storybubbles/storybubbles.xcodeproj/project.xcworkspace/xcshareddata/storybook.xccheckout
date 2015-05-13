@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>C5B050DE-A082-4A74-8A5A-8EEE50B128DE</string>
+	<key>IDESourceControlProjectName</key>
+	<string>storybook</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>48291949F32CB6B8A90182052F3DBDCC1C48EC75</key>
+		<string>github.com:Fortisque/storybook.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>storybook.xcodeproj</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>48291949F32CB6B8A90182052F3DBDCC1C48EC75</key>
+		<string>../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>github.com:Fortisque/storybook.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>111</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>48291949F32CB6B8A90182052F3DBDCC1C48EC75</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>48291949F32CB6B8A90182052F3DBDCC1C48EC75</string>
+			<key>IDESourceControlWCCName</key>
+			<string>storybook</string>
+		</dict>
+	</array>
+</dict>
+</plist>

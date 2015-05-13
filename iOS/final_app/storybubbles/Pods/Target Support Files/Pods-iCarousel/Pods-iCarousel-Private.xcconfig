@@ -1,0 +1,6 @@
+#include "Pods-iCarousel.xcconfig"
+GCC_PREPROCESSOR_DEFINITIONS = $(inherited) COCOAPODS=1
+HEADER_SEARCH_PATHS = "${PODS_ROOT}/Headers/Private" "${PODS_ROOT}/Headers/Private/iCarousel" "${PODS_ROOT}/Headers/Public" "${PODS_ROOT}/Headers/Public/GRMustache" "${PODS_ROOT}/Headers/Public/JRSwizzle" "${PODS_ROOT}/Headers/Public/UICountingLabel" "${PODS_ROOT}/Headers/Public/iCarousel" "${PODS_ROOT}/Headers/Public/pop"
+OTHER_LDFLAGS = ${PODS_ICAROUSEL_OTHER_LDFLAGS} -ObjC
+PODS_ROOT = ${SRCROOT}
+SKIP_INSTALL = YES

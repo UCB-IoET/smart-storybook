@@ -1,0 +1,22 @@
+PODS:
+  - GRMustache (7.3.0):
+    - JRSwizzle (~> 1.0)
+  - iCarousel (1.7.6)
+  - JRSwizzle (1.0)
+  - pop (1.0.7)
+  - UICountingLabel (1.2.0)
+
+DEPENDENCIES:
+  - GRMustache (~> 7.3.0)
+  - iCarousel (~> 1.7.6)
+  - pop (~> 1.0)
+  - UICountingLabel
+
+SPEC CHECKSUMS:
+  GRMustache: 6baee020c5644416c034f5afb1607f6219e7f753
+  iCarousel: ddd7f142c7c2f3429b0ce5fb8ea37f4a059394cd
+  JRSwizzle: dd5ead5d913a0f29e7f558200165849f006bb1e3
+  pop: 628ffc631644601567ee8bfaaaea493ebd7d0923
+  UICountingLabel: 1db4e7d023e1762171eb226d6dff47a7a84f27aa
+
+COCOAPODS: 0.36.0
