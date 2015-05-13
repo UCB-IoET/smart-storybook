@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6751" systemVersion="14D72i" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="vXZ-lx-hvc">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6736"/>
+    </dependencies>
+    <scenes>
+        <!--View Controller-->
+        <scene sceneID="ufC-wZ-h7g">
+            <objects>
+                <viewController id="vXZ-lx-hvc" customClass="ViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="jyV-Pf-zRb"/>
+                        <viewControllerLayoutGuide type="bottom" id="2fi-mo-0CV"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="kh9-bI-dsS">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="iAe-dv-TcH">
+                                <rect key="frame" x="199" y="460" width="202" height="30"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CIc-Ga-gyq">
+                                <rect key="frame" x="283" y="506" width="36" height="30"/>
+                                <state key="normal" title="Write">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="write" destination="vXZ-lx-hvc" eventType="touchUpInside" id="oEi-UN-CmY"/>
+                                </connections>
+                            </button>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" text="Status" translatesAutoresizingMaskIntoConstraints="NO" id="nMa-Qq-7I5">
+                                <rect key="frame" x="180" y="150" width="240" height="293"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Tj2-0i-grg">
+                                <rect key="frame" x="271" y="90" width="59" height="30"/>
+                                <state key="normal" title="Connect">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="buttonPress" destination="vXZ-lx-hvc" eventType="touchUpInside" id="M0B-mC-ZwG"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="w9B-8n-tcn">
+                                <rect key="frame" x="284" y="550" width="32" height="30"/>
+                                <state key="normal" title="print">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="print:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="dBK-48-LvA"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="centerX" secondItem="iAe-dv-TcH" secondAttribute="centerX" id="5qs-3X-T4f"/>
+                            <constraint firstItem="iAe-dv-TcH" firstAttribute="top" secondItem="nMa-Qq-7I5" secondAttribute="bottom" constant="17" id="9BN-fZ-XSR"/>
+                            <constraint firstAttribute="centerX" secondItem="w9B-8n-tcn" secondAttribute="centerX" id="Fis-F6-S9f"/>
+                            <constraint firstAttribute="centerX" secondItem="CIc-Ga-gyq" secondAttribute="centerX" id="GmE-sc-uO3"/>
+                            <constraint firstItem="2fi-mo-0CV" firstAttribute="top" secondItem="w9B-8n-tcn" secondAttribute="bottom" constant="20" id="KQi-IZ-dih"/>
+                            <constraint firstAttribute="centerX" secondItem="nMa-Qq-7I5" secondAttribute="centerX" id="gvZ-WI-rxE"/>
+                            <constraint firstItem="2fi-mo-0CV" firstAttribute="top" secondItem="CIc-Ga-gyq" secondAttribute="bottom" constant="64" id="jKX-04-cU3"/>
+                            <constraint firstItem="Tj2-0i-grg" firstAttribute="centerX" secondItem="nMa-Qq-7I5" secondAttribute="centerX" constant="0.5" id="ocN-EC-iPl"/>
+                            <constraint firstItem="Tj2-0i-grg" firstAttribute="top" secondItem="jyV-Pf-zRb" secondAttribute="bottom" constant="70" id="uoy-zs-f29"/>
+                            <constraint firstItem="nMa-Qq-7I5" firstAttribute="top" secondItem="Tj2-0i-grg" secondAttribute="bottom" constant="30" id="vk7-QX-V4x"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="statusView" destination="nMa-Qq-7I5" id="Vgt-wg-9v3"/>
+                        <outlet property="writeField" destination="iAe-dv-TcH" id="gRx-0D-C1p"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
+            </objects>
+        </scene>
+    </scenes>
+</document>

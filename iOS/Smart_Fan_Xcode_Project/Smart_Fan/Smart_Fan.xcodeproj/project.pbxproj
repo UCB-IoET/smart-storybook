@@ -1,0 +1,437 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		9150D1781AE0F84300B5D21D /* FirestormManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9150D1771AE0F84300B5D21D /* FirestormManager.m */; };
+		91C280001AB6A8A600808B96 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 91C27FFF1AB6A8A600808B96 /* main.m */; };
+		91C280031AB6A8A600808B96 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 91C280021AB6A8A600808B96 /* AppDelegate.m */; };
+		91C280061AB6A8A600808B96 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 91C280051AB6A8A600808B96 /* ViewController.m */; };
+		91C280091AB6A8A600808B96 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 91C280071AB6A8A600808B96 /* Main.storyboard */; };
+		91C2800B1AB6A8A600808B96 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 91C2800A1AB6A8A600808B96 /* Images.xcassets */; };
+		91C2800E1AB6A8A600808B96 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 91C2800C1AB6A8A600808B96 /* LaunchScreen.xib */; };
+		91C2801A1AB6A8A700808B96 /* Smart_FanTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 91C280191AB6A8A700808B96 /* Smart_FanTests.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		91C280141AB6A8A700808B96 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 91C27FF21AB6A8A600808B96 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 91C27FF91AB6A8A600808B96;
+			remoteInfo = Smart_Fan;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		9150D1761AE0F84300B5D21D /* FirestormManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FirestormManager.h; path = Smart_Fan/FirestormManager.h; sourceTree = "<group>"; };
+		9150D1771AE0F84300B5D21D /* FirestormManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FirestormManager.m; path = Smart_Fan/FirestormManager.m; sourceTree = "<group>"; };
+		91C27FFA1AB6A8A600808B96 /* Smart_Fan.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Smart_Fan.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		91C27FFE1AB6A8A600808B96 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		91C27FFF1AB6A8A600808B96 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		91C280011AB6A8A600808B96 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		91C280021AB6A8A600808B96 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		91C280041AB6A8A600808B96 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
+		91C280051AB6A8A600808B96 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		91C280081AB6A8A600808B96 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		91C2800A1AB6A8A600808B96 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		91C2800D1AB6A8A600808B96 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
+		91C280131AB6A8A700808B96 /* Smart_FanTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Smart_FanTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		91C280181AB6A8A700808B96 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		91C280191AB6A8A700808B96 /* Smart_FanTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Smart_FanTests.m; sourceTree = "<group>"; };
+		91C280231AB6A8D000808B96 /* UUID.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UUID.h; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		91C27FF71AB6A8A600808B96 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		91C280101AB6A8A700808B96 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		91C27FF11AB6A8A600808B96 = {
+			isa = PBXGroup;
+			children = (
+				9150D1761AE0F84300B5D21D /* FirestormManager.h */,
+				9150D1771AE0F84300B5D21D /* FirestormManager.m */,
+				91C27FFC1AB6A8A600808B96 /* Smart_Fan */,
+				91C280161AB6A8A700808B96 /* Smart_FanTests */,
+				91C27FFB1AB6A8A600808B96 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		91C27FFB1AB6A8A600808B96 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				91C27FFA1AB6A8A600808B96 /* Smart_Fan.app */,
+				91C280131AB6A8A700808B96 /* Smart_FanTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		91C27FFC1AB6A8A600808B96 /* Smart_Fan */ = {
+			isa = PBXGroup;
+			children = (
+				91C280011AB6A8A600808B96 /* AppDelegate.h */,
+				91C280021AB6A8A600808B96 /* AppDelegate.m */,
+				91C280041AB6A8A600808B96 /* ViewController.h */,
+				91C280051AB6A8A600808B96 /* ViewController.m */,
+				91C280071AB6A8A600808B96 /* Main.storyboard */,
+				91C2800A1AB6A8A600808B96 /* Images.xcassets */,
+				91C2800C1AB6A8A600808B96 /* LaunchScreen.xib */,
+				91C27FFD1AB6A8A600808B96 /* Supporting Files */,
+			);
+			path = Smart_Fan;
+			sourceTree = "<group>";
+		};
+		91C27FFD1AB6A8A600808B96 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				91C280231AB6A8D000808B96 /* UUID.h */,
+				91C27FFE1AB6A8A600808B96 /* Info.plist */,
+				91C27FFF1AB6A8A600808B96 /* main.m */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		91C280161AB6A8A700808B96 /* Smart_FanTests */ = {
+			isa = PBXGroup;
+			children = (
+				91C280191AB6A8A700808B96 /* Smart_FanTests.m */,
+				91C280171AB6A8A700808B96 /* Supporting Files */,
+			);
+			path = Smart_FanTests;
+			sourceTree = "<group>";
+		};
+		91C280171AB6A8A700808B96 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				91C280181AB6A8A700808B96 /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		91C27FF91AB6A8A600808B96 /* Smart_Fan */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 91C2801D1AB6A8A700808B96 /* Build configuration list for PBXNativeTarget "Smart_Fan" */;
+			buildPhases = (
+				91C27FF61AB6A8A600808B96 /* Sources */,
+				91C27FF71AB6A8A600808B96 /* Frameworks */,
+				91C27FF81AB6A8A600808B96 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Smart_Fan;
+			productName = Smart_Fan;
+			productReference = 91C27FFA1AB6A8A600808B96 /* Smart_Fan.app */;
+			productType = "com.apple.product-type.application";
+		};
+		91C280121AB6A8A700808B96 /* Smart_FanTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 91C280201AB6A8A700808B96 /* Build configuration list for PBXNativeTarget "Smart_FanTests" */;
+			buildPhases = (
+				91C2800F1AB6A8A700808B96 /* Sources */,
+				91C280101AB6A8A700808B96 /* Frameworks */,
+				91C280111AB6A8A700808B96 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				91C280151AB6A8A700808B96 /* PBXTargetDependency */,
+			);
+			name = Smart_FanTests;
+			productName = Smart_FanTests;
+			productReference = 91C280131AB6A8A700808B96 /* Smart_FanTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		91C27FF21AB6A8A600808B96 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0610;
+				ORGANIZATIONNAME = "Romi Phadte";
+				TargetAttributes = {
+					91C27FF91AB6A8A600808B96 = {
+						CreatedOnToolsVersion = 6.1.1;
+					};
+					91C280121AB6A8A700808B96 = {
+						CreatedOnToolsVersion = 6.1.1;
+						TestTargetID = 91C27FF91AB6A8A600808B96;
+					};
+				};
+			};
+			buildConfigurationList = 91C27FF51AB6A8A600808B96 /* Build configuration list for PBXProject "Smart_Fan" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 91C27FF11AB6A8A600808B96;
+			productRefGroup = 91C27FFB1AB6A8A600808B96 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				91C27FF91AB6A8A600808B96 /* Smart_Fan */,
+				91C280121AB6A8A700808B96 /* Smart_FanTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		91C27FF81AB6A8A600808B96 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				91C280091AB6A8A600808B96 /* Main.storyboard in Resources */,
+				91C2800E1AB6A8A600808B96 /* LaunchScreen.xib in Resources */,
+				91C2800B1AB6A8A600808B96 /* Images.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		91C280111AB6A8A700808B96 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		91C27FF61AB6A8A600808B96 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				91C280061AB6A8A600808B96 /* ViewController.m in Sources */,
+				91C280031AB6A8A600808B96 /* AppDelegate.m in Sources */,
+				91C280001AB6A8A600808B96 /* main.m in Sources */,
+				9150D1781AE0F84300B5D21D /* FirestormManager.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		91C2800F1AB6A8A700808B96 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				91C2801A1AB6A8A700808B96 /* Smart_FanTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		91C280151AB6A8A700808B96 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 91C27FF91AB6A8A600808B96 /* Smart_Fan */;
+			targetProxy = 91C280141AB6A8A700808B96 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		91C280071AB6A8A600808B96 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				91C280081AB6A8A600808B96 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		91C2800C1AB6A8A600808B96 /* LaunchScreen.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				91C2800D1AB6A8A600808B96 /* Base */,
+			);
+			name = LaunchScreen.xib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		91C2801B1AB6A8A700808B96 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		91C2801C1AB6A8A700808B96 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		91C2801E1AB6A8A700808B96 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				INFOPLIST_FILE = Smart_Fan/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		91C2801F1AB6A8A700808B96 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				INFOPLIST_FILE = Smart_Fan/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		91C280211AB6A8A700808B96 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+				);
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = Smart_FanTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Smart_Fan.app/Smart_Fan";
+			};
+			name = Debug;
+		};
+		91C280221AB6A8A700808B96 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = Smart_FanTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Smart_Fan.app/Smart_Fan";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		91C27FF51AB6A8A600808B96 /* Build configuration list for PBXProject "Smart_Fan" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				91C2801B1AB6A8A700808B96 /* Debug */,
+				91C2801C1AB6A8A700808B96 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		91C2801D1AB6A8A700808B96 /* Build configuration list for PBXNativeTarget "Smart_Fan" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				91C2801E1AB6A8A700808B96 /* Debug */,
+				91C2801F1AB6A8A700808B96 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		91C280201AB6A8A700808B96 /* Build configuration list for PBXNativeTarget "Smart_FanTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				91C280211AB6A8A700808B96 /* Debug */,
+				91C280221AB6A8A700808B96 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 91C27FF21AB6A8A600808B96 /* Project object */;
+}
