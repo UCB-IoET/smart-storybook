@@ -19,10 +19,20 @@
         <td><%= story.title %></td>
         <td><%= story.author %></td>
         <td>
+          <div class="btn-group">
           <%= link_to smart_story_composer_path(story, 1), :class => "btn btn-xs btn-danger" do %>
             <span class="glyphicon glyphicon-edit"></span> 
             Compose 
           <% end %>
+       
+           <%= link_to smart_story_register_path, :class=> "btn btn-primary btn-xs" do %>
+              <span class="glyphicon glyphicon-screenshot"></span> &nbsp;Register
+            <% end %> 
+       
+           <%= link_to smart_story_creater_path(story.id), :class=> "btn btn-xs btn-success" do %>
+            <span class="glyphicon glyphicon-asterisk"></span> &nbsp;Create Story 
+            <% end %> 
+          </div>
         </td>
         <td><%= link_to 'Show', story %></td>
         <td><%= link_to 'Edit', edit_story_path(story) %></td>

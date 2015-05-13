@@ -68,7 +68,7 @@ function updateAll(){
         <td><%= iot_device.actuator_type %></td>
         <td><%= iot_device.metadata.to_s.html_safe %></td>
       
-        <td><%= time_diff(iot_device.last_seen, Time.now) %></td>
+        <td width="150"><%= time_diff(iot_device.last_seen, Time.now) %></td>
         <% i = -1 %>
         <td>
           <%= select("iot_device", "actuate", iot_device.metadata["actions"].collect {|p| i = i+1;  [p, i] }) %>
@@ -81,8 +81,7 @@ function updateAll(){
             <% end %>
           </div>
         </td>
-        
-        <td><%= link_to 'Show', iot_device %></td>
+         <td><%= link_to 'Show', iot_device %></td>
         <td><%= link_to 'Edit', edit_iot_device_path(iot_device) %></td>
         <td><%= link_to 'Destroy', iot_device, method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>

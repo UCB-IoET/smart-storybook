@@ -1,6 +1,7 @@
 class StoryPagesController < ApplicationController
   before_action :set_story_page, only: [:show, :edit, :update, :destroy]
-
+  skip_before_filter  :verify_authenticity_token
+  # protect_from_forgery with: :null_session
   # GET /story_pages
   # GET /story_pages.json
   def index

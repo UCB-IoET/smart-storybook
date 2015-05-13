@@ -4,7 +4,7 @@
 *.bbl
 *.log
 *.blg
-halfd.pdf
 *.gz
 *.out
 *.fdb_latexmk
+story.pdf

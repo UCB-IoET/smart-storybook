@@ -1,6 +1,36 @@
 class StoriesController < ApplicationController
   before_action :set_story, only: [:show, :edit, :update, :destroy]
-
+  def info
+     output = Story.all.map do |story|
+     {
+        title: story.title,
+        author: story.author,
+        cover: StoryPage.where("story_id = ? and page_number = 1", story.id).map{|s|
+          {
+          type: s.storytype, 
+          text_labels: s.story_texts.map{|st| {
+              text: st.text, 
+              fontSize: st.fontSize, 
+              center: JSON.parse(st.center),
+              textBackgroundHex: st.textBackgroundHex, 
+              textBackgroundAlpha: st.textBackgroundAlpha,
+              border: st.border 
+            }
+          },
+          image_labels: s.story_images.map{|st| {
+              imageURL: st.file_url, 
+              imageSize: JSON.parse(st.size)
+            }
+          }, 
+          actuator_labels: s.story_actuators.map{|sa| 
+              { UUID: sa.uuid, state: sa.state}
+            }
+          }
+      }
+    }
+    end
+    render :json => output
+  end
   def ipad_output
     story = Story.find(params[:id])
     output = {
